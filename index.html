@@ -1,0 +1,254 @@
+<html>
+<head>
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="utf-8" />
+    <title>TTS App  v11.6</title>
+
+    <link href="css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="css/uploader.css" rel="stylesheet" type="text/css" />
+
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/jquery-ui-1.9.2.min.js"></script>
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-sanitize.js"></script>
+    
+ </head>
+<body>
+        <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
+            <div style="font-size:9px; position:fixed; top:0; z-index:99999 "></div>
+
+            <div class="row nav-top">
+                <div class="grid three pull" ng-click="goBack()">Back</div>
+                <div class="grid three push" ng-click="logOut()">Logout</div>
+            </div>
+
+            <div class="errorMessage" ng-click="closeError()">
+                <h2>Sorry!</h2>
+                <div class="icon-warning errorIcon"></div>
+                <p>{{errorMessage}}</p>
+                <a><p>Tap here to close and try again.</p></a>
+            </div>
+
+            <div class="row nav-bottom" id="bottom-nav">
+
+                <div id="global-controls">
+                    <div class="grid four icon-user"></div>
+                    <div class="grid four icon-home3"><div id="notification">4</div></div>
+                    <div class="grid four icon-info"></div>
+                </div>
+
+            </div>
+
+            <div class="app-screen screen-login" id="screen-login">
+                <div class="row">
+
+                    <div class="grid twelve center">
+
+                        <img class="logo" src="images/logo.png">
+
+                        <form class="text-input">
+
+                            <input autocomplete='on' ng-model="username" ng-class="{'inputError': loginError}" class="twelve" type="text" value="sdfsdf" placeholder="Enter your name">
+                            <label for="login-name"></label>
+
+                            <input ng-model="password" ng-class="{'inputError': loginError}" class="twelve" type="password" value="" placeholder="Password">
+                            <label for="login-pass"></label>
+
+                            <p class="form-error" ng-show="loginError">Please enter your username and password</p>
+
+                            <button ng-click="appLogin()" class="btn-primary animate-hide" href="#" id="login-button" ng-hide="loggingIn"><p class="btn-icon btn-arrow">Log in</p></button>
+
+                            <a class="form-link animate-hide" href="#" ng-hide="loggingIn">Lost your password?</a>
+
+                            <div ng-show="loggingIn" class="icon-spinner5 spin-loader animate-hide"></div>
+
+                            
+
+                        </form>
+
+                    </div> <!-- grid --> 
+
+                </div> <!-- row -->
+                
+            </div>
+            <!-- APP SCREEN END -->
+
+            <div class="app-screen scroll-screen" id="screen-taskList">
+                <div class="row">
+
+                    <h2 class="task-title">Task List</h2>
+
+                        <ul class="grid twelve box task-list">
+
+                            <li ng-repeat="tasks in taskLiskData.tasks | orderBy:'taskorder'" ng-click="gotoMessages(tasks.taskid, 'forward')">
+                                <div class="ten cell center-cell">
+                                    <div class="task-text">{{tasks.description}}</div>
+                                </div>
+                                <div class="task-icon-status two cell"  ng-class="getTaskStatusClass(tasks.complete)"></div>
+                            </li>
+
+                        </ul><!-- grid --> 
+                </div> <!-- row -->
+                
+            </div>
+
+            <!-- APP SCREEN END -->
+
+            <div class="app-screen scroll-screen" id="screen-messages">
+
+                    <div class="row conversation-stream">
+
+                        <div class="grid two">
+                            <div class="task-introPic">
+                                <img ng-src="http://explore2.thethinkingshed.com{{messageData[0].profile}}" />
+                            </div>
+                        </div>
+                        <div class="grid ten">
+                            <h2 class="task-title">{{messageData[0].tasktitle}}</h2>
+                        </div>
+
+                        <p class="task-description" ng-bind-html="messageData[0].taskdescription"></p>
+
+                        <img class="row modIntroImage" ng-if="messageData[0].media[0].media" ng-src="{{getMediaURL(0, messageData[0].media[0].media, messageData[0].media[0].type)}}" altSrc="{{getAltImage()}}"/>
+
+                        <div class="divider"></div>
+
+                        <button ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
+
+
+                        <div ng-repeat="message in messageData" ng-if="$index > 0">
+
+                            <p class="msg-time">{{message.post_date}}</p>
+
+                            <div class="grid ten message-box" ng-class="getUserType(message.username)">
+
+                                <div class="msg-profile">
+                                    <img ng-src="http://explore2.thethinkingshed.com{{message.profile}}" />
+                                </div>
+                                
+                                <p ng-bind-html="message.response"></p>
+
+                                <div class="mediaHolder" ng-repeat="img in message.media" ng-if="img" >
+                                    
+                                    <img ng-click="launchLargeMedia(img.media, img.type, img.isapp)" class="mediaVideoIcon" ng-show="{{addVideoIcon(img.type)}}" src="images/video-media.png"/>
+
+                                    <img ng-click="launchLargeMedia(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type, message.response)}}"  altSrc="{{getAltImage()}}"/> 
+
+                                    
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="bigImageViewer" ng-show="viewLargeMedia" ng-click="closeLargeMedia()">
+                            <div class="close" ng-click="closeLargeMedia()">Close</div>
+
+                            
+                            <video ng-show="viewBigVideo" id="videoplayer" class="previewVideo" controls="" autoplay="" name="media">
+
+                                <source src="" type="video/webm">
+                               
+                            </video>
+
+
+                            <!--<video controls ng-show="viewBigVideo">
+                                 <source ng-src="http://www.gs0.co/tts/media/TTS-550_184_9.webm">
+                            </video>-->
+
+                            <img ng-src="{{bigImageSource}}"/>
+
+                        </div>
+
+                        <button ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
+
+                    </div>
+                
+            </div>
+            <!-- APP SCREEN END  -->
+
+            <div class="app-screen" id="screen-reply">
+                <div class="row">
+                    <div class="grid twelve">
+
+                        <div class="grid twelve box">
+
+                            <p id="introMessage" class="light-text">Reply to Message</p>
+                        <div>
+
+                        <form name="messageForm" id="upload_form" enctype="multipart/form-data">
+                            
+                            <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
+                            <img id="preview" />
+
+                            <button class="btn-primary twelve btn-disabled" ng-click="submitMessage()" id="uploadFileTrigger"><p class="btn-icon btn-arrow">Submit</p></button>
+                            
+                            <button class="buttonStyle selectButton" id="selectFileTrigger" >Add media</button>
+
+
+                            <input type="file" ng-model="mediaFile" name="file1" accept="video/*;capture=camera" id="image_file" ng-click="resetMediaFile()" onchange="fileSelected();" class="selectButtonHidden"/>
+
+                            <button ng-show="weHaveMedia" id="removeMedia"class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
+
+
+                            <div id="fileinfo">
+                                <div id="filename"></div>
+                                <div id="filesize"></div>
+                                <div id="filetype"></div>
+                                <div id="filedim"></div>
+                            </div>
+                            <div id="error">You should select valid image or video files only!</div>
+                            <div id="error2">An error occurred while uploading the file</div>
+                            <div id="abort">The upload has been canceled by the user or the browser dropped the connection</div>
+                            <div id="warnsize">Your file is very big. We can't accept it. Please select more small file</div>
+
+                            <div id="progress_info">
+                                <div class="load-bar center">
+                                    <div class="load-bar-progress" id="progress"></div>
+                                    <div id="progress_percent"><p id="progress_percent_text"></p></div>
+                                </div>
+                            </div>
+
+                            <div style="display:none" id="uploadComplete">
+                                <p class="row light-text">Thank you</p>
+                                <div class="center completeIcon">
+                                    <p class="icon-checkmark"></p>
+                                </div>
+                            </div>
+
+                            <button style="display:none" class="buttonStyle selectButton" id="backToMessages" ng-click="backToMessages()">Back to Messages</button>
+
+                            <div class="clear_both"></div>
+                            <div style="display:none">
+                                <div id="speed">&nbsp;</div>
+                                <div id="remaining">&nbsp;</div>
+                                <div id="b_transfered">&nbsp;</div>
+                                <div class="clear_both"></div>
+                            </div>
+                            <div id="upload_response"></div>
+                            
+                        </form>
+                </div>
+                            
+
+                        </div> <!-- grid --> 
+                    </div>
+                </div>
+            </div>
+            
+            <!-- APP SCREEN END -->
+
+        </div>
+        <script src="js/uploader.js"></script>
+        <script src="js/scope.js"></script>
+        <script src="js/app.js"></script>
+        
+
+    </body>
+</html>

@@ -1,0 +1,80 @@
+.upload_form_cont {
+    background: -moz-linear-gradient(#ffffff, #f2f2f2);
+    background: -ms-linear-gradient(#ffffff, #f2f2f2);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f2f2f2));
+    background: -webkit-linear-gradient(#ffffff, #f2f2f2);
+    background: -o-linear-gradient(#ffffff, #f2f2f2);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2');
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2')";
+    background: linear-gradient(#ffffff, #f2f2f2);
+
+    color:#000;
+    overflow:hidden;
+}
+
+#preview {
+    width:200px;
+    margin: 0 auto 10px;
+    clear:both;
+}
+
+#speed,#remaining {
+    float:left;
+    width:100px;
+}
+#b_transfered {
+    float:right;
+    text-align:right;
+}
+
+#progress_info {
+    font-size:10pt;
+}
+#fileinfo,#error,#error2,#abort,#warnsize {
+    color:#aaa;
+    display:none;
+    font-size:10pt;
+    font-style:italic;
+    margin-top:10px;
+}
+#progress {
+    display:none;
+}
+
+#progress_percent {
+    position: relative;
+    border-radius: 30px;
+    background-color: #8fbd20;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    padding-top: 9px;
+    color: #fff;
+    margin-bottom: -50px;
+    border: 3px solid #fff;
+    z-index: 200;
+    margin: -22px auto -55px auto;
+}
+#upload_response {
+    margin-top: 10px;
+    padding: 20px;
+    overflow: hidden;
+    display: none;
+    border: 1px solid #ccc;
+
+    border-radius:10px;
+    -moz-border-radius:10px;
+    -ms-border-radius:10px;
+    -o-border-radius:10px;
+    -webkit-border-radius:10px;
+
+    box-shadow: 0 0 5px #ccc;
+    background: -moz-linear-gradient(#bbb, #eee);
+    background: -ms-linear-gradient(#bbb, #eee);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #bbb), color-stop(100%, #eee));
+    background: -webkit-linear-gradient(#bbb, #eee);
+    background: -o-linear-gradient(#bbb, #eee);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bbb', endColorstr='#eee');
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#bbb', endColorstr='#eee')";
+    background: linear-gradient(#bbb, #eee);
+}
