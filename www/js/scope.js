@@ -340,7 +340,21 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     // external upload has finished (from upload.js)
     $scope.uploadFinished = function(userID, taskID, messageID){ 
 
-        $scope.submitDataToTTS();
+        ////////////////////////////// DEBUGGING 
+        //$scope.submitDataToTTS();
+
+
+
+        $scope.resetForm();
+        displayConfirmMessage();
+
+        changeUI('uploadFileTrigger', 'display', 'none');
+        changeUI('selectFileTrigger', 'display', 'none');
+        changeUI('messageText', 'display', 'none');
+        changeUI('messageText', 'display', 'none');
+        changeUI('removeMedia', 'display', 'none');
+
+
 
     }
 

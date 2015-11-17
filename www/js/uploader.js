@@ -187,7 +187,7 @@ function startUploading(u, t, m) {
     oXHR.addEventListener('load', uploadFinish, false);
     oXHR.addEventListener('error', uploadError, false);
     oXHR.addEventListener('abort', uploadAbort, false);
-    oXHR.open('POST', 'upload.php?userID='+ userID + "&taskID=" + taskID + "&messageID=" + messageID);
+    oXHR.open('POST', 'http://www.gs0.co/tts/upload.php?userID='+ userID + "&taskID=" + taskID + "&messageID=" + messageID);
     oXHR.send(vFD);
 
     // set inner timer

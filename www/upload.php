@@ -76,7 +76,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
 
     /////////////////////////////// FFMPEG
 
-    if (($fileExtension == "mov") || ($fileExtension == "mp4")){
+    if (($fileExtension == "MOV") || ($fileExtension == "MP4") || ($fileExtension == "mov") || ($fileExtension == "mp4")){
 
         include ("ffmpeg/ffmpeg.class.php");
 
