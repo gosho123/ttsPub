@@ -4,8 +4,11 @@ var width = jQuery(window).width();
 var height = jQuery(window).height();
 
 jQuery('.app-screen').each(function() { // loop through the screens
-    jQuery(this).hide();
+    jQuery(this).width(width);
+    jQuery(this).height(height);
 });
+
+jQuery('#appContainer').width((width * 4) + 10);
 
 jQuery('#screen-'+liveScreen).addClass('top-layer');
 

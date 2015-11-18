@@ -83,7 +83,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.params = []
             $scope.params.push("username=" + $scope.username);
             $scope.params.push("password=" + $scope.password);
-            console.log($scope.params)
 
             pjq.ajax({
 
@@ -103,7 +102,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     var obj = data;
 
-                    console.log(data);
                     if (obj.login == "success") {
 
                         $scope.getTasks();
@@ -123,7 +121,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 error: function(a,b,c) {
 
-                    console.log("Error")
                     $scope.errorManager('appLogin');
                 },
 
@@ -161,8 +158,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 $scope.taskLiskData = JSON.parse(data.responseText);
 
                 $scope.$apply();
-                $scope.loginApp('taskList');
-                console.log($scope.taskLiskData)
+                $scope.proceedApp('taskList')
 
             },
 
@@ -203,19 +199,18 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.messageData = JSON.parse(data.responseText);
 
+                console.log($scope.messageData )
+
                 $scope.userID = $scope.messageData[1].userid;
 
                 $scope.mid = $scope.messageData[1].mid;
 
                 $scope.$apply();
 
-                console.log("messageData " + data.responseText);
-
                 if (navType != 'backwards'){
 
                     $scope.proceedApp('messages');
                     $scope.taskID = taskid;
-                    console.log()
                 }
 
                 
@@ -270,7 +265,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 },*/
 
                 complete: function (data) {
-                    console.log(data)
+
                 },
 
                 error: function(a,b,c) {
@@ -342,8 +337,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         ////////////////////////////// DEBUGGING 
         //$scope.submitDataToTTS();
-
-
 
         $scope.resetForm();
         displayConfirmMessage();
@@ -446,7 +439,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
 
       $scope.errorManager = function(query){
-        console.log("errorManager " + query)
+
         switch (query) {
 
             case "appLogin":
@@ -538,7 +531,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
-    $scope.addVideoIcon = function(type){
+    $scope.isVideo = function(type){
 
         if ($scope.getMIMEType(type) == "video"){
             return true;
@@ -579,7 +572,19 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
-    $scope.testVideoSource = "http://www.gs0.co/tts/media/TTS-550_184_9.webm";
+    $scope.testVideoSource = "TTS-550_184_9";
+
+    $scope.vidSource =  '<video id="video" width="90%" height="auto" preload="metadata" poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.testVideoSource +'.jpg" webkit-playsinline controls>' + 
+                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.mp4" type="video/mp4">' + 
+                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.webm" type="video/webm">'+
+                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.ogg" type="video/ogg">' + 
+                        '</video>';
+
+    $scope.renderVideo = function(index){
+        jQuery('.vidHolder-'+index).html($scope.vidSource);
+        
+    }
+
 
     $scope.launchLargeMedia = function(src, type, isapp){
 
@@ -588,21 +593,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         console.log("isapp = " + isapp);
 
         if (isapp == 1){
-
-            if ($scope.getMIMEType(type) == "video"){
-
-                //$scope.videoViewSource = src.split('&')[0];
-
-                var myVideo = document.getElementById('videoplayer');
-                myVideo.src = $scope.testVideoSource;//src.split('&')[0];;
-                myVideo.load();
-                myVideo.play();
-
-
-                $scope.viewLargeMedia = true;
-                $scope.viewBigVideo = true;
-
-            } 
 
             if ($scope.getMIMEType(type) == "image"){
 
@@ -674,6 +664,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.proceedApp = function(nextScreen){
 
+        console.log('proceedApp, nextScreen: ' + nextScreen)
+
         if ($scope.connectionError == true){
             $scope.closeError();
             $scope.connectionError = false;
@@ -682,10 +674,18 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         if ($scope.screenArray[$scope.screenArray.length - 1] != nextScreen){
             $scope.screenArray.push(nextScreen);
             $scope.changeScreen(nextScreen, 'swipe-left');
+
+            console.log('$scope.screenArray: ' + $scope.screenArray)
         }
+
+        
     }
 
+   
+
     $scope.changeScreen = function(next, trans){
+
+        console.log($scope.screenArray.length + ", swipe " + trans + ", x: " + (0 - tts.width) * ($scope.screenArray.length - 1));
 
         if ($scope.connectionError == true){
             $scope.closeError();
@@ -693,6 +693,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         }
 
         old = $scope.liveScreen;
+
+        console.log("old = " + old + ", next = " + next)
 
         if (next != old){
 
@@ -711,61 +713,18 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 jQuery('.nav-bottom').show();
             }
 
-            jQuery('#screen-'+next).show();
 
+            // transition 
             jQuery('#screen-'+next).addClass('top-layer');
 
-            jQuery('#screen-'+old).removeClass('top-layer');
-            jQuery('#screen-'+old).addClass('second-layer');
+            jQuery('#appContainer').animate({left: (0 - tts.width) * ($scope.screenArray.length - 1)},{
 
-            if (trans == 'swipe-up'){
-
-                    jQuery('#screen-'+next).css({top:windowHeight});
-
-                    jQuery('#screen-'+next).animate({top: '0'},{
-
-                        easing: 'easeOutSine', duration: 500, complete: function(){
-
-                        jQuery('#screen-'+old).hide();
-                        jQuery('#screen-'+old).removeClass('second-layer');
-
-                        }
-                    });
-
-            } else if (trans == 'swipe-left'){
-
-                jQuery('#screen-'+next).css({left:windowWidth});
-
-                jQuery('#screen-'+next).animate({left: '0'},{
                     easing: 'easeOutSine', duration: 500, complete: function(){
 
-                    jQuery('#screen-'+old).hide();
-                    jQuery('#screen-'+old).removeClass('second-layer');
+                        jQuery('#screen-'+old).removeClass('top-layer');
 
                     }
-
-                });
-
-            } else if (trans == 'swipe-right'){
-
-                jQuery('#screen-'+next).css({left: 0 - windowWidth});
-
-                jQuery('#screen-'+next).animate({left: '0'},{
-                    easing: 'easeOutSine', duration: 500, complete: function(){
-
-                    jQuery('#screen-'+old).hide();
-                    jQuery('#screen-'+old).removeClass('second-layer');
-
-                    }
-
-                });
-
-            } else if (trans == 'fade'){
-
-                jQuery('#screen-'+old).hide();
-                jQuery('#screen-'+next).fadeIn();
-            }
-
+            });
             // Screen functions
 
             if ($scope.liveScreen == "reply"){
@@ -798,7 +757,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
 
     $scope.loginApp = function(nextScreen){
-        $scope.changeScreen("taskList", 'swipe-up');
+        $scope.changeScreen("taskList", 'swipe-left');
         $scope.screenArray.push(nextScreen);
     };
 
@@ -824,8 +783,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             },
 
             complete: function (data) {
-
-                console.log(JSON.parse(data.responseText));
 
                 var obj = JSON.parse(data.responseText);
             
@@ -853,8 +810,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     $scope.$apply();
 
-                    $scope.changeScreen("login", 'swipe-up');
                     $scope.screenArray = ["login"];
+                    $scope.changeScreen("login", 'swipe-right');
+                    
                     
                 } else {
 
