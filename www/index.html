@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; position:fixed; top:0; z-index:99999 " ></div>
+            <div style="font-size:12px; position:fixed; top:0; z-index:99999 " >v14</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()">Back</div>
@@ -138,7 +138,8 @@
 
                                                 <div class="mediaHolder" ng-repeat="img in message.media" >
 
-                                                    <div ng-show="isVideo(img.type)" ng-bind-html="renderVideo($index)" class="vidHolder-{{$index}}"></div>
+                                                    <div ng-show="isVideo(img.type)" ng-click="renderVideo($index, img.media)" class="videoPlayer vidHolder-{{$index}}">
+                                                        Tap for video (temporary fix)</div>
 
                                                     <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchLargeMedia(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type, message.response)}}"  altSrc="{{getAltImage()}}"/> 
 

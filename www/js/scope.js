@@ -199,8 +199,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.messageData = JSON.parse(data.responseText);
 
-                console.log($scope.messageData )
-
                 $scope.userID = $scope.messageData[1].userid;
 
                 $scope.mid = $scope.messageData[1].mid;
@@ -336,16 +334,16 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.uploadFinished = function(userID, taskID, messageID){ 
 
         ////////////////////////////// DEBUGGING 
-        //$scope.submitDataToTTS();
+        $scope.submitDataToTTS();
 
-        $scope.resetForm();
+        /*$scope.resetForm();
         displayConfirmMessage();
 
         changeUI('uploadFileTrigger', 'display', 'none');
         changeUI('selectFileTrigger', 'display', 'none');
         changeUI('messageText', 'display', 'none');
         changeUI('messageText', 'display', 'none');
-        changeUI('removeMedia', 'display', 'none');
+        changeUI('removeMedia', 'display', 'none');*/
 
 
 
@@ -576,21 +574,25 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.vidSource =  '<video id="video" width="90%" height="auto" preload="metadata" poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.testVideoSource +'.jpg" webkit-playsinline controls>' + 
                         '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.mp4" type="video/mp4">' + 
-                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.webm" type="video/webm">'+
-                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.ogg" type="video/ogg">' + 
                         '</video>';
 
-    $scope.renderVideo = function(index){
-        jQuery('.vidHolder-'+index).html($scope.vidSource);
+    $scope.renderVideo = function(index, media){
+
+        console.log(index + media)
+
+        vidSource =  '<video id="video" width="90%" height="auto" preload="metadata" poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.switchMediaSuffix(media, '.jpg') +'" webkit-playsinline controls>' + 
+                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource + '.mov" type="video/quicktime">' +
+                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.mp4" type="video/mp4">' + 
+                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.webm" type="video/webm">'+
+                        '</video>';
+
+
+        jQuery('.vidHolder-'+index).html(vidSource);
         
     }
 
 
     $scope.launchLargeMedia = function(src, type, isapp){
-
-        console.log("src = " + src.split('&')[0]);
-        console.log("type = " + type);
-        console.log("isapp = " + isapp);
 
         if (isapp == 1){
 
@@ -622,9 +624,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.closeLargeMedia = function(){
 
-        var myVideo = document.getElementById('videoplayer');
-        myVideo.pause();
-        myVideo.src = "";
+        
         $scope.viewLargeMedia = false;
         $scope.viewBigImage = false;
         $scope.viewBigVideo = false;
@@ -664,8 +664,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.proceedApp = function(nextScreen){
 
-        console.log('proceedApp, nextScreen: ' + nextScreen)
-
         if ($scope.connectionError == true){
             $scope.closeError();
             $scope.connectionError = false;
@@ -674,8 +672,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         if ($scope.screenArray[$scope.screenArray.length - 1] != nextScreen){
             $scope.screenArray.push(nextScreen);
             $scope.changeScreen(nextScreen, 'swipe-left');
-
-            console.log('$scope.screenArray: ' + $scope.screenArray)
         }
 
         
@@ -685,16 +681,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.changeScreen = function(next, trans){
 
-        console.log($scope.screenArray.length + ", swipe " + trans + ", x: " + (0 - tts.width) * ($scope.screenArray.length - 1));
-
         if ($scope.connectionError == true){
             $scope.closeError();
             $scope.connectionError = false;
         }
 
         old = $scope.liveScreen;
-
-        console.log("old = " + old + ", next = " + next)
 
         if (next != old){
 
@@ -751,8 +743,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
 
     $scope.backToMessages = function(){
-        $scope.changeScreen("messages", 'swipe-right');
-        $scope.screenArray = ["login", "taskList", "messages"];
+        
+        $scope.screenArray.pop();
+        $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-right');
         $scope.gotoMessages($scope.taskID, 'backwards')
     }
 
