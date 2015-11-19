@@ -8,7 +8,9 @@ jQuery('.app-screen').each(function() { // loop through the screens
     jQuery(this).height(height);
 });
 
-jQuery('#appContainer').width((width * 4) + 10);
+
+
+jQuery('#appContainer').width((width * 4) + 100);
 
 jQuery('#screen-'+liveScreen).addClass('top-layer');
 
@@ -21,6 +23,8 @@ var tts = tts || {};
 
 tts.width = jQuery(window).width();
 tts.height = jQuery(window).height();
+
+jQuery('#debug').html('width: ' + tts.width )
 
 /////////////////////////////////////
 

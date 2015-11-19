@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; position:fixed; top:0; z-index:99999 " >v14</div>
+            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v15</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()">Back</div>
@@ -138,24 +138,36 @@
 
                                                 <div class="mediaHolder" ng-repeat="img in message.media" >
 
-                                                    <div ng-show="isVideo(img.type)" ng-click="renderVideo($index, img.media)" class="videoPlayer vidHolder-{{$index}}">
-                                                        Tap for video (temporary fix)</div>
+                                                    <!--<div ng-show="isVideo(img.type)" ng-click="launchLargeMedia(img.media, img.type, img.isapp)"  class="videoPlayer">-->
 
-                                                    <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchLargeMedia(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type, message.response)}}"  altSrc="{{getAltImage()}}"/> 
+                                                    <div ng-show="isVideo(img.type)" class="videoPlayer">
 
-                                                    
+                                                        <video preload="auto" controls poster="http://www.gs0.co/tts/media/thumbs/videoThumb.jpg" webkit-playsinline >
+                                                            <source ng-src="{{ switchMediaSuffix(img.media, '.mp4', 'video') }}" type="video/mp4">
+                                                        </video>   
+                                                                                                            
+                                                        <!--<img class="videoThumb" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}" /> 
+                                                        <img class="videoIcon" src="images/video-icon.png" />-->
+
+
+                                                    </div>
+
+                                                    <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchLargeMedia(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
+
                                                 </div>
-
-
 
                                             </div>
 
                                         </div>
 
+
+
                                         <div class="bigImageViewer" ng-show="viewLargeMedia" ng-click="closeLargeMedia()">
                                             <div class="close" ng-click="closeLargeMedia()">Close</div>
 
                                             <img ng-src="{{bigImageSource}}"/>
+
+                                            <div class="vidHolder" ng-show="viewVideo"></div>
 
                                         </div>
 

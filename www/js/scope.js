@@ -199,6 +199,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.messageData = JSON.parse(data.responseText);
 
+                console.log($scope.messageData);
+
                 $scope.userID = $scope.messageData[1].userid;
 
                 $scope.mid = $scope.messageData[1].mid;
@@ -570,31 +572,27 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
-    $scope.testVideoSource = "TTS-550_184_9";
-
-    $scope.vidSource =  '<video id="video" width="90%" height="auto" preload="metadata" poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.testVideoSource +'.jpg" webkit-playsinline controls>' + 
-                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.mp4" type="video/mp4">' + 
-                        '</video>';
-
-    $scope.renderVideo = function(index, media){
-
-        console.log(index + media)
-
-        vidSource =  '<video id="video" width="90%" height="auto" preload="metadata" poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.switchMediaSuffix(media, '.jpg') +'" webkit-playsinline controls>' + 
-                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource + '.mov" type="video/quicktime">' +
-                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.mp4" type="video/mp4">' + 
-                        '<source src="'+ $scope.goShoRoot + '/' + $scope.testVideoSource +'.webm" type="video/webm">'+
-                        '</video>';
-
-
-        jQuery('.vidHolder-'+index).html(vidSource);
-        
-    }
-
+    $scope.viewVideo = false;
 
     $scope.launchLargeMedia = function(src, type, isapp){
 
         if (isapp == 1){
+
+            if ($scope.getMIMEType(type) == "video"){
+
+                vidSource = '<p>Tap to play</p><video id="videoPlayer" webkit-playsinline controls width="100%" height="auto" preload="metadata" ' + 
+                            'poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
+                            '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.webm') +'" type="video/webm">'+
+                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mov') + '" type="video/quicktime">' +
+                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' + 
+                            '</video>';
+
+                jQuery('.vidHolder').html(vidSource);
+                
+
+                $scope.viewLargeMedia = true;
+                $scope.viewVideo = true;
+            }
 
             if ($scope.getMIMEType(type) == "image"){
 
@@ -624,6 +622,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.closeLargeMedia = function(){
 
+        jQuery('.vidHolder').html('');
         
         $scope.viewLargeMedia = false;
         $scope.viewBigImage = false;
@@ -642,15 +641,28 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
-    $scope.switchMediaSuffix = function(url, newSuffix){
+    $scope.switchMediaSuffix = function(url, newSuffix, type){
 
-        return url.replace("http://www.gs0.co/tts/media/", "").split('&')[0].split('.')[0] + newSuffix;
+        if (type == 'video'){
+
+            media = $scope.goShoRoot + "/" + url.replace("http://www.gs0.co/tts/media/", "").split('&')[0].split('.')[0] + newSuffix;
+            console.log(media)
+            return media
+
+        } else if (type == 'thumb'){
+
+            media = $scope.goShoRoot + "/thumbs/" + url.replace("http://www.gs0.co/tts/media/", "").split('&')[0].split('.')[0] + newSuffix;
+
+            return media
+
+        } else {
+
+            return url.replace("http://www.gs0.co/tts/media/", "").split('&')[0].split('.')[0] + newSuffix;
+        }
 
     }
 
-
     /////////////////////////////////////////////////////////////////
-
 
     $scope.getUserType = function(user){
         if (user == 'moderator'){
@@ -673,11 +685,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.screenArray.push(nextScreen);
             $scope.changeScreen(nextScreen, 'swipe-left');
         }
-
         
     }
-
-   
 
     $scope.changeScreen = function(next, trans){
 
@@ -689,9 +698,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         old = $scope.liveScreen;
 
         if (next != old){
-
-            var windowWidth = jQuery(window).width();
-            var windowHeight = jQuery(window).height();
 
             $scope.liveScreen = next;
 

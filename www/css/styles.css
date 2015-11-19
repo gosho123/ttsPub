@@ -603,7 +603,7 @@ body::-webkit-scrollbar {
 .msg-profile img{
     width: 70px !important;
     height: auto;
-    margin-top: -10px !important;
+    margin-top: -18px !important;
 }
 
 .user-msg .msg-profile img{
@@ -659,7 +659,7 @@ body::-webkit-scrollbar {
 
 .message-box img{
     width:100%;
-    padding:5%;
+    padding:10px;
 }
 
 .message-box .mediaVideo{
@@ -669,6 +669,30 @@ body::-webkit-scrollbar {
 
 .mediaHolder{
     text-align: center;
+}
+
+.vidHolder{
+    position: fixed;
+    top: 200px;
+    width: 100%;
+    height: auto;
+    left:0;
+}
+
+.vidHolder p{
+    color:#fff;
+    text-align: center;
+}
+
+.videoIcon{
+    clear:both;
+    float:left;
+    width: auto !important;
+    height: auto;
+    padding:0 !important;
+    margin:-100px 0 0 10px !important;
+    position: relative;
+
 }
 
 .message-box .mediaVideoIcon{
@@ -687,16 +711,21 @@ body::-webkit-scrollbar {
 }
 
 .videoPlayer{
-  padding-bottom:20px;
+  padding-bottom:10px;
+}
+
+.videoPlayer video{
+  width: 90%;
 }
 
 .bigImageViewer{
     position:fixed;
     top:0;
-    left:0;
-    width:100%;
+    left:-10%;
+    width:120%;
     height:100%;
     background-image:url('../images/opacity.png');
+    padding-left:-10%;
 }
 
 .bigImageViewer img{
@@ -706,7 +735,7 @@ body::-webkit-scrollbar {
 }
 
 .bigImageViewer .close{
-    position:absolute;
+    position:fixed;
     top:80px;
     right:10px;
     padding:5px;
