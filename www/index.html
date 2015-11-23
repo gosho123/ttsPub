@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v15</div>
+            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v16</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()">Back</div>
@@ -139,12 +139,21 @@
                                                 <div class="mediaHolder" ng-repeat="img in message.media" >
 
                                                     <!--<div ng-show="isVideo(img.type)" ng-click="launchLargeMedia(img.media, img.type, img.isapp)"  class="videoPlayer">-->
-
                                                     <div ng-show="isVideo(img.type)" class="videoPlayer">
 
-                                                        <video preload="auto" controls poster="http://www.gs0.co/tts/media/thumbs/videoThumb.jpg" webkit-playsinline >
+
+                                                        <video width="640" height="480"  preload="none" controls poster="http://www.gs0.co/tts/media/thumbs/videoThumb.jpg">
+                                                            <source src="http://www.gs0.co/tts/media/mp4Test.mp4" type="video/mp4">
+                                                            <source src="http://www.gs0.co/tts/media/oggTest.ogg" type="video/ogg">
+                                                            <source src="http://www.gs0.co/tts/media/webmTest.webm" type="video/webm">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+
+
+                                                        <!--<video controls poster="http://www.gs0.co/tts/media/thumbs/videoThumb.jpg" >
                                                             <source ng-src="{{ switchMediaSuffix(img.media, '.mp4', 'video') }}" type="video/mp4">
-                                                        </video>   
+                                                            <source ng-src="{{ testVideo }}" type="video/mp4">
+                                                        </video>    -->
                                                                                                             
                                                         <!--<img class="videoThumb" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}" /> 
                                                         <img class="videoIcon" src="images/video-icon.png" />-->
@@ -171,7 +180,7 @@
 
                                         </div>
 
-                                        <button ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
+                                        <button ng-if="messageLength()" ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
 
                                     </div>
                                 

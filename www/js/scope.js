@@ -104,6 +104,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     if (obj.login == "success") {
 
+                        $scope.userID = obj.id;
+                        console.log($scope.userID)
                         $scope.getTasks();
                         $scope.loggedIn = true;
 
@@ -201,9 +203,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 console.log($scope.messageData);
 
-                $scope.userID = $scope.messageData[1].userid;
-
-                $scope.mid = $scope.messageData[1].mid;
+                //$scope.mid = $scope.messageData[1].mid;
 
                 $scope.$apply();
 
@@ -538,6 +538,14 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             
          }
     }
+
+    $scope.messageLength = function(){
+        if ($scope.messageData > 2){
+            return true;
+        } else {
+            return false;
+        }
+    }
     /////////////////////////////////////////////////////////////////
 
     $scope.viewLargeMedia = false;
@@ -640,6 +648,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
 
     }
+
+    $scope.testVideo = $scope.goShoRoot + "/oggTest.ogg";
 
     $scope.switchMediaSuffix = function(url, newSuffix, type){
 

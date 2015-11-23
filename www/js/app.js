@@ -24,8 +24,6 @@ var tts = tts || {};
 tts.width = jQuery(window).width();
 tts.height = jQuery(window).height();
 
-jQuery('#debug').html('width: ' + tts.width )
-
 /////////////////////////////////////
 
 tts.resizeHandler = function(){

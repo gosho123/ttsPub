@@ -716,6 +716,7 @@ body::-webkit-scrollbar {
 
 .videoPlayer video{
   width: 90%;
+  height:auto;
 }
 
 .bigImageViewer{
