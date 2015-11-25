@@ -165,6 +165,8 @@ function startUploading(u, t, m) {
     changeUI('progress_info', 'display', 'block');
     changeUI('messageText', 'display', 'none');
     changeUI('preview', 'display', 'none');
+    changeUI('removeMedia', 'display', 'none');
+    
 
     // cleanup all temp states
     iPreviousBytesLoaded = 0;

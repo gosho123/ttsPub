@@ -79,7 +79,7 @@
 
 .spin-loader {
 	color:#fff;
-    margin: 20px;
+    margin: 0;
     width: auto;
     height: auto;
     font-size:30px;
@@ -120,4 +120,9 @@
     to {
         transform:rotate(360deg);
     }
+}
+
+
+.task-list .spin-loader {
+    color:#bdc3c7;
 }

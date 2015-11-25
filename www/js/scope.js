@@ -1,4 +1,4 @@
-console.log("TTS App - v11.5")
+console.log("TTS App - v17")
 
 //////////////////////////****  MY ACCOUNT CONTROLLER FUNCTIONS ***/////////////////////  
 var taskListLink = "taskList.json";
@@ -47,6 +47,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.loggingIn = false;
     $scope.connectionError = false;
     $scope.loginError = false;
+    $scope.loadingMessages = false;
 
     // HTML injectors
 
@@ -159,7 +160,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.taskLiskData = JSON.parse(data.responseText);
 
+                for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
+                    $scope.taskLiskData.tasks[i].clicked = false;
+                }
+
                 $scope.$apply();
+
                 $scope.proceedApp('taskList')
 
             },
@@ -178,7 +184,20 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         alert("error " + message);
     }
 
-    $scope.gotoMessages = function(taskid, navType){
+    $scope.gotoMessages = function(index, taskid, navType){
+
+        console.log('index: ' + index + ', taskid: ' + taskid)
+
+        for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
+
+            if ($scope.taskLiskData.tasks[i].taskid == taskid){
+                $scope.taskLiskData.tasks[i].clicked = true;
+            }
+        }
+
+        console.log($scope.taskLiskData)
+
+        $scope.loadingMessages = true;
 
         if ($scope.connectionError == true){
             $scope.closeError();
@@ -205,6 +224,16 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 //$scope.mid = $scope.messageData[1].mid;
 
+                    setTimeout(function(){ 
+                        for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
+
+                            if ($scope.taskLiskData.tasks[i].taskid == taskid){
+
+                                $scope.taskLiskData.tasks[i].clicked = false;
+                            }
+                        }
+                    }, 500);
+
                 $scope.$apply();
 
                 if (navType != 'backwards'){
@@ -218,6 +247,17 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             error: function(a,b,c) {
                 $scope.errorManager('gotoMessages');
+                
+                for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
+
+                    if ($scope.taskLiskData.tasks[i].taskid == taskid){
+
+                        setTimeout(function(){ 
+                            $scope.taskLiskData.tasks[i].clicked = false;
+                          }, 500);
+                        
+                    }
+                }
             }
         });
     }
@@ -489,7 +529,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         } else {
 
             jQuery('.top-layer').animate({paddingTop: '145'}, 500);
-            jQuery('.errorMessage').animate({top: '49'}, 500);
+            jQuery('.errorMessage').animate({top: '59'}, 500);
         }
 
         $scope.$apply();
@@ -548,13 +588,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
     /////////////////////////////////////////////////////////////////
 
-    $scope.viewLargeMedia = false;
-    $scope.viewBigImage = false;
-    $scope.viewBigVideo = false;
-    
-    $scope.bigImageSource = "";
-    $scope.videoViewSource = "";
-
     $scope.getMediaURL = function (isapp, url, type){// function to check which images or thumbs to use in messages
 
         if (isapp == 1){// from go sho app
@@ -580,64 +613,68 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
+    $scope.viewImage = false;
     $scope.viewVideo = false;
 
-    $scope.launchLargeMedia = function(src, type, isapp){
+    $scope.imageSource = "";
+    $scope.vidSource = "";
+
+    $scope.launchVideo = function(src, type, isapp){
 
         if (isapp == 1){
 
-            if ($scope.getMIMEType(type) == "video"){
+            $scope.viewVideo = true;
 
-                vidSource = '<p>Tap to play</p><video id="videoPlayer" webkit-playsinline controls width="100%" height="auto" preload="metadata" ' + 
+            console.log($scope.viewVideo + "src: " + src + ", type: " + type + ", isapp: " + isapp)
+
+            vidSource = '<video id="videoPlayer" webkit-playsinline controls width="100%" height="auto" preload="metadata" ' + 
                             'poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
-                            '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.webm') +'" type="video/webm">'+
-                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mov') + '" type="video/quicktime">' +
-                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' + 
+                            '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.ogg') +'" type="video/ogg">' + 
+                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.webm') +'" type="video/webm">'+
+                            '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mov') + '" type="video/quicktime">' +
+                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' +
+                            
                             '</video>';
 
-                jQuery('.vidHolder').html(vidSource);
-                
-
-                $scope.viewLargeMedia = true;
-                $scope.viewVideo = true;
-            }
-
-            if ($scope.getMIMEType(type) == "image"){
-
-                $scope.bigImageSource = src;
-                $scope.viewLargeMedia = true;
-                $scope.viewBigImage = true;
-            }
+            jQuery('.vidHolder').html(vidSource);
+            
 
         } else {
-
-            if ($scope.getMIMEType(type) == "image"){
-
-                $scope.bigImageSource = $scope.TheThinkingShedRoot + src.replace('?thumb=1', '?thumb=0');
-                $scope.viewLargeMedia = true;
-                $scope.viewBigImage = true;
-            } 
-
-            if ($scope.getMIMEType(type) == "video"){
 
                 $scope.videoViewSource = src;
                 $scope.viewLargeMedia = true;
                 $scope.viewBigVideo = true;
-            }   
+            
+        }
+    }
+
+    $scope.launchImage = function(src, type, isapp){
+
+        if (isapp == 1){
+
+                console.log($scope.viewVideo + "src: " + src +", type: " + type + ", isapp: " + isapp)
+
+                $scope.imageSource = src;
+                $scope.viewImage = true;
+
+        } else {
+
+                $scope.imageSource = $scope.TheThinkingShedRoot + src.replace('?thumb=1', '?thumb=0');
+                $scope.viewImage = false;
         }
         
     }
 
-    $scope.closeLargeMedia = function(){
-
-        jQuery('.vidHolder').html('');
+    $scope.closeImageViewer = function(){
         
-        $scope.viewLargeMedia = false;
-        $scope.viewBigImage = false;
-        $scope.viewBigVideo = false;
-        $scope.bigImageSource = "";
-        $scope.videoViewSource = "";
+        $scope.viewImage = false;
+        $scope.imageSource = "";
 
+    }
+
+    $scope.closeVideoViewer = function(){
+        $scope.viewVideo = false;
+        jQuery('.vidHolder').html('');  
     }
 
     $scope.getMIMEType = function(src){// get MIME type
@@ -752,9 +789,27 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.goBack = function(){
 
-        if ($scope.screenArray[$scope.screenArray.length - 2] != "login"){
-            $scope.screenArray.pop();
-            $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-right');
+        if ($scope.viewImage == true){
+
+            $scope.viewImage = false;
+            $scope.imageSource = "";
+
+        } else if ($scope.viewVideo == true){
+
+            $scope.viewVideo = false;
+            jQuery('.vidHolder').html(''); 
+
+        } else if ($scope.liveScreen == "reply"){
+
+            $scope.backToMessages();
+        
+        } else {
+
+            if ($scope.screenArray[$scope.screenArray.length - 2] != "login"){
+                $scope.screenArray.pop();
+                $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-right');
+
+            }
         }
     }
 
@@ -762,7 +817,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         
         $scope.screenArray.pop();
         $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-right');
-        $scope.gotoMessages($scope.taskID, 'backwards')
+        $scope.gotoMessages('null', $scope.taskID, 'backwards')
     }
 
     $scope.loginApp = function(nextScreen){

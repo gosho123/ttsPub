@@ -27,7 +27,16 @@ tts.height = jQuery(window).height();
 /////////////////////////////////////
 
 tts.resizeHandler = function(){
-    jQuery('top-layer').css("left", "auto"); 
+
+    width = jQuery(window).width();
+    height = jQuery(window).height();
+
+    jQuery('.app-screen').each(function() { // loop through the screens
+        jQuery(this).width(width);
+        jQuery(this).height(height);
+    });
+
+    jQuery('#appContainer').width((width * 4) + 100);
 }
 
 // Global call to return user idnentification, task and message id's from the scop to use outside of Angular

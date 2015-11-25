@@ -150,6 +150,18 @@ ul{
    -webkit-transition: opacity .5s ease-in-out;
 }
 
+/* individual screen fixes */
+#screen-taskList{
+    margin-left: -2px;
+}
+
+#screen-messages{
+    margin-left: -4px;
+}
+#screen-reply{
+    margin-left: -5px;
+}
+
 
 /* ---------------------------------------------------------- Interaction Styles  */
 
@@ -343,6 +355,7 @@ button:focus, textarea:focus{
 .scroll-screen, .app-screen{
     overflow-y: scroll !important;
     overflow-x: hidden;
+    padding-bottom: 60px;
 }
 
 .scroll-screen::-webkit-scrollbar { 
@@ -427,6 +440,7 @@ body::-webkit-scrollbar {
 
 #screen-messages .task-title{
     text-align: left;
+    padding-left: 10px;
 }
 
 .task-introPic{
@@ -671,19 +685,13 @@ body::-webkit-scrollbar {
     text-align: center;
 }
 
-.vidHolder{
-    position: fixed;
-    top: 200px;
-    width: 100%;
-    height: auto;
-    left:0;
+.videoIconSmall{
+    clear: both;
+    margin-top: -110px !important;
+    float: left;
+    width: auto !important;
+    position: relative;
 }
-
-.vidHolder p{
-    color:#fff;
-    text-align: center;
-}
-
 .videoIcon{
     clear:both;
     float:left;
@@ -710,32 +718,23 @@ body::-webkit-scrollbar {
     margin-top: -230px;
 }
 
-.videoPlayer{
-  padding-bottom:10px;
+
+.imageViewer{
+    width: 104%;
+    height: 100%;
+    background-color: #eeeff1;
+    position: fixed;
+    top: 0;
+    left: -2%;
 }
 
-.videoPlayer video{
-  width: 90%;
-  height:auto;
-}
-
-.bigImageViewer{
-    position:fixed;
-    top:0;
-    left:-10%;
-    width:120%;
-    height:100%;
-    background-image:url('../images/opacity.png');
-    padding-left:-10%;
-}
-
-.bigImageViewer img{
+.imageViewer img{
     width:100%;
     height:auto;
     margin-top:65px;
 }
 
-.bigImageViewer .close{
+.imageViewer .close{
     position:fixed;
     top:80px;
     right:10px;
@@ -746,10 +745,28 @@ body::-webkit-scrollbar {
     color:white;
 }
 
-.previewVideo{
+.videoViewer{
     width: 100%;
-    height: auto;
-    margin-top: 100px;
+    height: 100%;
+    background-color: #eeeff1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 80px;
+}
+
+.videoViewer video{
+  width: 100%;
+max-height: 330px;
+}
+
+ .videoViewer .close{
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #009fe2;
+    font-size: 12px;
+    color: #009fe2;
+    text-align: center;
 }
 
 .completeIcon{
@@ -831,10 +848,8 @@ body::-webkit-scrollbar {
         width:640px;    
     }*/
 
-    .message-box img{
-        max-height: 300px;
-        width:auto;
-        margin:0 auto;
+    .message-box{
+        width:50%;
     }
 
 }

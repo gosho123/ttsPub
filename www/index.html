@@ -1,10 +1,10 @@
 <html>
 <head>
-    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <meta charset="utf-8" />
-    <title>TTS App  v11.6</title>
+    <title>TTS App  v17</title>
 
     <link href="css/icons.css" rel="stylesheet" type="text/css" />
     <link href="css/styles.css" rel="stylesheet" type="text/css" />
@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v16</div>
+            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v17</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()">Back</div>
@@ -38,8 +38,8 @@
 
                 <div id="global-controls">
                     <div class="grid four icon-user"></div>
-                    <div class="grid four icon-home3"><div id="notification">4</div></div>
-                    <div class="grid four icon-info"></div>
+                    <!-- <div class="grid four icon-home3"><div id="notification">4</div></div> -->
+                    <div class="grid four push icon-info"></div>
                 </div>
 
             </div>
@@ -88,11 +88,16 @@
 
                                         <ul class="grid twelve box task-list">
 
-                                            <li ng-repeat="tasks in taskLiskData.tasks | orderBy:'taskorder'" ng-click="gotoMessages(tasks.taskid, 'forward')">
+                                            <li ng-repeat="tasks in taskLiskData.tasks | orderBy:'taskorder'" ng-click="gotoMessages($index, tasks.taskid, 'forward')">
                                                 <div class="ten cell center-cell">
                                                     <div class="task-text">{{tasks.description}}</div>
                                                 </div>
-                                                <div class="task-icon-status two cell"  ng-class="getTaskStatusClass(tasks.complete)"></div>
+                                                <div class="task-icon-status two cell"  >
+
+                                                        <div ng-hide="tasks.clicked" ng-class="getTaskStatusClass(tasks.complete)"></div>
+
+                                                        <div ng-show="tasks.clicked" class="icon-spinner5 spin-loader"></div>
+                                                </div>
                                             </li>
 
                                         </ul><!-- grid --> 
@@ -138,48 +143,33 @@
 
                                                 <div class="mediaHolder" ng-repeat="img in message.media" >
 
-                                                    <!--<div ng-show="isVideo(img.type)" ng-click="launchLargeMedia(img.media, img.type, img.isapp)"  class="videoPlayer">-->
-                                                    <div ng-show="isVideo(img.type)" class="videoPlayer">
+                                                    
+                                                    <!--<div ng-show="isVideo(img.type)" class="videoPlayer">
 
-
-                                                        <video width="640" height="480"  preload="none" controls poster="http://www.gs0.co/tts/media/thumbs/videoThumb.jpg">
-                                                            <source src="http://www.gs0.co/tts/media/mp4Test.mp4" type="video/mp4">
-                                                            <source src="http://www.gs0.co/tts/media/oggTest.ogg" type="video/ogg">
-                                                            <source src="http://www.gs0.co/tts/media/webmTest.webm" type="video/webm">
-                                                            Your browser does not support the video tag.
-                                                        </video>
-
-
-                                                        <!--<video controls poster="http://www.gs0.co/tts/media/thumbs/videoThumb.jpg" >
+                                                        <video controls poster="http://www.gs0.co/tts/media/thumbs/videoThumb.jpg" >
                                                             <source ng-src="{{ switchMediaSuffix(img.media, '.mp4', 'video') }}" type="video/mp4">
                                                             <source ng-src="{{ testVideo }}" type="video/mp4">
                                                         </video>    -->
                                                                                                             
                                                         <!--<img class="videoThumb" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}" /> 
-                                                        <img class="videoIcon" src="images/video-icon.png" />-->
+                                                        <img class="videoIcon" src="images/video-icon.png" />
 
 
+                                                    </div>-->
+                                                    <div class="videoHolder" ng-show="isVideo(img.type)">
+
+                                                        <img ng-if="img" ng-click="launchVideo(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
+
+                                                        <img class="videoIconSmall" src="images/video-icon.png">
                                                     </div>
 
-                                                    <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchLargeMedia(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
+                                                    <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchImage(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
 
                                                 </div>
 
                                             </div>
 
                                         </div>
-
-
-
-                                        <div class="bigImageViewer" ng-show="viewLargeMedia" ng-click="closeLargeMedia()">
-                                            <div class="close" ng-click="closeLargeMedia()">Close</div>
-
-                                            <img ng-src="{{bigImageSource}}"/>
-
-                                            <div class="vidHolder" ng-show="viewVideo"></div>
-
-                                        </div>
-
                                         <button ng-if="messageLength()" ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
 
                                     </div>
@@ -208,7 +198,7 @@
 
                                             <input type="file" ng-model="mediaFile" name="file1" accept="video/*;capture=camera" id="image_file" ng-click="resetMediaFile()" onchange="fileSelected();" class="selectButtonHidden"/>
 
-                                            <button ng-show="weHaveMedia" id="removeMedia"class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
+                                            <button ng-show="weHaveMedia" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
 
 
                                             <div id="fileinfo">
@@ -258,6 +248,26 @@
                             
                             <!-- APP SCREEN END -->
 
+                </div>
+
+
+                <div ng-show="viewVideo" class="videoViewer">               
+                    <div class="row">
+                        <div class="grid twelve">
+                            <div class="vidHolder">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="grid twelve">
+                            <button ng-click="closeVideoViewer()" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Close Video</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="imageViewer" ng-show="viewImage" ng-click="closeImageViewer()">
+                    <div class="close" ng-click="closeLargeMedia()">Close</div>
+                    <img ng-src="{{imageSource}}"/>
                 </div>
 
         </div>
