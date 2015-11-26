@@ -614,6 +614,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.imageSource = "";
     $scope.vidSource = "";
 
+    $scope.browser = "";
+
     $scope.launchVideo = function(src, type, isapp){
 
         if (isapp == 1){
@@ -631,7 +633,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                             
                             '</video>';
 
-            jQuery('.vidHolder').html(vidSource);
+            jQuery('#angularVideo').html(vidSource);
             
 
         } else {
@@ -669,7 +671,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.closeVideoViewer = function(){
         $scope.viewVideo = false;
-        jQuery('.vidHolder').html('');  
+        jQuery('#angularVideo').html('');  
     }
 
     $scope.getMIMEType = function(src){// get MIME type
@@ -792,7 +794,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         } else if ($scope.viewVideo == true){
 
             $scope.viewVideo = false;
-            jQuery('.vidHolder').html(''); 
+            jQuery('#angularVideo').html(''); 
 
         } else if ($scope.liveScreen == "reply"){
 
