@@ -186,16 +186,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.gotoMessages = function(index, taskid, navType){
 
-        console.log('index: ' + index + ', taskid: ' + taskid)
-
         for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
 
             if ($scope.taskLiskData.tasks[i].taskid == taskid){
                 $scope.taskLiskData.tasks[i].clicked = true;
             }
         }
-
-        console.log($scope.taskLiskData)
 
         $scope.loadingMessages = true;
 
@@ -220,11 +216,13 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.messageData = JSON.parse(data.responseText);
 
-                console.log($scope.messageData);
+                console.log("gotoMessages() ");
+                console.log($scope.messageData)
 
                 //$scope.mid = $scope.messageData[1].mid;
 
                     setTimeout(function(){ 
+                        
                         for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
 
                             if ($scope.taskLiskData.tasks[i].taskid == taskid){
@@ -293,17 +291,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     
                 },
 
-                /*url: $scope.TheThinkingShedRoot + "/index.php/en/tasks/ping",
-                type: "GET",
-                dataType: "json",
-                crossDomain: true,
-                xhrFields: { withCredentials: true },
-                data: $scope.submitParams.join("&"),
-
-                success: function(data) {
-
-                },*/
-
                 complete: function (data) {
 
                 },
@@ -325,9 +312,16 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
 
+    $scope.randomId = function(mid){
+
+        randomNum = mid.toString() + Math.floor((Math.random() * 999) + 1).toString();
+        console.log('randomNum: ' + randomNum)
+        return randomNum;
+    }
+
     $scope.submitMessage = function(){ // Submit button clicked
 
-        $scope.messageID = $scope.messageData.length + 1;
+        $scope.messageID = $scope.randomId($scope.messageData.length + 1);
 
         $scope.mediaString = "TTS-" + $scope.userID +'_'+ $scope.taskID +'_'+ $scope.messageID;
 
@@ -419,6 +413,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             success: function(data) {
                 var obj = data;
+
                 console.log(data);
                 
                 if (obj.isok == "1") {

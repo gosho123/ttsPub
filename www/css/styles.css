@@ -760,7 +760,7 @@ body::-webkit-scrollbar {
 max-height: 330px;
 }
 
- .videoViewer .close{
+.videoViewer .close{
     padding: 15px;
     border-radius: 10px;
     border: 1px solid #009fe2;
@@ -769,6 +769,9 @@ max-height: 330px;
     text-align: center;
 }
 
+video{
+    height:330px;
+}
 .completeIcon{
     width:50px;
     height:50px;
