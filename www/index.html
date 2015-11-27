@@ -4,7 +4,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <meta charset="utf-8" />
-    <title>TTS App  v17</title>
+    <title>TTS App  v1</title>
 
     <link href="css/icons.css" rel="stylesheet" type="text/css" />
     <link href="css/styles.css" rel="stylesheet" type="text/css" />
@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v17 </div>
+            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v18 </div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()">Back</div>
@@ -142,7 +142,7 @@
                                                 <p ng-bind-html="message.response"></p>
 
                                                 <div class="mediaHolder" ng-repeat="img in message.media" >
-
+                                                    
                                                     <div class="videoHolder" ng-show="isVideo(img.type)">
 
                                                         <img ng-if="img" ng-click="launchVideo(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
@@ -241,7 +241,7 @@
                 <div ng-show="viewVideo" class="videoViewer">               
                    
                             <div class="vidHolder">
-                                
+
                                 <div id="angularVideo"></div>
 
                                 <button ng-click="closeVideoViewer()" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Close Video</button>

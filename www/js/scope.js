@@ -15,6 +15,7 @@ app.config(function($httpProvider) {
 
 app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.TheThinkingShedRoot = "http://explore2.thethinkingshed.com";
+    //$scope.goShoRoot = "http://www.tts-app.com/media";
     $scope.goShoRoot = "http://www.gs0.co/tts/media";
 
     $scope.loggedIn = false;
@@ -32,7 +33,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.weHaveText = false;
 
     $scope.messageText = "";
-    $scope.mediaHostURL = "";
     $scope.mediaString  = "";
     $scope.mediaSuffix = "";
     $scope.mimeType = "";
@@ -106,7 +106,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     if (obj.login == "success") {
 
                         $scope.userID = obj.id;
-                        console.log($scope.userID)
                         $scope.getTasks();
                         $scope.loggedIn = true;
 
@@ -219,18 +218,19 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 console.log("gotoMessages() ");
                 console.log($scope.messageData)
 
-                //$scope.mid = $scope.messageData[1].mid;
+                $scope.mid = $scope.messageData[1].mid;
 
-                    setTimeout(function(){ 
-                        
-                        for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
+                // remove spinner from task list
+                setTimeout(function(){ 
+                    
+                    for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
 
-                            if ($scope.taskLiskData.tasks[i].taskid == taskid){
+                        if ($scope.taskLiskData.tasks[i].taskid == taskid){
 
-                                $scope.taskLiskData.tasks[i].clicked = false;
-                            }
+                            $scope.taskLiskData.tasks[i].clicked = false;
                         }
-                    }, 500);
+                    }
+                }, 500);
 
                 $scope.$apply();
 
@@ -314,8 +314,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.randomId = function(mid){
 
-        randomNum = mid.toString() + Math.floor((Math.random() * 999) + 1).toString();
-        console.log('randomNum: ' + randomNum)
+        randomNum = mid.toString() + Math.floor((Math.random() * 999) + 100).toString();
         return randomNum;
     }
 
@@ -369,10 +368,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     // external upload has finished (from upload.js)
     $scope.uploadFinished = function(userID, taskID, messageID){ 
 
-        ////////////////////////////// DEBUGGING 
         $scope.submitDataToTTS();
 
-        /*$scope.resetForm();
+        /* DEBUGGING
+
+        $scope.resetForm();
         displayConfirmMessage();
 
         changeUI('uploadFileTrigger', 'display', 'none');
@@ -380,12 +380,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         changeUI('messageText', 'display', 'none');
         changeUI('messageText', 'display', 'none');
         changeUI('removeMedia', 'display', 'none');*/
-
-
-
     }
 
-    $scope.mediaHostURL = 'http://www.gs0.co/tts/media/';
+
 
     $scope.submitDataToTTS = function(){
 
@@ -396,13 +393,15 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.submitParams.push("commentData=" + $scope.messageText);
 
         if ($scope.weHaveMedia == true){
-            $scope.submitParams.push("url=" + $scope.mediaHostURL + $scope.mediaString +'.'+ $scope.mediaSuffix);
+            $scope.submitParams.push("url=" + $scope.mediaString +'.'+ $scope.mediaSuffix);
             $scope.submitParams.push("media=" + $scope.mimeType);
         } else {
             $scope.submitParams.push("url=");
             $scope.submitParams.push("media=");
         }
-        
+
+        console.log($scope.submitParams)
+
         pjq.ajax({
             url: $scope.TheThinkingShedRoot + "/en/tasks",
             type: "POST",
@@ -413,8 +412,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             success: function(data) {
                 var obj = data;
-
-                console.log(data);
                 
                 if (obj.isok == "1") {
 
@@ -593,7 +590,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             } else { // if not video return thumb link
 
-                return url.replace('/media/', '/media/thumbs/');;
+                link = url.replace('http://www.gs0.co/tts/media/http://www.gs0.co/tts/media/', 'http://www.gs0.co/tts/media/');
+                link2 = link.replace('http://www.gs0.co/tts/media/', '/media/');
+
+                return $scope.goShoRoot + link2.replace('/media/', '/thumbs/');
 
             }
 
@@ -622,8 +622,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             $scope.viewVideo = true;
 
-            console.log($scope.viewVideo + "src: " + src + ", type: " + type + ", isapp: " + isapp)
-
             vidSource = '<video id="videoPlayer" webkit-playsinline controls width="100%" height="auto" preload="metadata" ' + 
                             'poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
                             '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.ogg') +'" type="video/ogg">' + 
@@ -649,9 +647,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         if (isapp == 1){
 
-                console.log($scope.viewVideo + "src: " + src +", type: " + type + ", isapp: " + isapp)
+                link = src.replace('http://www.gs0.co/tts/media/http://www.gs0.co/tts/media/', 'http://www.gs0.co/tts/media/');
+                link2 = link.replace('http://www.gs0.co/tts/media/', '');
 
-                $scope.imageSource = src;
+                $scope.imageSource = $scope.goShoRoot + '/' + link2;
                 $scope.viewImage = true;
 
         } else {
@@ -690,18 +689,17 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         if (type == 'video'){
 
             media = $scope.goShoRoot + "/" + url.replace("http://www.gs0.co/tts/media/", "").split('&')[0].split('.')[0] + newSuffix;
-            console.log(media)
             return media
 
         } else if (type == 'thumb'){
 
             media = $scope.goShoRoot + "/thumbs/" + url.replace("http://www.gs0.co/tts/media/", "").split('&')[0].split('.')[0] + newSuffix;
-
             return media
 
         } else {
 
-            return url.replace("http://www.gs0.co/tts/media/", "").split('&')[0].split('.')[0] + newSuffix;
+            media = url.replace("http://www.gs0.co/tts/media/", "").split('&')[0].split('.')[0] + newSuffix;
+            return media;
         }
 
     }
@@ -862,7 +860,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.taskLiskData = [];
 
                     $scope.messageText = "";
-                    $scope.mediaHostURL = "";
                     $scope.mediaString  = "";
                     $scope.mediaSuffix = "";
                     $scope.mimeType = "";
