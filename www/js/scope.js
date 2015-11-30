@@ -39,8 +39,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.mid = "";
     $scope.errorMessage = "";
 
-    $scope.username = "respondent";
-    $scope.password = "respondent";
+    $scope.username = "razresp2";
+    $scope.password = "pw070813";
 
     // ng-hide/show defaults
 
@@ -163,6 +163,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.taskLiskData.tasks[i].clicked = false;
                 }
 
+                console.log($scope.taskLiskData)
+
                 $scope.$apply();
 
                 $scope.proceedApp('taskList')
@@ -182,6 +184,17 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     function errorCallback(message){
         alert("error " + message);
     }
+
+    $scope.loadMessages = function(index, taskid, navType, isenabled){
+
+        if (isenabled != 0){
+
+            $scope.gotoMessages(index, taskid, navType);
+
+        }
+
+    }
+
 
     $scope.gotoMessages = function(index, taskid, navType){
 
@@ -217,8 +230,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 console.log("gotoMessages() ");
                 console.log($scope.messageData)
-
-                $scope.mid = $scope.messageData[1].mid;
+                
+                if ($scope.messageData[1].mid == null){
+                    $scope.mid = 0;
+                } else {
+                    $scope.mid = $scope.messageData[1].mid;
+                }
 
                 // remove spinner from task list
                 setTimeout(function(){ 
@@ -886,16 +903,28 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
 
     }
+
+    $scope.taskActive = function(isenabled){
+        if (isenabled == 0){
+            return "inActiveClass";
+        }
+    }
     
     $scope.getTaskIconClass = function(type){
         return "icon-" + type;
     }
     
-    $scope.getTaskStatusClass = function(complete){
-        if (complete == 1){
-            return "icon-checkmark";
+    $scope.getTaskStatusClass = function(isenabled, hasmodresp){
+
+        if (isenabled == 0){
+            return "icon-warning";
         } else {
-            return "icon-arrow";
+
+            if (hasmodresp == 1){
+                return "icon-bubbles2";
+            } else {
+               return "icon-arrow"; 
+            }
         }
     }
 

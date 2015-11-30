@@ -474,7 +474,7 @@ body::-webkit-scrollbar {
 
 .task-list{
     padding:0;
-    margin: 0 0 60px 0;
+    margin: 0 0 130px 0;
 }
 .task-list li{
     clear:both;
@@ -488,6 +488,18 @@ body::-webkit-scrollbar {
 }
 .task-list li:first-child{
     border-top:none;
+}
+
+.inActiveClass{
+    background-color: #eeeff1;
+    color: #ccc;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #ccc;
+}
+
+.inActiveClass .task-icon-status{
+    color: #ccc;
 }
 
 .task-icon-status, .task-icon-type{
