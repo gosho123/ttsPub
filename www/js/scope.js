@@ -39,8 +39,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.mid = "";
     $scope.errorMessage = "";
 
-    $scope.username = "razresp2";
-    $scope.password = "pw070813";
+    $scope.username = "respondent";
+    $scope.password = "respondent";
 
     // ng-hide/show defaults
 
