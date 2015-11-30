@@ -228,12 +228,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.messageData = JSON.parse(data.responseText);
 
-                console.log("gotoMessages() ");
                 console.log($scope.messageData)
+
+                console.log("$scope.messageData.length() " + $scope.messageData.length);
                 
-                if ($scope.messageData[1].mid == null){
-                    $scope.mid = 0;
-                } else {
+                if ($scope.messageData >= 1){
                     $scope.mid = $scope.messageData[1].mid;
                 }
 
