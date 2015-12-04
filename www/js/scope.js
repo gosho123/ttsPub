@@ -39,8 +39,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.mid = "";
     $scope.errorMessage = "";
 
-    $scope.username = "respondent";
-    $scope.password = "respondent";
+    $scope.username = "";
+    $scope.password = "";
 
     // ng-hide/show defaults
 
@@ -48,6 +48,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.connectionError = false;
     $scope.loginError = false;
     $scope.loadingMessages = false;
+
+    $scope.viewUserPanel = false;
+    $scope.viewInfoPanel = false;
 
     // HTML injectors
 
@@ -63,6 +66,22 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     };
 
     //////// LOGIN
+
+    if(typeof(Storage) !== "undefined") {
+        
+        // Store
+
+        $scope.username = getUser("user");
+        $scope.password = getUser("pwd");
+        
+        // Retrieve
+        
+
+    } else {
+        // Sorry! No Web Storage support..
+    }
+
+
 
     $scope.appLogin = function(){
 
@@ -103,16 +122,22 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     var obj = data;
 
+                    console.log("obj.login " + obj.login )
+                    
                     if (obj.login == "success") {
 
                         $scope.userID = obj.id;
+                        storeUser($scope.username, $scope.password);
                         $scope.getTasks();
                         $scope.loggedIn = true;
 
-                    } else {
 
-                        $scope.errorManager('appLogin');
+                    } else {
+                        console.log(obj.login)
                         $scope.loginError = true;
+                        $scope.loggingIn = false;
+
+                        $scope.$apply();
                     }
 
                 },
@@ -126,7 +151,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.errorManager('appLogin');
                 },
 
-                timeout: 2000
+                timeout: 8000
             });
         }
 
@@ -150,6 +175,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             dataType: "json",
             crossDomain: true,
             xhrFields: { withCredentials: true },
+            timeout: 10000,
 
             success: function(data) {
 
@@ -487,37 +513,37 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
 
       $scope.errorManager = function(query){
-
+        console.log("Error: " + query)
         switch (query) {
 
             case "appLogin":
 
-                $scope.displayError('There was an error logging in', '89');
+                $scope.displayError('There was an error logging in - 01', '89');
                 break;
 
             case "getTasks":
 
-                $scope.displayError('There was connection error', '89');
+                $scope.displayError('There was connection error - 02', '89');
                 break;
 
             case "gotoMessages":
 
-                $scope.displayError('There was connection error', '128');
+                $scope.displayError('There was connection error - 03', '128');
                 break;
 
             case "submitDataToTTS":
 
-                $scope.displayError('There was problem submitting your post', '128');
+                $scope.displayError('There was problem submitting your post - 04', '128');
                 break;
 
             case "doPoll":
 
-                $scope.displayError('Please check your network connection', '128');
+                $scope.displayError('Please check your network connection - 05', '128');
                 break;
 
              case "logout":
 
-                $scope.displayError('We could not log you out', '128');
+                $scope.displayError('We could not log you out - 06', '128');
                 break;
            
         }
@@ -863,8 +889,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             
                 if (obj.logout == "success") {
 
-                    $scope.username = "";
-                    $scope.password = "";
+                    //$scope.username = "";
+                    //$scope.password = "";
                     $scope.messageData = "";
 
                     $scope.loggedIn = false;
@@ -925,6 +951,19 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                return "icon-arrow"; 
             }
         }
+    };
+
+    $scope.openUserPanel = function(){
+
+        $scope.viewUserPanel = !$scope.viewUserPanel;
+        
+        
+    
+    }
+
+     $scope.openInfoPanel = function(){
+
+        $scope.viewInfoPanel = !$scope.viewInfoPanel
     }
 
 });

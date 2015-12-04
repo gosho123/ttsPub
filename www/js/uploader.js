@@ -232,7 +232,10 @@ function uploadProgress(e) { // upload process in progress
         document.getElementById('progress').style.width = (iPercentComplete).toString() + '%';
         //document.getElementById('progress_percent').style.left = (iPercentComplete).toString() + '%';
 
-        
+        if (iPercentComplete == 100){
+            document.getElementById('progress_percent_text').innerHTML = "OK"
+
+        }
         document.getElementById('b_transfered').innerHTML = iBytesTransfered;
         
     } else {

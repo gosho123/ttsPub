@@ -39,6 +39,18 @@ tts.resizeHandler = function(){
     jQuery('#appContainer').width((width * 4) + 100);
 }
 
+//// local storage
+
+function storeUser(u, p){
+    localStorage.setItem("username", u);
+    localStorage.setItem("password", p);
+}
+
+function getUser(x){
+    if (x == 'user'){return localStorage.getItem("username");}
+    if (x == 'pwd'){return localStorage.getItem("password");}
+}
+
 // Global call to return user idnentification, task and message id's from the scop to use outside of Angular
 
 function getID(ref){
