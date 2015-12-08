@@ -1,8 +1,10 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.20.2">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.21.0">
   <name>The Thinking Shed</name>
   <description>The Thinking Shed Mobile App v17</description>
   <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed Team</author>
   <content src="index.html"/>
+
+  <preference name='phonegap-version' value='cli-5.1.1' />
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="portrait"/>
   <preference name="target-device" value="universal"/>
@@ -36,19 +38,10 @@
   <gap:plugin name="org.apache.cordova.network-information"/>
   <gap:plugin name="org.apache.cordova.splashscreen"/>
   <gap:plugin name="org.apache.cordova.vibration"/>
+
   <icon src="icon.png"/>
 
-  <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
-  <icon src="www/res/icon/android/icon-48-mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
-  <icon src="www/res/icon/android/icon-72-hdpi.png" gap:platform="android" gap:qualifier="hdpi"/>
-  <icon src="www/res/icon/android/icon-96-xhdpi.png" gap:platform="android" gap:qualifier="xhdpi"/>
-  
-  <icon src="res/icon/ios/icon-57.png" gap:platform="ios" width="57" height="57"/>
-  <icon src="res/icon/ios/icon-72.png" gap:platform="ios" width="72" height="72"/>
-  <icon src="res/icon/ios/icon-57-2x.png" gap:platform="ios" width="114" height="114"/>
-  <icon src="res/icon/ios/icon-72-2x.png" gap:platform="ios" width="144" height="144"/>
-
-  <gap:splash src="www/res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
+  <!-- <gap:splash src="www/res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
   <gap:splash src="www/res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
   <gap:splash src="www/res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
   <gap:splash src="www/res/screen/android/screen-xhdpi-portrait.png" gap:platform="android" gap:qualifier="port-xhdpi"/>
@@ -63,21 +56,57 @@
   <gap:splash src="res/screen/ios/screen-ipad-landscape-2x.png" gap:platform="ios" width="2048" height="1536"/>
   <gap:splash src="res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="783"/>
   <gap:splash src="res/screen/ios/screen-ipad-portrait-2x.png" gap:platform="ios" width="1536" height="2048"/>
-  <gap:splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/>
+  <gap:splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/> -->
   
   <access origin="*"/>
+
   <!-- <plugin name="cordova-plugin-whitelist" version="1"/> -->
+
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
   <allow-intent href="sms:*"/>
   <allow-intent href="mailto:*"/>
   <allow-intent href="geo:*"/>
+
   <platform name="android">
+
+    <splash src="www/res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
+    <splash src="www/res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
+    <splash src="www/res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
+    <splash src="www/res/screen/android/screen-xhdpi-portrait.png" gap:platform="android" gap:qualifier="port-xhdpi"/>
+
+    <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
+    <icon src="www/res/icon/android/icon-48-mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
+    <icon src="www/res/icon/android/icon-72-hdpi.png" gap:platform="android" gap:qualifier="hdpi"/>
+    <icon src="www/res/icon/android/icon-96-xhdpi.png" gap:platform="android" gap:qualifier="xhdpi"/>
     <allow-intent href="market:*"/>
+
   </platform>
+
   <platform name="ios">
+
+    <splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480"/>
+    <splash src="res/screen/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960"/>
+    <splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136"/>
+
+    <splash src="res/screen/ios/screen-iphone-landscape-2x.png" gap:platform="ios" width="960" height="640"/>
+    <splash src="res/screen/ios/screen-iphone-landscape.png" gap:platform="ios" width="480" height="320"/>
+
+    <splash src="res/screen/ios/screen-ipad-landscape-2x.png" gap:platform="ios" width="2048" height="1536"/>
+    <splash src="res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="783"/>
+    <splash src="res/screen/ios/screen-ipad-portrait-2x.png" gap:platform="ios" width="1536" height="2048"/>
+    <splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/>
+
+    <icon src="res/icon/ios/icon-57.png" gap:platform="ios" width="57" height="57"/>
+    <icon src="res/icon/ios/icon-72.png" gap:platform="ios" width="72" height="72"/>
+    <icon src="res/icon/ios/icon-57-2x.png" gap:platform="ios" width="114" height="114"/>
+    <icon src="res/icon/ios/icon-72-2x.png" gap:platform="ios" width="144" height="144"/>
+
     <allow-intent href="itms:*"/>
     <allow-intent href="itms-apps:*"/>
+
   </platform>
+
+
 </widget>
