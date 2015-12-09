@@ -57,6 +57,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.viewUserPanel = false;
     $scope.viewInfoPanel = false;
 
+    $scope.unreadMessages = false;
+
     // HTML injectors
 
     $scope.errorhtml = function(header, text) {
@@ -267,6 +269,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.mid = "0";
                 }
 
+                if ($scope.unreadMessages == true){
+                    $scope.unreadMessages = false;
+                }
+
                 // remove spinner from task list
                 setTimeout(function(){ 
                     console.log($scope.taskLiskData.tasks.length)
@@ -351,6 +357,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     if ($scope.pingData.data != ""){
                         console.log("new message");
+                        $scope.unreadMessages = true;
                     }
                 },
 
@@ -471,7 +478,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             timeout: 8000
         });
 
-    }
+    };
 
     $scope.submitDataToTTS = function(){
 

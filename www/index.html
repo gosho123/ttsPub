@@ -36,11 +36,11 @@
 
             <div class="row nav-bottom" id="bottom-nav" ng-click="testTrans()">
 
-                <div id="global-controls">
-                    <div class="grid four icon-user" ng-click="openUserPanel()"></div>
-                    <!-- <div class="grid four icon-home3"><div id="notification">4</div></div> -->
-                    <div class="grid four push icon-info" ng-click="openInfoPanel()"></div>
-                </div>
+                <ul id="global-controls">
+                    <li class="grid four icon-user" ng-click="openUserPanel()"></li>
+                    <li class="pingClass grid four icon-bubbles2" ng-class="{'pingNotification': unreadMessages}"><div id="notification">!</li></li>
+                    <li class="grid four push icon-info" ng-click="openInfoPanel()"></li>
+                </ul>
 
             </div>
 

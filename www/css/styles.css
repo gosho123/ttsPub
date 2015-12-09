@@ -408,7 +408,6 @@ body::-webkit-scrollbar {
 }
 .nav-bottom div{
     text-align:center;
-    margin-top: 5px;
     font-size:100%;
 }
 .cell{ 
@@ -827,9 +826,9 @@ video{
     margin-left: 54%;
     margin-top: -30px;
     border: 3px solid #fff;
-    font-size: 11px;
+    font-size: 13px !important;
     font-weight: bold;
-    padding-top: 3px;
+    padding-top: 3px !important;
 }
 
 .appPanel{
@@ -847,8 +846,39 @@ video{
     margin-bottom:10px;
 }
 /* ---------------------------------------------------------- TEMP */
-#global-controls, #simple-controls{
-    
+#global-controls > li{
+    text-align: center;
+    font-size: 100%;
+    padding: 0;
+    height:100%;
+}
+
+#global-controls > li:before{
+    padding-top: 14px;
+    display: inline-block;
+}
+
+#global-controls > li{
+    border-right:1px solid #709319;
+    border-left:1px solid #b1d163;
+}
+
+#global-controls > li:first-child{
+    border-right:1px solid #709319;
+    border-left:none;
+}
+
+#global-controls > li:last-child{
+    border-right:none;
+    border-left:1px solid #b1d163;
+}
+
+.pingClass:before{
+    color:#709319;
+}
+
+.pingClass #notification{
+    display:none;
 }
 
 #simple-controls{
