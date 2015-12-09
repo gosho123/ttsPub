@@ -17,11 +17,13 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.TheThinkingShedRoot = "http://explore2.thethinkingshed.com";
     //$scope.goShoRoot = "http://www.tts-app.com/media";
     $scope.goShoRoot = "http://www.gs0.co/tts/media";
+    $scope.convertURL = "http://www.gs0.co/convert.php";
 
     $scope.loggedIn = false;
     $scope.userID = "";
     $scope.taskID = "";
     $scope.messageID = "";
+    $scope.pingData = "";
 
     $scope.liveScreen = liveScreen;
 
@@ -48,6 +50,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.connectionError = false;
     $scope.loginError = false;
     $scope.loadingMessages = false;
+
+    $scope.viewImage = false;
+    $scope.viewVideo = false;
 
     $scope.viewUserPanel = false;
     $scope.viewInfoPanel = false;
@@ -225,9 +230,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.gotoMessages = function(index, taskid, navType){
 
         for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
-
+            $scope.taskLiskData.tasks[i].clicked = false;
             if ($scope.taskLiskData.tasks[i].taskid == taskid){
-                $scope.taskLiskData.tasks[i].clicked = true;
+                //$scope.taskLiskData.tasks[i].clicked = true;
             }
         }
 
@@ -254,24 +259,29 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.messageData = JSON.parse(data.responseText);
 
-                console.log($scope.messageData)
-
-                console.log("$scope.messageData.length() " + $scope.messageData.length);
+                console.log("loaded message data:" + $scope.messageData);
                 
-                if ($scope.messageData >= 1){
+                if ($scope.messageData.length > 1){
                     $scope.mid = $scope.messageData[1].mid;
+                } else {
+                    $scope.mid = "0";
                 }
 
                 // remove spinner from task list
                 setTimeout(function(){ 
+                    console.log($scope.taskLiskData.tasks.length)
                     
-                    for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
+                    //for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
 
-                        if ($scope.taskLiskData.tasks[i].taskid == taskid){
 
-                            $scope.taskLiskData.tasks[i].clicked = false;
-                        }
-                    }
+
+                        //if ($scope.taskLiskData.tasks[i].taskid == taskid){
+
+                            //$scope.taskLiskData.tasks[i].clicked = false;
+                            //console.log('clicked = ' + $scope.taskLiskData.tasks[i].clicked + " tasks.description: " + $scope.taskLiskData.tasks[i].description)
+                            //$scope.$apply();
+                        //}
+                   // }
                 }, 500);
 
                 $scope.$apply();
@@ -309,6 +319,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.doPoll = function(){
 
+        $scope.pingData = "";
+
         if ($scope.allowPolling == true){
 
             var pjq = jQuery.noConflict();
@@ -316,7 +328,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.submitParams = []
             $scope.submitParams.push("max=" + $scope.mid);
             $scope.submitParams.push("task=" + $scope.taskID);
-
+            console.log("ping - max: "+$scope.mid+", taskID: "+$scope.taskID)
 
             pjq.ajax({
 
@@ -329,12 +341,17 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 data: $scope.submitParams.join("&"),
 
                 success: function(data) {
-                    
-                    
                 },
 
                 complete: function (data) {
 
+                    $scope.pingData = JSON.parse(data.responseText);
+
+                    console.log("$scope.pingData " + $scope.pingData.data);
+
+                    if ($scope.pingData.data != ""){
+                        console.log("new message");
+                    }
                 },
 
                 error: function(a,b,c) {
@@ -411,6 +428,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.uploadFinished = function(userID, taskID, messageID){ 
 
         $scope.submitDataToTTS();
+        //$scope.goshoUpdate()
 
         /* DEBUGGING
 
@@ -424,7 +442,36 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         changeUI('removeMedia', 'display', 'none');*/
     }
 
+    $scope.goshoUpdate = function(){
 
+        var pjq = jQuery.noConflict();
+
+        $scope.params = []
+
+        $scope.params.push("mediaID=" + $scope.mediaString);
+        $scope.params.push("format=" + $scope.mimeType);
+
+        pjq.ajax({
+            url: $scope.convertURL,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: { withCredentials: true },
+            data: $scope.params.join("&"),
+
+            success: function(data) {
+            },
+
+            complete: function (data) {
+            },
+
+            error: function(a,b,c) {
+            },
+
+            timeout: 8000
+        });
+
+    }
 
     $scope.submitDataToTTS = function(){
 
@@ -650,9 +697,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
-    $scope.viewImage = false;
-    $scope.viewVideo = false;
-
     $scope.imageSource = "";
     $scope.vidSource = "";
 
@@ -836,7 +880,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.viewVideo = false;
             jQuery('#angularVideo').html(''); 
 
-        } else if ($scope.liveScreen == "reply"){
+        } else if ($scope.liveScreen == "reply" || $scope.liveScreen == "messages"){
 
             $scope.backToMessages();
         
@@ -907,6 +951,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.mimeType = "";
                     $scope.mid = "";
                     $scope.errorMessage = "";
+
+                    $scope.viewUserPanel = false;
+                    $scope.viewInfoPanel = false;
+
+                    $scope.viewImage = false;
+                    $scope.viewVideo = false;
 
                     $scope.$apply();
 
