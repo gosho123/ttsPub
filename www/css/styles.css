@@ -576,7 +576,7 @@ body::-webkit-scrollbar {
     top:-90px;
     color:#fff;
     text-align:center;
-    height:90px;
+    height:80px;
 }
 
 .errorIcon{
@@ -596,10 +596,11 @@ body::-webkit-scrollbar {
 
 .errorMessage h2, #errorPopUp h2{
  margin-bottom:5px;  
- font-size: 20px; 
+ font-size: 16px; 
 }
 
 .errorMessage p{
+    font-size:12px;
 }
 /* messaging */
 
@@ -874,7 +875,7 @@ video{
 }
 
 .pingClass:before{
-    color:#709319;
+    color:#fff;
 }
 
 .pingClass #notification{

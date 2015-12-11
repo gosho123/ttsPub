@@ -358,6 +358,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     if ($scope.pingData.data != ""){
                         console.log("new message");
                         $scope.unreadMessages = true;
+                        $scope.$apply();
                     }
                 },
 
@@ -866,7 +867,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             // activate polling
 
-            if ($scope.liveScreen == "messages"){
+            if (($scope.liveScreen == "messages") || $scope.liveScreen == "reply"){
                 $scope.allowPolling = true;
             } else {
                 $scope.allowPolling = false;
@@ -1010,11 +1011,17 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         }
     };
 
+    $scope.getFooterSectionClass = function(){
+        if ($scope.unreadMessages == true){
+            return 'four';
+        } else {
+            return 'six'; 
+        }
+    }
+
     $scope.openUserPanel = function(){
 
         $scope.viewUserPanel = !$scope.viewUserPanel;
-        
-        
     
     }
 
