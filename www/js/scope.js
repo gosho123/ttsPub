@@ -1,4 +1,4 @@
-console.log("TTS App - v17")
+console.log("TTS App - v24")
 
 //////////////////////////****  MY ACCOUNT CONTROLLER FUNCTIONS ***/////////////////////  
 var taskListLink = "taskList.json";
@@ -17,7 +17,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.TheThinkingShedRoot = "http://explore2.thethinkingshed.com";
     //$scope.goShoRoot = "http://www.tts-app.com/media";
     $scope.goShoRoot = "http://www.gs0.co/tts/media";
-    $scope.convertURL = "http://www.gs0.co/convert.php";
+    $scope.convertURL = "http://www.gs0.co/tts/convert.php";
 
     $scope.loggedIn = false;
     $scope.userID = "";
@@ -436,7 +436,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.uploadFinished = function(userID, taskID, messageID){ 
 
         $scope.submitDataToTTS();
-        //$scope.goshoUpdate()
+        $scope.goshoUpdate()
 
         /* DEBUGGING
 
@@ -452,12 +452,14 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.goshoUpdate = function(){
 
+        console.log("converting Video " + $scope.mediaString + "." + $scope.mediaSuffix)
+
         var pjq = jQuery.noConflict();
 
         $scope.params = []
 
         $scope.params.push("mediaID=" + $scope.mediaString);
-        $scope.params.push("format=" + $scope.mimeType);
+        $scope.params.push("format=" + $scope.mediaSuffix);
 
         pjq.ajax({
             url: $scope.convertURL,
@@ -718,10 +720,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             vidSource = '<video id="videoPlayer" webkit-playsinline controls width="100%" height="auto" preload="metadata" ' + 
                             'poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
-                            '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.ogg') +'" type="video/ogg">' + 
+                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.ogg') +'" type="video/ogg">' + 
                             //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.webm') +'" type="video/webm">'+
                             '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mov') + '" type="video/quicktime">' +
-                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' +
+                            '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' +
                             
                             '</video>';
 
