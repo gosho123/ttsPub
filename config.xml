@@ -1,6 +1,6 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.22.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.24.0">
   <name>The Thinking Shed</name>
-  <description>The Thinking Shed Mobile App v17</description>
+  <description>The Thinking Shed Mobile App</description>
   <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed Team</author>
   <content src="index.html"/>
 
