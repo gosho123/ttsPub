@@ -167,7 +167,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     /////////////////////////////////////////////////
 
-    $scope.getTasks = function(){
+    $scope.getTasks = function(nav){
 
         if ($scope.connectionError == true){
             $scope.closeError();
@@ -200,7 +200,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.$apply();
 
-                $scope.proceedApp('taskList')
+                if (nav != 'back'){ 
+
+                    $scope.proceedApp('taskList');
+                }
 
             },
 
@@ -890,9 +893,15 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.viewVideo = false;
             jQuery('#angularVideo').html(''); 
 
-        } else if ($scope.liveScreen == "reply" || $scope.liveScreen == "messages"){
+        } else if ($scope.liveScreen == "reply"){
 
             $scope.backToMessages();
+
+        } else if ($scope.liveScreen == "messages"){
+
+            $scope.screenArray.pop();
+            $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-right');
+            $scope.getTasks('back');
         
         } else {
 
