@@ -595,7 +595,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             case "doPoll":
 
-                $scope.displayError('Please check your network connection - 05', '128');
+                //$scope.displayError('Please check your network connection - 05', '128');
                 break;
 
              case "logout":
