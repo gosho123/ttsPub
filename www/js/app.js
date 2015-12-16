@@ -1,18 +1,24 @@
-var liveScreen = "login";
+jQuery( document ).ready(function() {
 
-var width = jQuery(window).width();
-var height = jQuery(window).height();
+    console.log(getID('userID') + "_" + getID('taskID') + "_" + getID('messageID'));
 
-jQuery('.app-screen').each(function() { // loop through the screens
-    jQuery(this).width(width);
-    jQuery(this).height(height);
+    var width = jQuery(document).width();
+    var height = jQuery(document).height();
+
+    console.log(height)
+
+    jQuery('.app-screen').each(function() { // loop through the screens
+        jQuery(this).width(width);
+        jQuery(this).height(height);
+    });
+
+    jQuery('#appContainer').width((width * 4) + 100);
+
+    jQuery('.wrapper').css({opacity: 1})
+
 });
 
-
-
-jQuery('#appContainer').width((width * 4) + 100);
-
-jQuery('#screen-'+liveScreen).addClass('top-layer');
+var liveScreen = "login";
 
 if (liveScreen == "login"){
     jQuery('.nav-top').hide();
@@ -24,12 +30,16 @@ var tts = tts || {};
 tts.width = jQuery(window).width();
 tts.height = jQuery(window).height();
 
+
+jQuery('#screen-'+liveScreen).addClass('top-layer');
+
+
 /////////////////////////////////////
 
 tts.resizeHandler = function(){
 
-    width = jQuery(window).width();
-    height = jQuery(window).height();
+    width = jQuery(document).width();
+    height = jQuery(document).height();
 
     jQuery('.app-screen').each(function() { // loop through the screens
         jQuery(this).width(width);
@@ -66,9 +76,7 @@ function getID(ref){
 
 }
 
-jQuery( document ).ready(function() {
-    console.log(getID('userID') + "_" + getID('taskID') + "_" + getID('messageID'))
-});
+
 
 //////////////////////////////////
 

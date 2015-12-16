@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v25</div>
+            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v26</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()" ng-show->Back</div>    
@@ -242,9 +242,17 @@
                    
                     <div class="row">
                         <div class="grid twelve">
-                            <h2>The Thinking Shed App</h2>
-                            <p>User information</p>
+                            <h1>Your information</h1>
+
+                            <p>Full Name</p>
+                            <h3>{{user_fullName}}</h3>
+
+                            <p>Username</p>
+                            <h3>{{user_userName}}</h3>
+
+                            <img ng-src="{{user_userProfile}}" />
                             <hr>
+
                             <button class="buttonStyle btn-tertiary" ng-click="openUserPanel()">Close</button>
                         </div>
                     </div>

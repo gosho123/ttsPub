@@ -59,6 +59,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.unreadMessages = false;
 
+    $scope.userData = "";
+    $scope.user_userName = "";
+    $scope.user_fullName = "";
+    $scope.user_userProfile = "";
+
     // HTML injectors
 
     $scope.errorhtml = function(header, text) {
@@ -136,6 +141,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                         $scope.userID = obj.id;
                         storeUser($scope.username, $scope.password);
                         $scope.getTasks();
+                        $scope.getUserData();
                         $scope.loggedIn = true;
 
 
@@ -155,7 +161,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 error: function(a,b,c) {
 
-                    $scope.errorManager('appLogin');
+                    $scope.errorManager('appLogin', c);
                 },
 
                 timeout: 8000
@@ -166,6 +172,40 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
 
     /////////////////////////////////////////////////
+
+    $scope.getUserData = function(){
+
+        var pjq = jQuery.noConflict();
+
+        pjq.ajax({
+            url: $scope.TheThinkingShedRoot + "/en/appl/whoami",
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: { withCredentials: true },
+            timeout: 10000,
+
+            success: function(data) {
+
+            },
+
+            complete: function (data) {
+
+                $scope.userData = JSON.parse(data.responseText);
+                
+                $scope.user_userName = $scope.userData.username;
+                $scope.user_fullName = $scope.userData.fullname;
+                $scope.user_userProfile = $scope.TheThinkingShedRoot + $scope.userData.image;
+
+            },
+
+            error: function(a,b,c) {
+
+                //$scope.errorManager('getTasks', c);
+            },
+        });
+
+    }
 
     $scope.getTasks = function(nav){
 
@@ -209,7 +249,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             error: function(a,b,c) {
 
-                $scope.errorManager('getTasks');
+                $scope.errorManager('getTasks', c);
             },
         });
 
@@ -305,7 +345,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             },
 
             error: function(a,b,c) {
-                $scope.errorManager('gotoMessages');
+
+
+                $scope.errorManager('gotoMessages', c);
                 
                 for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
 
@@ -536,7 +578,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             },
 
             error: function(a,b,c) {
-                $scope.errorManager('submitDataToTTS');
+                $scope.errorManager('submitDataToTTS', c);
             },
 
             timeout: 2000
@@ -572,40 +614,48 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
 
 
-      $scope.errorManager = function(query){
-        console.log("Error: " + query)
-        switch (query) {
+      $scope.errorManager = function(query, msg){
+        console.log("Error: " + query + "msg: " + msg);
 
-            case "appLogin":
+        if (msg == 'Unauthorized'){
 
-                $scope.displayError('There was an error logging in - 01', '89');
-                break;
+            $scope.loginReset();
 
-            case "getTasks":
+        } else {
 
-                $scope.displayError('There was connection error - 02', '89');
-                break;
+            switch (query) {
 
-            case "gotoMessages":
+                case "appLogin":
 
-                $scope.displayError('There was connection error - 03', '128');
-                break;
+                    $scope.displayError('There was an error logging in - 01', '89');
+                    break;
 
-            case "submitDataToTTS":
+                case "getTasks":
 
-                $scope.displayError('There was problem submitting your post - 04', '128');
-                break;
+                    $scope.displayError('There was connection error - 02', '89');
+                    break;
 
-            case "doPoll":
+                case "gotoMessages":
 
-                //$scope.displayError('Please check your network connection - 05', '128');
-                break;
+                    $scope.displayError('There was connection error - 03', '128');
+                    break;
 
-             case "logout":
+                case "submitDataToTTS":
 
-                $scope.displayError('We could not log you out - 06', '128');
-                break;
-           
+                    $scope.displayError('There was problem submitting your post - 04', '128');
+                    break;
+
+                case "doPoll":
+
+                    //$scope.displayError('Please check your network connection - 05', '128');
+                    break;
+
+                 case "logout":
+
+                    $scope.displayError('We could not log you out - 06', '128');
+                    break;
+               
+            }
         }
     }
 
@@ -952,35 +1002,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             
                 if (obj.logout == "success") {
 
-                    //$scope.username = "";
-                    //$scope.password = "";
-                    $scope.messageData = "";
-
-                    $scope.loggedIn = false;
-                    $scope.loggingIn = false;
-                    $scope.userID = "";
-                    $scope.taskID = "";
-                    $scope.messageID = "";
-
-                    $scope.taskLiskData = [];
-
-                    $scope.messageText = "";
-                    $scope.mediaString  = "";
-                    $scope.mediaSuffix = "";
-                    $scope.mimeType = "";
-                    $scope.mid = "";
-                    $scope.errorMessage = "";
-
-                    $scope.viewUserPanel = false;
-                    $scope.viewInfoPanel = false;
-
-                    $scope.viewImage = false;
-                    $scope.viewVideo = false;
-
-                    $scope.$apply();
-
-                    $scope.screenArray = ["login"];
-                    $scope.changeScreen("login", 'swipe-right');
+                    $scope.loginReset();
                     
                     
                 } else {
@@ -995,6 +1017,38 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             }
         });
 
+
+    }
+
+    $scope.loginReset = function(){
+
+        $scope.messageData = "";
+
+        $scope.loggedIn = false;
+        $scope.loggingIn = false;
+        $scope.userID = "";
+        $scope.taskID = "";
+        $scope.messageID = "";
+
+        $scope.taskLiskData = [];
+
+        $scope.messageText = "";
+        $scope.mediaString  = "";
+        $scope.mediaSuffix = "";
+        $scope.mimeType = "";
+        $scope.mid = "";
+        $scope.errorMessage = "";
+
+        $scope.viewUserPanel = false;
+        $scope.viewInfoPanel = false;
+
+        $scope.viewImage = false;
+        $scope.viewVideo = false;
+
+        $scope.$apply();
+
+        $scope.screenArray = ["login"];
+        $scope.changeScreen("login", 'swipe-right');
 
     }
 
