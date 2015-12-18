@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v26</div>
+            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v27</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()" ng-show->Back</div>    
@@ -242,7 +242,8 @@
                    
                     <div class="row">
                         <div class="grid twelve">
-                            <h1>Your information</h1>
+                            <button class="buttonStyle btn-tertiary" ng-click="openUserPanel()">Close</button>
+                            <h2>Your information</h2>
 
                             <p>Full Name</p>
                             <h3>{{user_fullName}}</h3>
@@ -251,22 +252,27 @@
                             <h3>{{user_userName}}</h3>
 
                             <img ng-src="{{user_userProfile}}" />
-                            <hr>
 
-                            <button class="buttonStyle btn-tertiary" ng-click="openUserPanel()">Close</button>
+                            
                         </div>
                     </div>
 
                 </div>
 
-                <div ng-show="viewInfoPanel" class="appPanel">               
+                <div ng-show="viewInfoPanel" class="appPanel scroll-screen">               
                    
                     <div class="row">
                         <div class="grid twelve">
-                            <h2>The Thinking Shed App</h2>
-                            <p>App information</p>
-                            <hr>
                             <button class="buttonStyle btn-tertiary" ng-click="openInfoPanel()">Close</button>
+                            <h2>{{project_name}}</h2>
+                            <p>{{project_description}}</p>
+                            <hr>
+                            <p>Introduction</p>
+                            <p class="descriptionText" ng-bind-html="project_intro"></p>
+                            <p>What do you need to do</p>
+                            <p class="descriptionText" ng-bind-html="project_what"></p>
+                            <p>Other instructions</p>
+                            <p class="descriptionText" ng-bind-html="project_other"></p>
                         </div>
                     </div>
 

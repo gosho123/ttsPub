@@ -64,6 +64,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.user_fullName = "";
     $scope.user_userProfile = "";
 
+    $scope.project_name = "";
+    $scope.project_description = "";
+    $scope.project_intro = "";
+    $scope.project_what = "";
+    $scope.project_other = "";
+
     // HTML injectors
 
     $scope.errorhtml = function(header, text) {
@@ -140,8 +146,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                         $scope.userID = obj.id;
                         storeUser($scope.username, $scope.password);
+
                         $scope.getTasks();
                         $scope.getUserData();
+                        
+
                         $scope.loggedIn = true;
 
 
@@ -197,6 +206,49 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 $scope.user_fullName = $scope.userData.fullname;
                 $scope.user_userProfile = $scope.TheThinkingShedRoot + $scope.userData.image;
 
+                $scope.getProjectData();
+
+            },
+
+            error: function(a,b,c) {
+
+                //$scope.errorManager('getTasks', c);
+            },
+        });
+
+    }
+
+    /////////////////////////////////////////////////
+
+    $scope.getProjectData = function(){
+
+        var pjq = jQuery.noConflict();
+
+        pjq.ajax({
+            url: $scope.TheThinkingShedRoot + "/en/appl/project",
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: { withCredentials: true },
+            timeout: 10000,
+
+            success: function(data) {
+
+            },
+
+            complete: function (data) {
+
+                
+
+                $scope.projectData = JSON.parse(data.responseText);
+                
+                console.log($scope.projectData);
+                
+                $scope.project_name = $scope.projectData.project;
+                $scope.project_description = $scope.projectData.description;
+                $scope.project_intro = $scope.projectData.about;
+                $scope.project_what = $scope.projectData.tasks;
+                $scope.project_other = $scope.projectData.other;
             },
 
             error: function(a,b,c) {

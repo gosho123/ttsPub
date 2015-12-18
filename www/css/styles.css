@@ -842,10 +842,12 @@ video{
     top:0;
     left: 0;
     text-align: center;
-    padding-top:50px;
     z-index:5000;
 }
-.appPanel h1, .appPanel h3{
+.appPanel .descriptionText{
+    font-size:12px;
+}
+.appPanel h1, .appPanel h3, .appPanel p, .appPanel h2{
     margin-bottom:10px;
 }
 

@@ -1,11 +1,10 @@
 jQuery( document ).ready(function() {
 
-    console.log(getID('userID') + "_" + getID('taskID') + "_" + getID('messageID'));
 
     var width = jQuery(document).width();
     var height = jQuery(document).height();
 
-    console.log(height)
+    console.log(height);
 
     jQuery('.app-screen').each(function() { // loop through the screens
         jQuery(this).width(width);
