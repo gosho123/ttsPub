@@ -843,6 +843,7 @@ video{
     left: 0;
     text-align: center;
     z-index:5000;
+    padding-top: 50px;
 }
 .appPanel .descriptionText{
     font-size:12px;
