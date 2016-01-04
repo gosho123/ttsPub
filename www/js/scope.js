@@ -56,6 +56,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.viewUserPanel = false;
     $scope.viewInfoPanel = false;
+    $scope.showBack = false;
 
     $scope.unreadMessages = false;
 
@@ -356,7 +357,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.messageData = JSON.parse(data.responseText);
 
-                console.log("loaded message data:" + $scope.messageData);
+                console.log("loaded message data:" + $scope.messageData[0].taskdescription);
                 
                 if ($scope.messageData.length > 1){
                     $scope.mid = $scope.messageData[1].mid;
@@ -938,6 +939,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.connectionError = false;
         }
 
+
+        
+
+        
+
         old = $scope.liveScreen;
 
         if (next != old){
@@ -966,18 +972,29 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     }
             });
-            // Screen functions
 
+            // Screen functions
             if ($scope.liveScreen == "reply"){
                 setUpUi();
             }
 
-            // activate polling
+            // hide / show back button
+            $scope.showBack = true;
+            if (next == "taskList"){
+                $scope.showBack = false;
+            }
 
+            // activate polling
             if (($scope.liveScreen == "messages") || $scope.liveScreen == "reply"){
                 $scope.allowPolling = true;
             } else {
                 $scope.allowPolling = false;
+            }
+
+
+            /// update $scope
+            if (!$scope.$$phase) { // check if digest already in progress
+                $scope.$apply(); // launch digest;
             }
 
         }
