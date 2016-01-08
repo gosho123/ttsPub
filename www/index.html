@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v29</div>
+            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v30</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>    
@@ -174,7 +174,7 @@
 
                                         <div class="grid twelve box">
 
-                                            <p id="introMessage" class="light-text">Reply to Message</p>
+                                            <p id="introMessage" class="light-text">{{uploadMessage}}</p>
                                         <div>
 
                                         <form name="messageForm" id="upload_form" enctype="multipart/form-data">
@@ -198,17 +198,23 @@
                                                 <div id="filetype"></div>
                                                 <div id="filedim"></div>
                                             </div>
-                                            <div id="error">You should select valid image or video files only!</div>
-                                            <div id="error2">An error occurred while uploading the file</div>
-                                            <div id="abort">The upload has been canceled by the user or the browser dropped the connection</div>
-                                            <div id="warnsize">Your file is very big. We can't accept it. Please select more small file</div>
+                                            
 
-                                            <div id="progress_info">
+                                            <div id="progress_info" ng-hide="uploadError">
                                                 <div class="load-bar center">
                                                     <div class="load-bar-progress" id="progress"></div>
                                                     <div id="progress_percent"><p id="progress_percent_text"></p></div>
                                                 </div>
                                             </div>
+
+                                            <div ng-show="uploadError">
+                                                <p id="error">You should select valid image or video files only!</p>
+                                                <p id="error2">An error occurred while uploading the file</p>
+                                                <p id="abort">The upload has been canceled by the user or the browser dropped the connection</p>
+                                                <p id="warnsize">Your file is very big. We can't accept it. Please select more small file</p>
+                                            </div>
+
+                                            <button style="margin-top:10px" ng-show="uploadError" class="buttonStyle btn-primary-red" ng-click="retryUpload()">Try again</button>
 
                                             <div style="display:none" id="uploadComplete">
                                                 <p class="row light-text">Thank you</p>

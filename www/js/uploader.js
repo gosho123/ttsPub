@@ -239,7 +239,7 @@ function uploadProgress(e) { // upload process in progress
         document.getElementById('b_transfered').innerHTML = iBytesTransfered;
         
     } else {
-        document.getElementById('progress').innerHTML = 'unable to compute';
+        displayUploadError();
     }
 }
 
@@ -251,7 +251,7 @@ function uploadFinish(e) { // upload successfully finished
 
     displayConfirmMessage();
 
-     // post data to TTS server
+    // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
     angularScope.$apply(function(){
@@ -283,11 +283,21 @@ function displayConfirmMessage(){
 function uploadError(e) { // upload error
     document.getElementById('error2').style.display = 'block';
     clearInterval(oTimer);
-    console.log("uploadError");
+    displayUploadError();
 }  
 
 function uploadAbort(e) { // upload abort
     document.getElementById('abort').style.display = 'block';
     clearInterval(oTimer);
-    console.log("uploadAbort");
+    displayUploadError();
+}
+
+function displayUploadError(){
+    console.log("_____________ ERROR")
+    // post data to TTS server
+    var angularScope = angular.element(document.querySelector('#tts-app')).scope();
+
+    angularScope.$apply(function(){
+        angularScope.uploadErrorHandler();
+    })
 }

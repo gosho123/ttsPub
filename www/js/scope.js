@@ -51,6 +51,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.loginError = false;
     $scope.loadingMessages = false;
 
+    $scope.uploadError = false;
+
     $scope.viewImage = false;
     $scope.viewVideo = false;
 
@@ -70,6 +72,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.project_intro = "";
     $scope.project_what = "";
     $scope.project_other = "";
+
+    $scope.uploadMessage = "Reply to Message";
 
     // HTML injectors
 
@@ -484,6 +488,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.mediaString = "TTS-" + $scope.userID +'_'+ $scope.taskID +'_'+ $scope.messageID;
 
+        $scope.uploadMessage = "Uploading media... Please wait";
+
         if ($scope.weHaveMedia == true){
 
             startUploading($scope.userID, $scope.taskID, $scope.messageID);// external upload.js function
@@ -531,6 +537,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.submitDataToTTS();
         $scope.goshoUpdate()
 
+        $scope.uploadMessage = "Finishing... Please wait"
         /* DEBUGGING
 
         $scope.resetForm();
@@ -644,6 +651,32 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.checkMessage();
     }
 
+    $scope.uploadErrorHandler = function(){
+
+        $scope.uploadMessage = "There was an error";
+        $scope.uploadError = true;
+
+        /// update $scope
+        if (!$scope.$$phase) { // check if digest already in progress
+            $scope.$apply(); // launch digest;
+        }
+
+        console.log("Angular Error")
+    }
+
+    $scope.retryUpload = function(){
+
+        $scope.uploadMessage = "Reply to Message";
+        $scope.uploadError = false;
+
+        changeUI('uploadFileTrigger', 'display', 'block');
+        changeUI('selectFileTrigger', 'display', 'block');
+        changeUI('progress_info', 'display', 'none');
+        changeUI('messageText', 'display', 'block');
+        changeUI('preview', 'display', 'block');
+        changeUI('removeMedia', 'display', 'block');
+    }
+
     $scope.resetForm = function(){
 
         $scope.messageForm.$setPristine();
@@ -653,6 +686,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.mediaString  = "";
         $scope.mediaSuffix = "";
         $scope.mimeType = "";
+        $scope.uploadError = false;
         setUpUi();// uploader.js
 
     }
@@ -660,7 +694,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
-
 
       $scope.errorManager = function(query, msg){
 
@@ -935,11 +968,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.connectionError = false;
         }
 
-
-        
-
-        
-
         old = $scope.liveScreen;
 
         if (next != old){
@@ -956,7 +984,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 jQuery('.nav-bottom').show();
             }
 
-
             // transition 
             jQuery('#screen-'+next).addClass('top-layer');
 
@@ -972,6 +999,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             // Screen functions
             if ($scope.liveScreen == "reply"){
                 setUpUi();
+                $scope.uploadMessage = "Reply to Message";
+                $scope.uploadError = false;
             }
 
             // hide / show back button
@@ -1109,6 +1138,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.viewImage = false;
         $scope.viewVideo = false;
+
+        $scope.uploadError = false;
 
         $scope.$apply();
 
