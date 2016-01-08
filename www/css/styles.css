@@ -395,7 +395,7 @@ body::-webkit-scrollbar {
 
 .nav-bottom{
     position: absolute;
-    height: 50px;
+    height: 40px;
     width:100%;
     bottom: 0;
     z-index:101;
@@ -543,6 +543,10 @@ body::-webkit-scrollbar {
     font-size: 16px;
     padding: 12px;
     margin-bottom:10px;
+}
+
+#removeMedia{
+    margin-bottom:40px;
 }
 .load-bar{
     border-radius:25px;
@@ -865,7 +869,7 @@ video{
 }
 
 #global-controls > li:before{
-    padding-top: 14px;
+    padding-top: 9px;
     display: inline-block;
 }
 

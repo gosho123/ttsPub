@@ -20,7 +20,7 @@
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v28 - {{showBack}} - {{liveScreen}}</div>
+            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v29</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>    
@@ -66,7 +66,8 @@
 
                                             <button ng-click="appLogin()" class="btn-primary animate-hide" href="#" id="login-button" ng-hide="loggingIn"><p class="btn-icon btn-arrow">Log in</p></button>
 
-                                            <a class="form-link animate-hide" href="#" ng-hide="loggingIn">Lost your password?</a>
+
+                                            <a class="form-link animate-hide" onclick="lostPasswordLink ('http://explore.thethinkingshed.com/en/password_reset')" ng-hide="loggingIn">Lost your password?</a>
 
                                             <div ng-show="loggingIn" class="icon-spinner5 spin-loader animate-hide"></div>
 
@@ -88,7 +89,7 @@
 
                                             <li ng-repeat="tasks in taskLiskData.tasks | orderBy:'taskorder'" ng-click="loadMessages($index, tasks.taskid, 'forward', tasks.isenabled)" ng-class=taskActive(tasks.isenabled)>
                                                 <div class="ten cell center-cell">
-                                                    <div class="task-text">{{tasks.description}}
+                                                    <div class="task-text" ng-bind-html="deliberatelyTrustDangerousSnippet(tasks.description)">
                                                         <!--<br><small style="font-size:9px">isenabled: {{tasks.isenabled}}, hasmodresp: {{tasks.hasmodresp}}</small>-->
                                                     </div>
 
@@ -123,7 +124,9 @@
 
                                         <p class="task-description" ng-bind-html="messageData[0].taskdescription"></p>
 
-                                        <img class="row modIntroImage" ng-if="messageData[0].media[0].media" ng-src="{{getMediaURL(0, messageData[0].media[0].media, messageData[0].media[0].type)}}" altSrc="{{getAltImage()}}"/>
+                                        <div ng-repeat="image in messageData[0].media">
+                                            <img class="row modIntroImage" ng-src="{{getMediaURL(0, image.media, image.type)}}"/>
+                                        </div>
 
                                         <div class="divider"></div>
 
@@ -165,7 +168,7 @@
                             </div>
                             <!-- APP SCREEN END  -->
 
-                            <div class="app-screen" id="screen-reply">
+                            <div class="app-screen scroll-screen" id="screen-reply">
                                 <div class="row">
                                     <div class="grid twelve">
 

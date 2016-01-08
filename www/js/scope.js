@@ -73,6 +73,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     // HTML injectors
 
+    $scope.deliberatelyTrustDangerousSnippet = function(txt) {
+        return $sce.trustAsHtml(txt);
+    };
+
     $scope.errorhtml = function(header, text) {
 
         return '<div class="errorMessage"><h2>'+header+'</h2><p>'+text+'</p><a><p>Tap here to close and try again.</p></a></div>';
@@ -100,7 +104,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         // Sorry! No Web Storage support..
     }
 
-
+    function lostPasswordLink (link){window.open(link, '_system', 'location=no');}
 
     $scope.appLogin = function(){
 
@@ -140,8 +144,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 success: function(data) {
 
                     var obj = data;
-
-                    console.log("obj.login " + obj.login )
                     
                     if (obj.login == "success") {
 
@@ -156,7 +158,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
 
                     } else {
-                        console.log(obj.login)
                         $scope.loginError = true;
                         $scope.loggingIn = false;
 
@@ -242,8 +243,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 
 
                 $scope.projectData = JSON.parse(data.responseText);
-                
-                console.log($scope.projectData);
                 
                 $scope.project_name = $scope.projectData.project;
                 $scope.project_description = $scope.projectData.description;
@@ -357,7 +356,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.messageData = JSON.parse(data.responseText);
 
-                console.log("loaded message data:" + $scope.messageData[0].taskdescription);
+                console.log($scope.messageData);
                 
                 if ($scope.messageData.length > 1){
                     $scope.mid = $scope.messageData[1].mid;
@@ -371,7 +370,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 // remove spinner from task list
                 setTimeout(function(){ 
-                    console.log($scope.taskLiskData.tasks.length)
                     
                     //for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
 
@@ -432,7 +430,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.submitParams = []
             $scope.submitParams.push("max=" + $scope.mid);
             $scope.submitParams.push("task=" + $scope.taskID);
-            console.log("ping - max: "+$scope.mid+", taskID: "+$scope.taskID)
 
             pjq.ajax({
 
@@ -450,8 +447,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 complete: function (data) {
 
                     $scope.pingData = JSON.parse(data.responseText);
-
-                    console.log("$scope.pingData " + $scope.pingData.data);
 
                     if ($scope.pingData.data != ""){
                         console.log("new message");
@@ -668,6 +663,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
 
       $scope.errorManager = function(query, msg){
+
         console.log("Error: " + query + "msg: " + msg);
 
         if (msg == 'Unauthorized'){

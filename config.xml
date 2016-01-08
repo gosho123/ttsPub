@@ -1,8 +1,10 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.27.2">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.29">
   <name>The Thinking Shed</name>
   <description>The Thinking Shed Mobile App</description>
   <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed Team</author>
   <content src="index.html"/>
+
+  <access origin="*" browserOnly="true"/>
 
   <preference name='phonegap-version' value='cli-5.1.1' />
   <preference name="permissions" value="none"/>
@@ -58,7 +60,6 @@
   <gap:splash src="res/screen/ios/screen-ipad-portrait-2x.png" gap:platform="ios" width="1536" height="2048"/>
   <gap:splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/> -->
   
-  <access origin="*"/>
 
   <!-- <plugin name="cordova-plugin-whitelist" version="1"/> -->
 
