@@ -1,5 +1,5 @@
-jQuery( document ).ready(function() {
 
+jQuery( document ).ready(function() {
 
     var width = jQuery(document).width();
     var height = jQuery(document).height();

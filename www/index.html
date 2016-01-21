@@ -15,12 +15,14 @@
 
     <script src="js/angular.min.js"></script>
     <script src="js/angular-sanitize.js"></script>
+
+    <script src="js/cordova.js"></script>
     
  </head>
 <body>
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div id="debug" style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center" >v30</div>
+            <div style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center">v31</div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>    
@@ -31,14 +33,14 @@
                 <h2>Sorry!</h2>
                 <div class="icon-warning errorIcon"></div>
                 <p>{{errorMessage}}</p>
-                <a><p>Tap here to close and try again.</p></a>
+                <a><p>Tap here to close.</p></a>
             </div>
 
             <div class="row nav-bottom" id="bottom-nav" ng-click="testTrans()">
 
                 <ul id="global-controls">
                     <li class="grid icon-user" ng-class="getFooterSectionClass()" ng-click="openUserPanel()"></li>
-                    <li ng-show="unreadMessages" class="pingClass grid four icon-bubbles2" ng-class="{'pingNotification': unreadMessages}"><div id="notification">!</li></li>
+                    <li ng-click="newMessageClick()" ng-show="unreadMessages" class="pingClass grid four icon-bubbles2" ng-class="{'pingNotification': unreadMessages}"><div id="notification">!</li></li>
                     <li class="grid push icon-info" ng-class="getFooterSectionClass()" ng-click="openInfoPanel()"></li>
                 </ul>
 
@@ -67,7 +69,13 @@
                                             <button ng-click="appLogin()" class="btn-primary animate-hide" href="#" id="login-button" ng-hide="loggingIn"><p class="btn-icon btn-arrow">Log in</p></button>
 
 
-                                            <a class="form-link animate-hide" onclick="lostPasswordLink ('http://explore.thethinkingshed.com/en/password_reset')" ng-hide="loggingIn">Lost your password?</a>
+                                            <a class="form-link animate-hide" onclick="window.open('http://explore.thethinkingshed.com/en/password_reset', '_blank', 'location=yes'); return false;)" ng-hide="loggingIn">Lost your password?</a>
+
+                                            <a onclick="testLink()">Test Link 3</a>
+
+                                            <a href="www.bbc.co.uk" target="_blank" data-rel="external">link</a>
+
+
 
                                             <div ng-show="loggingIn" class="icon-spinner5 spin-loader animate-hide"></div>
 
@@ -96,7 +104,7 @@
                                                 </div>
                                                 <div class="task-icon-status two cell"  >
 
-                                                        <div ng-hide="tasks.clicked" ng-class="getTaskStatusClass(tasks.isenabled, tasks.hasmodresp)"></div>
+                                                        <div ng-hide="tasks.clicked" ng-class="getTaskStatusClass(tasks.isenabled, tasks.hasmodresp, tasks.complete)"></div>
 
                                                         <div ng-show="tasks.clicked" class="icon-spinner5 spin-loader"></div>
                                                 </div>
@@ -113,14 +121,7 @@
 
                                     <div class="row conversation-stream">
 
-                                        <div class="grid two">
-                                            <div class="task-introPic">
-                                                <img ng-src="http://explore2.thethinkingshed.com{{messageData[0].profile}}" />
-                                            </div>
-                                        </div>
-                                        <div class="grid ten">
-                                            <h2 class="task-title">{{messageData[0].tasktitle}}</h2>
-                                        </div>
+                                        <h2 class="task-title">{{messageData[0].tasktitle}}</h2>
 
                                         <p class="task-description" ng-bind-html="messageData[0].taskdescription"></p>
 
@@ -135,7 +136,13 @@
 
                                         <div ng-repeat="message in messageData" ng-if="$index > 0">
 
+                                            <div class="messageDivider"></div>
+
+                                            <p ng-class="getUserType(message.username)" class="moderatorMessageFlag">Posted by moderator</p>
+
                                             <p class="msg-time">{{message.post_date}}</p>
+
+
 
                                             <div class="grid ten message-box" ng-class="getUserType(message.username)">
 
@@ -144,6 +151,8 @@
                                                 </div>
                                                 
                                                 <p ng-bind-html="message.response"></p>
+
+
 
                                                 <div class="mediaHolder" ng-repeat="img in message.media" >
                                                     

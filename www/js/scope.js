@@ -12,6 +12,12 @@ app.config(function($httpProvider) {
     //Enable cross domain calls
     //$httpProvider.defaults.useXDomain = true;
 });
+//var ref = cordova.InAppBrowser.open(url, target, options);
+
+
+function testLink(){
+    window.open("http://www.google.com", "_system", "location=true", "toolbar=yes");
+}
 
 app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.TheThinkingShedRoot = "http://explore2.thethinkingshed.com";
@@ -75,6 +81,13 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.uploadMessage = "Reply to Message";
 
+    $scope.tracer = "ready..."
+
+    $scope.testlink = function(){
+        window.open('http://google.com', '_blank', 'location=yes');
+         $scope.tracer = "test link clicked"
+    }
+
     // HTML injectors
 
     $scope.deliberatelyTrustDangerousSnippet = function(txt) {
@@ -100,8 +113,16 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.username = getUser("user");
         $scope.password = getUser("pwd");
+
+        console.log($scope.username)
         
         // Retrieve
+
+        if (($scope.username == "") || ($scope.username == undefined) | ($scope.username == null)){
+            $scope.firstTimeUser = true;
+        } else {
+            $scope.firstTimeUser = false;
+        }
         
 
     } else {
@@ -152,13 +173,17 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     if (obj.login == "success") {
 
                         $scope.userID = obj.id;
+
                         storeUser($scope.username, $scope.password);
 
                         $scope.getTasks();
                         $scope.getUserData();
-                        
 
                         $scope.loggedIn = true;
+
+                        if ($scope.firstTimeUser == true){
+                            $scope.openInfoPanel();
+                        }
 
 
                     } else {
@@ -265,6 +290,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.getTasks = function(nav){
 
+        console.log("GET TASKS")
+
         if ($scope.connectionError == true){
             $scope.closeError();
             $scope.connectionError = false;
@@ -368,10 +395,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.mid = "0";
                 }
 
-                if ($scope.unreadMessages == true){
-                    $scope.unreadMessages = false;
-                }
-
                 // remove spinner from task list
                 setTimeout(function(){ 
                     
@@ -421,9 +444,15 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
 
-    $scope.allowPolling = false;
+    $scope.allowPolling = true;
+    $scope.pollCount = 0;
+    $scope.flash = "";
 
     $scope.doPoll = function(){
+
+        $scope.pollCount ++;
+
+        console.log($scope.pollCount + ", flash: " + $scope.flash);
 
         $scope.pingData = "";
 
@@ -438,7 +467,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             pjq.ajax({
 
 
-                url: $scope.TheThinkingShedRoot + "/index.php/en/tasks/ping",
+                url: $scope.TheThinkingShedRoot + "/index.php/en/tasks/ping" + $scope.flash,
                 type: "POST",
                 dataType: "json",
                 crossDomain: true,
@@ -452,8 +481,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     $scope.pingData = JSON.parse(data.responseText);
 
+                    console.log($scope.pingData);
+
                     if ($scope.pingData.data != ""){
-                        console.log("new message");
+                        console.log("$scope.pingData.data = " + $scope.pingData.data);
                         $scope.unreadMessages = true;
                         $scope.$apply();
                     }
@@ -464,8 +495,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 },
             });
 
-            
-          }
+        }
+          
 
           setTimeout($scope.doPoll, 10000);
       }
@@ -714,12 +745,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 case "getTasks":
 
-                    $scope.displayError('There was connection error - 02', '89');
+                    $scope.displayError('There was a connection error - 02', '89');
                     break;
 
                 case "gotoMessages":
 
-                    $scope.displayError('There was connection error - 03', '128');
+                    $scope.displayError('There was a connection error - 03', '128');
                     break;
 
                 case "submitDataToTTS":
@@ -1010,7 +1041,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             }
 
             // activate polling
-            if (($scope.liveScreen == "messages") || $scope.liveScreen == "reply"){
+            if (($scope.liveScreen == "taskList") || ($scope.liveScreen == "messages") || $scope.liveScreen == "reply"){
                 $scope.allowPolling = true;
             } else {
                 $scope.allowPolling = false;
@@ -1061,7 +1092,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         
         $scope.screenArray.pop();
         $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-right');
-        $scope.gotoMessages('null', $scope.taskID, 'backwards')
+        $scope.gotoMessages('null', $scope.taskID, 'backwards');
     }
 
     $scope.loginApp = function(nextScreen){
@@ -1158,17 +1189,24 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         return "icon-" + type;
     }
     
-    $scope.getTaskStatusClass = function(isenabled, hasmodresp){
+    $scope.getTaskStatusClass = function(isenabled, hasmodresp, complete){
 
         if (isenabled == 0){
+
             return "icon-warning";
+
+        } else if (complete != 1){
+
+            return "icon-arrow";
+
+        } else if (hasmodresp == 1){
+            
+            return "icon-bubbles2";
+        
         } else {
 
-            if (hasmodresp == 1){
-                return "icon-bubbles2";
-            } else {
-               return "icon-arrow"; 
-            }
+            return "icon-checkmark";
+
         }
     };
 
@@ -1189,6 +1227,16 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
      $scope.openInfoPanel = function(){
 
         $scope.viewInfoPanel = !$scope.viewInfoPanel
+    }
+
+    $scope.newMessageClick = function(){
+        $scope.screenArray = ["login", "taskList"];
+        $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-left');
+        $scope.getTasks('back');
+
+        if ($scope.unreadMessages == true){
+            $scope.unreadMessages = false;
+        }
     }
 
 });

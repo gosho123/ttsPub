@@ -38,6 +38,7 @@
 }
 .icon-bubbles2:before {
 	content: "\e604";
+    color:#e74433;
 }
 .icon-user:before {
 	content: "\e605";
@@ -65,6 +66,7 @@
 }
 .icon-arrow:before {
 	content: "\e60e";
+    color:#009fe2;
 }
 
 .animate-hide {

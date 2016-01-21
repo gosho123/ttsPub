@@ -4,7 +4,10 @@
   <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed Team</author>
   <content src="index.html"/>
 
-  <access origin="*" browserOnly="true"/>
+  <!-- <access origin="*" launch-external="yes" />
+  <access origin="https://*" browserOnly="true" /> -->
+
+  <access origin="*" launch-external="yes" />
 
   <preference name='phonegap-version' value='cli-5.1.1' />
   <preference name="permissions" value="none"/>

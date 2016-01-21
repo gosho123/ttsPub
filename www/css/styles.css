@@ -441,7 +441,6 @@ body::-webkit-scrollbar {
 
 #screen-messages .task-title{
     text-align: left;
-    padding-left: 10px;
 }
 
 .task-introPic{
@@ -670,18 +669,40 @@ body::-webkit-scrollbar {
 }
 
 .admin-msg{
-    background-color:#ccc;
+    background-color:#8fbd20;
     float:right;
     margin-right: 10px;
+    color:#fff;
 
 }
+
+.messageDivider{
+    clear:both;
+    height:1px;
+    background-color:#ccc;
+}
+.admin-msg.moderatorMessageFlag{
+    color: #999;
+    font-style: italic;
+    font-size: 12px;
+    background-color: transparent;
+    margin-bottom: 0;
+    clear: both;
+    float:none;
+    text-align: center;
+    padding:5px;
+}
+
+.user-msg.moderatorMessageFlag{
+    display:none;
+}
+
 .msg-time{
     padding:5px;
     background-color:#eeeff1;
     text-align:center;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     clear: both;
-    border-top: 1px solid #ccc;
     font-size: 12px;
     color: #999;
 }
@@ -895,6 +916,31 @@ video{
 .pingClass #notification{
     display:none;
 }
+
+.pingNotification{
+    background-color:#e74433;
+    border-right: 1px solid #b73628;
+    border-left: 1px solid #ff7e7e;
+}
+
+
+.pingNotification{
+    -webkit-animation: flash linear 1s infinite;
+    animation: flash linear 1s infinite;
+}
+@-webkit-keyframes flash {
+    0% { background-color:#e74433;; } 
+    50% { background-color:#8fbd20; }
+    100% { background-color:#e74433;; } 
+}
+@keyframes flash {
+    0% { background-color:#e74433; } 
+    50% { background-color:#8fbd20; }
+    100% { background-color:#e74433;; } 
+}
+
+
+
 
 #simple-controls{
     position:fixed;
