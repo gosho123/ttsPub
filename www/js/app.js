@@ -9,6 +9,8 @@ function onDeviceReady(){
   //window.open = cordova.InAppBrowser.open;
 }
 
+//https://www.npmjs.com/package/cordova-plugin-inappbrowser
+
 function openInAppBrowser(){
     cordova.InAppBrowser.open('http://google.com', '_blank', 'location=yes');
     jQuery("#debug").text("clicked");
