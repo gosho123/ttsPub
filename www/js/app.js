@@ -1,6 +1,6 @@
 
 document.addEventListener("deviceready", function(){
-      jQuery("#debug").html("ready");
+      jQuery("#debug").text("ready");
       window.open = cordova.InAppBrowser.open;
  },true);
 
