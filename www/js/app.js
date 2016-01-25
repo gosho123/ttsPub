@@ -1,8 +1,13 @@
-jQuery("#debug").text("start...");
+jQuery("#debug").text("start...
+    ");
 document.addEventListener("deviceready", function(){
       jQuery("#debug").text("ready");
-      window.open = cordova.InAppBrowser.open;
+      //window.open = cordova.InAppBrowser.open;
  },true);
+
+function onDeviceReady(){
+  jQuery("#debug").text("loaded");
+}
 
 jQuery( document ).ready(function() {
 
