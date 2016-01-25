@@ -6,6 +6,12 @@ document.addEventListener("deviceready", function(){
 
 function onDeviceReady(){
   jQuery("#debug").text("loaded");
+  window.open = cordova.InAppBrowser.open;
+}
+
+function openInAppBrowser(){
+    cordova.InAppBrowser.open('http://google.com', '_blank', 'location=yes');
+    jQuery("#debug").text("clicked");
 }
 
 jQuery( document ).ready(function() {
@@ -84,7 +90,16 @@ function getID(ref){
 
 }
 
+////////////////////////////////
 
+function loadcssfile(filename){
+    var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+}
+
+////dynamically load and add this .css file
 
 //////////////////////////////////
 

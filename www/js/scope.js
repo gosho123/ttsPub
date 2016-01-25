@@ -283,9 +283,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             },
 
             complete: function (data) {
-
-                
-
                 $scope.projectData = JSON.parse(data.responseText);
                 
                 $scope.project_name = $scope.projectData.project;
@@ -293,6 +290,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 $scope.project_intro = $scope.projectData.about;
                 $scope.project_what = $scope.projectData.tasks;
                 $scope.project_other = $scope.projectData.other;
+
+                loadcssfile("remote.css");
             },
 
             error: function(a,b,c) {
