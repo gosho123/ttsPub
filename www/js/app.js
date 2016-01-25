@@ -96,7 +96,7 @@ function loadcssfile(filename){
     var fileref=document.createElement("link")
         fileref.setAttribute("rel", "stylesheet")
         fileref.setAttribute("type", "text/css")
-        fileref.setAttribute("href", filename)
+        fileref.setAttribute("href", "http://www.gs0.co/tts/css/" + filename)
 }
 
 ////dynamically load and add this .css file
