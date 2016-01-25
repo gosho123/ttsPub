@@ -1,4 +1,4 @@
-
+jQuery("#debug").text("start...");
 document.addEventListener("deviceready", function(){
       jQuery("#debug").text("ready");
       window.open = cordova.InAppBrowser.open;
