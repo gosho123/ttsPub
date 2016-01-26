@@ -871,8 +871,17 @@ video{
     z-index:5000;
     padding-top: 50px;
 }
+
+.appPanel .info-boldText{
+    font-size: 18px;
+    font-family: "Lato-Bold";
+}
+
+
 .appPanel .descriptionText{
     font-size:12px;
+    word-wrap: break-word;
+    font-family: "Lato-Regular";
 }
 .appPanel h1, .appPanel h3, .appPanel p, .appPanel h2{
     margin-bottom:10px;
@@ -895,18 +904,16 @@ video{
 }
 
 #global-controls > li{
-    border-right:1px solid #709319;
-    border-left:1px solid #b1d163;
+    border-right:1px solid #fff;
 }
 
 #global-controls > li:first-child{
-    border-right:1px solid #709319;
+    border-right:1px solid #fff;
     border-left:none;
 }
 
 #global-controls > li:last-child{
     border-right:none;
-    border-left:1px solid #b1d163;
 }
 
 .pingClass:before{
@@ -919,8 +926,7 @@ video{
 
 .pingNotification{
     background-color:#e74433;
-    border-right: 1px solid #b73628;
-    border-left: 1px solid #ff7e7e;
+    border-right: 1px solid #fff;
 }
 
 
