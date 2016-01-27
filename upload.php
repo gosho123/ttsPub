@@ -8,7 +8,6 @@ $projectID = $_GET['projectID'];
 
 $mediaID = "TTS-".$userID."_".$taskID."_".$messageID;
 
-
 function bytesToSize1024($bytes, $precision = 2) {
     $unit = array('B','KB','MB');
     return @round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision).' '.$unit[$i];
@@ -32,7 +31,6 @@ if (!$fileTmpLoc) { // if file not chosen
     echo "ERROR: Please browse for a file before clicking the upload button.";
     //exit();
 }
-
 // Place it into your "uploads" folder mow using the move_uploaded_file() function
 move_uploaded_file($fileTmpLoc, "media/$fileName");
 

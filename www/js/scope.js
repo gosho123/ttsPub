@@ -1,4 +1,4 @@
-console.log("TTS App - v24")
+console.log("TTS App - v32")
 
 //////////////////////////****  MY ACCOUNT CONTROLLER FUNCTIONS ***/////////////////////  
 var taskListLink = "taskList.json";

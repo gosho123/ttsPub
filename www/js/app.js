@@ -31,7 +31,6 @@ tts.height = jQuery(window).height();
 
 jQuery('#screen-'+liveScreen).addClass('top-layer');
 
-
 /////////////////////////////////////
 
 tts.resizeHandler = function(){

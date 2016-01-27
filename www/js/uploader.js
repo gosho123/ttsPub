@@ -272,7 +272,6 @@ function displayConfirmMessage(){
     changeUI( "progress_info" , 'display', 'none');
     changeUI( "uploadComplete", 'display', 'block' );
 
-
     changeUI("progress_info", 'display', 'none');
     changeUI("preview", 'display', 'none');
 

@@ -6,7 +6,6 @@ header("access-control-allow-origin: *");
 $mediaID = $_GET['mediaID'];
 $fileExtension = $_GET['format'];
 
-
 //$callbackScript = "http://www.go-sho.com/convert/callback.php?videoID=DEF_456&wait=false&inputformat=mp4&outputformat=webm&file=/convert/video.mp4";
 
 $callbackScript = "";
@@ -23,9 +22,6 @@ $ftpUser = "goshoFTP-gs0";
 $ftpPass = "G05h0-ftp";
 
 $mediafolder = "tts/media";
-
-
-
 
 $inputVideo = $mediaID.".".$fileExtension;
 
