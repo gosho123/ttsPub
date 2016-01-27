@@ -904,8 +904,7 @@ video{
 }
 
 #global-controls > li{
-    border-right:1px solid #709319;
-    border-left:1px solid #b1d163;
+    border-right:1px solid #fff;
 }
 
 #global-controls > li:first-child{

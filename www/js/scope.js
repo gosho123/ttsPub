@@ -27,6 +27,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.loggedIn = false;
     $scope.userID = "";
+    $scope.projectID = "";
     $scope.taskID = "";
     $scope.messageID = "";
     $scope.pingData = "";
@@ -136,6 +137,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         if (($scope.username == "") || ($scope.username == undefined) | ($scope.username == null)){
             $scope.firstTimeUser = true;
         } else {
+            $scope.firstTimeUser = true; // revert to false
         }
         
 
@@ -187,17 +189,24 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     if (obj.login == "success") {
 
                         $scope.userID = obj.id;
+                        $scope.projectID = obj.pid;
 
                         storeUser($scope.username, $scope.password);
 
+                        $scope.getTasks('forward');
                         $scope.getUserData();
 
+                        loadcssfile($scope.projectID);
 
+                        $scope.loggedIn = true;
 
+                        
 
                     } else {
+
                         $scope.loginError = true;
                         $scope.loggingIn = false;
+                        $scope.allowPolling = true;
 
                         $scope.$apply();
                     }
@@ -277,6 +286,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             },
 
             complete: function (data) {
+
                 $scope.projectData = JSON.parse(data.responseText);
                 
                 $scope.project_name = $scope.projectData.project;
@@ -285,6 +295,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 $scope.project_what = $scope.projectData.tasks;
                 $scope.project_other = $scope.projectData.other;
 
+                $scope.$apply();
             },
 
             error: function(a,b,c) {
@@ -333,6 +344,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 if (nav != 'back'){ 
 
                     $scope.proceedApp('taskList');
+                    $scope.openInfoPanel();
                 }
 
             },
@@ -366,6 +378,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
             $scope.taskLiskData.tasks[i].clicked = false;
             if ($scope.taskLiskData.tasks[i].taskid == taskid){
+                $scope.taskLiskData.tasks[i].clicked = true;
             }
         }
 
@@ -433,7 +446,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
 
+    $scope.allowPolling = false;
     $scope.pollCount = 0;
+    $scope.flash = "?flash=1";
 
     $scope.doPoll = function(){
 
@@ -470,6 +485,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     console.log($scope.pingData);
 
+                    if ($scope.pingData.monitor != ""){
+                        //console.log("$scope.pingData.monitor = " + $scope.pingData.monitor);
                         $scope.unreadMessages = true;
                         $scope.$apply();
                     }
@@ -508,7 +525,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         if ($scope.weHaveMedia == true){
 
-            startUploading($scope.userID, $scope.taskID, $scope.messageID);// external upload.js function
+            startUploading($scope.userID, $scope.taskID, $scope.messageID, $scope.projectID);// external upload.js function
 
         } else if ($scope.weHaveMedia == false && $scope.weHaveText == true){
             $scope.submitDataToTTS();
@@ -863,18 +880,29 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.browser = "";
 
+    $scope.launchVideo = function(src, type, isapp, host){
+
+        mediaRoot = $scope.TheThinkingShedRoot;
 
         if (isapp == 1){
-
+            console.log(src + " " + type + " " + isapp + " " + host)
+            if (host == "GS"){mediaRoot = $scope.goShoRoot};
+            if (host == "TTS"){mediaRoot = $scope.TheThinkingShedRoot};
+            
             $scope.viewVideo = true;
 
             vidSource = '<video id="videoPlayer" webkit-playsinline controls width="100%" height="auto" preload="metadata" ' + 
+                            'poster="'+ mediaRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
                             //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.ogg') +'" type="video/ogg">' + 
                             //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.webm') +'" type="video/webm">'+
+                            '<source src="'+ mediaRoot + '/' + $scope.switchMediaSuffix(src, '.mov') + '" type="video/quicktime">' +
+                            '<source src="'+ mediaRoot + '/' + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' +
                             
                             '</video>';
 
             jQuery('#angularVideo').html(vidSource);
+
+            console.log(vidSource)
             
 
         } else {
@@ -947,6 +975,24 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
+    // handling introduction images or videos
+
+    $scope.introMediaVideo = function(type){
+        if (type){
+            if ($scope.getMIMEType(type) == "video"){
+                return true;
+            }
+        }
+    }
+
+    $scope.introMediaImage= function(type){
+        if (type){
+            if ($scope.getMIMEType(type) == "image"){
+                return true;
+            }
+        }
+    }
+
     /////////////////////////////////////////////////////////////////
 
     $scope.getUserType = function(user){
@@ -1004,6 +1050,14 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     easing: 'easeOutSine', duration: 500, complete: function(){
 
                         jQuery('#screen-'+old).removeClass('top-layer');
+
+                        if (old == "taskList" && (next != "login")){
+
+                            for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
+                                $scope.taskLiskData.tasks[i].clicked = false;
+                                
+                            }
+                        }
 
                     }
             });
@@ -1133,6 +1187,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.loggedIn = false;
         $scope.loggingIn = false;
         $scope.userID = "";
+        $scope.projectID = "";
         $scope.taskID = "";
         $scope.messageID = "";
 
@@ -1157,6 +1212,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.screenArray = ["login"];
         $scope.changeScreen("login", 'swipe-right');
+
+        jQuery("#remoteStyle").remove();
 
     }
 
@@ -1207,6 +1264,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
      $scope.openInfoPanel = function(){
 
+        $scope.viewInfoPanel = !$scope.viewInfoPanel;
+        if (!$scope.$$phase) { // check if digest already in progress
+            $scope.$apply(); // launch digest;
+        }
     }
 
     $scope.newMessageClick = function(){
