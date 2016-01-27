@@ -1,21 +1,3 @@
-jQuery("#debug").text("start...");
-document.addEventListener("deviceready", function(){
-      jQuery("#debug").text("ready");
-      //window.open = cordova.InAppBrowser.open;
- },true);
-
-function onDeviceReady(){
-  jQuery("#debug").text("loaded");
-  //window.open = cordova.InAppBrowser.open;
-}
-
-//https://www.npmjs.com/package/cordova-plugin-inappbrowser
-
-function openInAppBrowser(){
-    cordova.InAppBrowser.open('http://google.com', '_blank', 'location=yes');
-    jQuery("#debug").text("clicked");
-}
-
 jQuery( document ).ready(function() {
 
     var width = jQuery(document).width();
@@ -98,9 +80,11 @@ function loadcssfile(filename){
     var fileref=document.createElement("link")
         fileref.setAttribute("rel", "stylesheet")
         fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("id", "remoteStyle");
         fileref.setAttribute("href", "http://www.gs0.co/tts/css/" + filename);
         document.getElementsByTagName("head")[0].appendChild(fileref)
 }
+
 
 ////dynamically load and add this .css file
 

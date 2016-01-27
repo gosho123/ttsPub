@@ -136,7 +136,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         if (($scope.username == "") || ($scope.username == undefined) | ($scope.username == null)){
             $scope.firstTimeUser = true;
         } else {
-            $scope.firstTimeUser = false;
         }
         
 
@@ -191,14 +190,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                         storeUser($scope.username, $scope.password);
 
-                        $scope.getTasks();
                         $scope.getUserData();
 
-                        $scope.loggedIn = true;
 
-                        if ($scope.firstTimeUser == true){
-                            $scope.openInfoPanel();
-                        }
 
 
                     } else {
@@ -291,7 +285,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 $scope.project_what = $scope.projectData.tasks;
                 $scope.project_other = $scope.projectData.other;
 
-                loadcssfile("remote.css");
             },
 
             error: function(a,b,c) {
@@ -368,13 +361,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
-
     $scope.gotoMessages = function(index, taskid, navType){
 
         for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
             $scope.taskLiskData.tasks[i].clicked = false;
             if ($scope.taskLiskData.tasks[i].taskid == taskid){
-                //$scope.taskLiskData.tasks[i].clicked = true;
             }
         }
 
@@ -409,22 +400,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.mid = "0";
                 }
 
-                // remove spinner from task list
-                setTimeout(function(){ 
-                    
-                    //for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
-
-
-
-                        //if ($scope.taskLiskData.tasks[i].taskid == taskid){
-
-                            //$scope.taskLiskData.tasks[i].clicked = false;
-                            //console.log('clicked = ' + $scope.taskLiskData.tasks[i].clicked + " tasks.description: " + $scope.taskLiskData.tasks[i].description)
-                            //$scope.$apply();
-                        //}
-                   // }
-                }, 500);
-
                 $scope.$apply();
 
                 if (navType != 'backwards'){
@@ -458,9 +433,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
 
-    $scope.allowPolling = true;
     $scope.pollCount = 0;
-    $scope.flash = "";
 
     $scope.doPoll = function(){
 
@@ -497,8 +470,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     console.log($scope.pingData);
 
-                    if ($scope.pingData.data != ""){
-                        console.log("$scope.pingData.data = " + $scope.pingData.data);
                         $scope.unreadMessages = true;
                         $scope.$apply();
                     }
@@ -892,18 +863,14 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.browser = "";
 
-    $scope.launchVideo = function(src, type, isapp){
 
         if (isapp == 1){
 
             $scope.viewVideo = true;
 
             vidSource = '<video id="videoPlayer" webkit-playsinline controls width="100%" height="auto" preload="metadata" ' + 
-                            'poster="'+ $scope.goShoRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
                             //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.ogg') +'" type="video/ogg">' + 
                             //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.webm') +'" type="video/webm">'+
-                            '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mov') + '" type="video/quicktime">' +
-                            '<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' +
                             
                             '</video>';
 
@@ -1240,7 +1207,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
      $scope.openInfoPanel = function(){
 
-        $scope.viewInfoPanel = !$scope.viewInfoPanel
     }
 
     $scope.newMessageClick = function(){

@@ -4,6 +4,7 @@ echo "v16";
 $userID = $_GET['userID'];
 $taskID = $_GET['taskID'];
 $messageID = $_GET['messageID'];
+$projectID = $_GET['projectID'];
 
 $mediaID = "TTS-".$userID."_".$taskID."_".$messageID;
 
@@ -86,6 +87,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
                 mediaId,
                 mediaType,
                 userId,
+                projectId,
                 taskId,
                 messageId,
                 converted) 
@@ -94,6 +96,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
                 '" . $mediaID . "',
                 '" . $fileExtension . "',
                 '" . $userID . "',
+                '" . $projectID . "',
                 '" . $taskID . "',
                 '" . $messageID . "',
                 'false')";
@@ -104,7 +107,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
 
             mysql_close($link);
 
-            //include ("convert.php");
+            include ("convert.php");
             
         } else {
             
@@ -134,6 +137,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
                 mediaId,
                 mediaType,
                 userId,
+                projectId,
                 taskId,
                 messageId,
                 converted) 
@@ -142,6 +146,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
                 '" . $mediaID . "',
                 '" . $fileExtension . "',
                 '" . $userID . "',
+                '" . $projectID . "',
                 '" . $taskID . "',
                 '" . $messageID . "',
                 'false')";
