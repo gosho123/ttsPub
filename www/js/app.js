@@ -16,6 +16,24 @@ jQuery( document ).ready(function() {
 
 });
 
+///////////////
+
+document.onclick = function (e) {
+  e = e ||  window.event;
+  var element = e.target || e.srcElement;
+
+  if (element.tagName == 'A') {
+    openInAppBrowser(element.href);
+    return false; // prevent default action and stop event propagation
+  }
+};
+
+function openInAppBrowser(url){
+    var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
+}
+
+////////////
+
 var liveScreen = "login";
 
 if (liveScreen == "login"){
