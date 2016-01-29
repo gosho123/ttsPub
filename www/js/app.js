@@ -1,32 +1,3 @@
-
-jQuery("#debug").text("start...");
-
-document.addEventListener("deviceready", function(){
-      jQuery("#debug").text("ready");
-      //window.open = cordova.InAppBrowser.open;
- },true);
-
-
-function onDeviceReady(){
-  jQuery("#debug").text("1 HTML loaded");
-  window.open = cordova.InAppBrowser.open;
-}
-
-function openInAppBrowser(){
-
-    jQuery("#debug").text("clicked");
-
-    var ref = cordova.InAppBrowser.open('http://google.com', '_blank', 'location=yes');
-    //navigator.app.loadUrl('http://google.com')
-
-    //var ref = cordova.InAppBrowser.open('http://apache.org', '_blank', 'location=yes');
-    //ref.addEventListener('loadstart', function(event) { alert(event.url); });
-
-
-}
-
-//cordova.require( "org.apache.cordova.inappbrowser.inappbrowser" );
-
 jQuery( document ).ready(function() {
 
     var width = jQuery(document).width();
@@ -45,6 +16,24 @@ jQuery( document ).ready(function() {
 
 });
 
+///////////////
+
+/*document.onclick = function (e) {
+  e = e ||  window.event;
+  var element = e.target || e.srcElement;
+
+  if (element.tagName == 'A') {
+    openInAppBrowser(element.href);
+    return false; // prevent default action and stop event propagation
+  }
+};*/
+
+function openInAppBrowser(url){
+    var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
+}
+
+////////////
+
 var liveScreen = "login";
 
 if (liveScreen == "login"){
@@ -59,7 +48,6 @@ tts.height = jQuery(window).height();
 
 
 jQuery('#screen-'+liveScreen).addClass('top-layer');
-
 
 /////////////////////////////////////
 
@@ -93,13 +81,13 @@ function getUser(x){
 function getID(ref){
     if (ref == 'userID'){
         return angular.element(document.querySelector('[ng-controller="Ctrl"]')).scope().userID;
-    }
+    } 
     if (ref == 'taskID'){
         return angular.element(document.querySelector('[ng-controller="Ctrl"]')).scope().taskID;
-    }
+    } 
     if (ref == 'messageID'){
         return angular.element(document.querySelector('[ng-controller="Ctrl"]')).scope().messageID;
-    }
+    }  
 
 }
 
@@ -109,9 +97,11 @@ function loadcssfile(filename){
     var fileref=document.createElement("link")
         fileref.setAttribute("rel", "stylesheet")
         fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("id", "remoteStyle");
         fileref.setAttribute("href", "http://www.gs0.co/tts/css/" + filename);
         document.getElementsByTagName("head")[0].appendChild(fileref)
 }
+
 
 ////dynamically load and add this .css file
 

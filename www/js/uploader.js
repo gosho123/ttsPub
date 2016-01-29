@@ -151,12 +151,13 @@ function readyToUpload(){
     changeUI('preview', 'display', 'block');
 }
 
-function startUploading(u, t, m) {
+function startUploading(u, t, m, p) {
 
     // get file schema
     userID = u;
     taskID = t;
     messageID = m;
+    projectID = p;
 
     console.log('media ID = ' + ' - ' + userID + ' - ' + taskID + ' - ' + messageID)
 
@@ -189,7 +190,7 @@ function startUploading(u, t, m) {
     oXHR.addEventListener('load', uploadFinish, false);
     oXHR.addEventListener('error', uploadError, false);
     oXHR.addEventListener('abort', uploadAbort, false);
-    oXHR.open('POST', 'http://www.gs0.co/tts/upload.php?userID='+ userID + "&taskID=" + taskID + "&messageID=" + messageID);
+    oXHR.open('POST', 'http://www.gs0.co/tts/upload.php?userID='+ userID + "&taskID=" + taskID + "&messageID=" + messageID + "&projectID=" + projectID);
     oXHR.send(vFD);
 
     // set inner timer
@@ -270,7 +271,6 @@ function displayConfirmMessage(){
 
     changeUI( "progress_info" , 'display', 'none');
     changeUI( "uploadComplete", 'display', 'block' );
-
 
     changeUI("progress_info", 'display', 'none');
     changeUI("preview", 'display', 'none');
