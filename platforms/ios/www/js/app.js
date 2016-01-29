@@ -16,7 +16,7 @@ function openInAppBrowser(){
 
     jQuery("#debug").text("clicked");
 
-    var ref = cordova.InAppBrowser.open('http://google.com', '_blank', 'location=yes,presentationstyle=formsheet');
+    var ref = cordova.InAppBrowser.open('http://google.com', '_blank', 'location=yes');
     //navigator.app.loadUrl('http://google.com')
 
     //var ref = cordova.InAppBrowser.open('http://apache.org', '_blank', 'location=yes');
