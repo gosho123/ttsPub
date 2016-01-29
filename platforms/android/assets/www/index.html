@@ -1,0 +1,326 @@
+<html>
+<head>
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="utf-8" />
+    <title>TTS App  v1</title>
+
+    <link href="css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="css/uploader.css" rel="stylesheet" type="text/css" />
+
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/jquery-ui-1.9.2.min.js"></script>
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-sanitize.js"></script>
+
+    <script src="js/cordova.js"></script>
+    
+ </head>
+<body onload="onDeviceReady()">
+        <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
+
+            <div style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center">v38 and</div>
+            <div  style="font-size:12px; position:fixed; top:0; right:0; z-index:99998; padding-top:20px; width:100%, text-align:right" id="debug"></div>
+            <div class="row nav-top">
+                <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>    
+                <div class="grid three push" ng-click="logOut()">Logout</div>
+            </div>
+
+            <div class="errorMessage" ng-click="closeError()">
+                <h2>Sorry!</h2>
+                <div class="icon-warning errorIcon"></div>
+                <p>{{errorMessage}}</p>
+                <a><p>Tap here to close.</p></a>
+            </div>
+
+            <div class="row nav-bottom" id="bottom-nav" ng-click="testTrans()">
+
+                <ul id="global-controls">
+                    <li class="grid icon-user" ng-class="getFooterSectionClass()" ng-click="openUserPanel()"></li>
+                    <li ng-click="newMessageClick()" ng-show="unreadMessages" class="pingClass grid four icon-bubbles2" ng-class="{'pingNotification': unreadMessages}"><div id="notification">!</li></li>
+                    <li class="grid push icon-info" ng-class="getFooterSectionClass()" ng-click="openInfoPanel()"></li>
+                </ul>
+
+            </div>
+
+            <!--<div class="app-screen screen-fader-hide" id="fader"></div>-->
+            <div id="appContainer">
+
+                            <div class="app-screen screen-login" id="screen-login">
+                                <div class="row">
+
+                                    <div class="grid twelve center">
+
+                                        <img class="logo" src="images/logo.png">
+
+                                        <form class="text-input">
+
+                                            <input autocomplete='on' ng-model="username" ng-class="{'inputError': loginError}" class="twelve" type="text" value="sdfsdf" placeholder="Enter your name">
+                                            <label for="login-name"></label>
+
+                                            <input ng-model="password" ng-class="{'inputError': loginError}" class="twelve" type="password" value="" placeholder="Password">
+                                            <label for="login-pass"></label>
+
+                                            <p class="form-error" ng-show="loginError">Please enter a valid username and password</p>
+
+                                            <button ng-click="appLogin()" class="btn-primary animate-hide" href="#" id="login-button" ng-hide="loggingIn"><p class="btn-icon btn-arrow">Log in</p></button>
+
+
+                                            <a class="form-link animate-hide" onclick="window.open('http://explore.thethinkingshed.com/en/password_reset', '_blank', 'location=yes'); return false;)" ng-hide="loggingIn">Lost your password?</a>
+                                            <br>
+                                            
+                                            <button onclick="openInAppBrowser()">Test Link - in app browser</button>
+                                            <br>
+                                            <!--  <a ng-click="openInExternalBrowser()">Test Link - external browser</a>
+                                            <br>
+                                            <a ng-click="openCordovaWebView()">Test Link - web view</a>
+
+                                            <div ng-show="loggingIn" class="icon-spinner5 spin-loader animate-hide"></div>-->
+
+                                        </form>
+
+                                    </div> <!-- grid --> 
+
+                                </div> <!-- row -->
+                                
+                            </div>
+                            <!-- APP SCREEN END -->
+
+                            <div class="app-screen scroll-screen" id="screen-taskList">
+                                <div class="row">
+
+                                    <h2 class="task-title">Task List</h2>
+
+                                        <ul class="grid twelve box task-list">
+
+                                            <li ng-repeat="tasks in taskLiskData.tasks | orderBy:'taskorder'" ng-click="loadMessages($index, tasks.taskid, 'forward', tasks.isenabled)" ng-class=taskActive(tasks.isenabled)>
+                                                <div class="ten cell center-cell">
+                                                    <div class="task-text" ng-bind-html="deliberatelyTrustDangerousSnippet(tasks.description)">
+                                                        <!--<br><small style="font-size:9px">isenabled: {{tasks.isenabled}}, hasmodresp: {{tasks.hasmodresp}}</small>-->
+                                                    </div>
+
+                                                </div>
+                                                <div class="task-icon-status two cell"  >
+
+                                                        <div ng-hide="tasks.clicked" ng-class="getTaskStatusClass(tasks.isenabled, tasks.hasmodresp, tasks.complete)"></div>
+
+                                                        <div ng-show="tasks.clicked" class="icon-spinner5 spin-loader"></div>
+                                                </div>
+                                            </li>
+
+                                        </ul><!-- grid --> 
+                                </div> <!-- row -->
+                                
+                            </div>
+
+                            <!-- APP SCREEN END -->
+
+                            <div class="app-screen scroll-screen" id="screen-messages">
+
+                                    <div class="row conversation-stream">
+
+                                        <h2 class="task-title">{{messageData[0].tasktitle}}</h2>
+
+                                        <p class="task-description" ng-bind-html="messageData[0].taskdescription"></p>
+
+                                        <div ng-repeat="image in messageData[0].media">
+                                            <img class="row modIntroImage" ng-src="{{getMediaURL(0, image.media, image.type)}}"/>
+                                        </div>
+
+                                        <div class="divider"></div>
+
+                                        <button ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
+
+
+                                        <div ng-repeat="message in messageData" ng-if="$index > 0">
+
+                                            <div class="messageDivider"></div>
+
+                                            <p ng-class="getUserType(message.username)" class="moderatorMessageFlag">Posted by moderator</p>
+
+                                            <p class="msg-time">{{message.post_date}}</p>
+
+
+
+                                            <div class="grid ten message-box" ng-class="getUserType(message.username)">
+
+                                                <div class="msg-profile">
+                                                    <img ng-src="http://explore2.thethinkingshed.com{{message.profile}}" />
+                                                </div>
+                                                
+                                                <p ng-bind-html="message.response"></p>
+
+
+
+                                                <div class="mediaHolder" ng-repeat="img in message.media" >
+                                                    
+                                                    <div class="videoHolder" ng-show="isVideo(img.type)">
+
+                                                        <img ng-if="img" ng-click="launchVideo(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
+
+                                                        <img class="videoIconSmall" src="images/video-icon.png">
+                                                    </div>
+
+                                                    <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchImage(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <button ng-if="messageLength()" ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
+
+                                    </div>
+                                
+                            </div>
+                            <!-- APP SCREEN END  -->
+
+                            <div class="app-screen scroll-screen" id="screen-reply">
+                                <div class="row">
+                                    <div class="grid twelve">
+
+                                        <div class="grid twelve box">
+
+                                            <p id="introMessage" class="light-text">{{uploadMessage}}</p>
+                                        <div>
+
+                                        <form name="messageForm" id="upload_form" enctype="multipart/form-data">
+                                            
+                                            <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
+                                            <img id="preview" />
+
+                                            <button class="btn-primary twelve btn-disabled" ng-click="submitMessage()" id="uploadFileTrigger"><p class="btn-icon btn-arrow">Submit</p></button>
+                                            
+                                            <button class="buttonStyle selectButton" id="selectFileTrigger" >Add media</button>
+
+
+                                            <input type="file" ng-model="mediaFile" name="file1" accept="video/*;capture=camera" id="image_file" ng-click="resetMediaFile()" onchange="fileSelected();" class="selectButtonHidden"/>
+
+                                            <button ng-show="weHaveMedia" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
+
+
+                                            <div id="fileinfo">
+                                                <div id="filename"></div>
+                                                <div id="filesize"></div>
+                                                <div id="filetype"></div>
+                                                <div id="filedim"></div>
+                                            </div>
+                                            
+
+                                            <div id="progress_info" ng-hide="uploadError">
+                                                <div class="load-bar center">
+                                                    <div class="load-bar-progress" id="progress"></div>
+                                                    <div id="progress_percent"><p id="progress_percent_text"></p></div>
+                                                </div>
+                                            </div>
+
+                                            <div ng-show="uploadError">
+                                                <p id="error">You should select valid image or video files only!</p>
+                                                <p id="error2">An error occurred while uploading the file</p>
+                                                <p id="abort">The upload has been canceled by the user or the browser dropped the connection</p>
+                                                <p id="warnsize">Your file is very big. We can't accept it. Please select more small file</p>
+                                            </div>
+
+                                            <button style="margin-top:10px" ng-show="uploadError" class="buttonStyle btn-primary-red" ng-click="retryUpload()">Try again</button>
+
+                                            <div style="display:none" id="uploadComplete">
+                                                <p class="row light-text">Thank you</p>
+                                                <div class="center completeIcon">
+                                                    <p class="icon-checkmark"></p>
+                                                </div>
+                                            </div>
+
+                                            <button style="display:none" class="buttonStyle selectButton" id="backToMessages" ng-click="backToMessages()">Back to tasks</button>
+
+                                            <div class="clear_both"></div>
+                                            <div style="display:none">
+                                                <div id="speed">&nbsp;</div>
+                                                <div id="remaining">&nbsp;</div>
+                                                <div id="b_transfered">&nbsp;</div>
+                                                <div class="clear_both"></div>
+                                            </div>
+                                            <div id="upload_response"></div>
+                                            
+                                        </form>
+                                </div>
+                                            
+
+                                        </div> <!-- grid --> 
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- APP SCREEN END -->
+
+                </div>
+
+                <div ng-show="viewUserPanel" class="appPanel">               
+                   
+                    <div class="row">
+                        <div class="grid twelve">
+                            
+                            <h2>Your information</h2>
+
+                            <p>Full Name</p>
+                            <h3>{{user_fullName}}</h3>
+
+                            <p>Username</p>
+                            <h3>{{user_userName}}</h3>
+
+                            <img ng-src="{{user_userProfile}}" />
+                            <hr>
+                            <button class="buttonStyle btn-tertiary" ng-click="openUserPanel()">Close</button>
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+                <div ng-show="viewInfoPanel" class="appPanel scroll-screen">               
+                   
+                    <div class="row">
+                        <div class="grid twelve">
+                            <button class="buttonStyle btn-tertiary" ng-click="openInfoPanel()">Close</button>
+                            <h2>{{project_name}}</h2>
+                            <p>{{project_description}}</p>
+                            <hr>
+                            <p>Introduction</p>
+                            <p class="descriptionText" ng-bind-html="project_intro"></p>
+                            <p>What do you need to do</p>
+                            <p class="descriptionText" ng-bind-html="project_what"></p>
+                            <p>Other instructions</p>
+                            <p class="descriptionText" ng-bind-html="project_other"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div ng-show="viewVideo" class="videoViewer">               
+                   
+                    <div class="vidHolder">
+
+                        <div id="angularVideo"></div>
+
+                        <button ng-click="closeVideoViewer()" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Close Video</button>
+
+                    </div>
+                        
+                </div>
+
+                <div class="imageViewer" ng-show="viewImage" ng-click="closeImageViewer()">
+                    <div class="close" ng-click="closeLargeMedia()">Close</div>
+                    <img ng-src="{{imageSource}}"/>
+                </div>
+
+        </div>
+        <script src="js/uploader.js"></script>
+        <script src="js/scope.js"></script>
+        <script src="js/app.js"></script>
+        
+
+    </body>
+</html>
