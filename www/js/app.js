@@ -29,7 +29,8 @@ document.onclick = function (e) {
 };
 
 function openInAppBrowser(url){
-    var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
+    jQuery('#debug').html("clicked")
+    var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes, presentationstyle=formsheet');
 }
 
 ////////////
