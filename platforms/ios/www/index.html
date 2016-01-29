@@ -16,17 +16,16 @@
     <script src="js/angular.min.js"></script>
     <script src="js/angular-sanitize.js"></script>
 
-    <script src="js/cordova.js"></script>
-    
+    <script type="text/javascript" src="cordova.js"></script>
+
  </head>
 <body onload="onDeviceReady()">
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center">v36</div>
+            <div style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center">v36 ios</div>
             <div  style="font-size:12px; position:fixed; top:0; right:0; z-index:99998; padding-top:20px; width:100%, text-align:right" id="debug"></div>
-
             <div class="row nav-top">
-                <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>    
+                <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>
                 <div class="grid three push" ng-click="logOut()">Logout</div>
             </div>
 
@@ -72,23 +71,21 @@
 
                                             <a class="form-link animate-hide" onclick="window.open('http://explore.thethinkingshed.com/en/password_reset', '_blank', 'location=yes'); return false;)" ng-hide="loggingIn">Lost your password?</a>
                                             <br>
-                                            
-                                            <!--<button onclick="openInAppBrowser()">Test Link - in app browser</button>
+
+                                            <button onclick="openInAppBrowser()">Test Link - in app browser</button>
                                             <br>
-                                              <a ng-click="openInExternalBrowser()">Test Link - external browser</a>
+                                            <!--  <a ng-click="openInExternalBrowser()">Test Link - external browser</a>
                                             <br>
                                             <a ng-click="openCordovaWebView()">Test Link - web view</a>
 
-                                            -->
-
-                                            <div ng-show="loggingIn" class="icon-spinner5 spin-loader animate-hide"></div>
+                                            <div ng-show="loggingIn" class="icon-spinner5 spin-loader animate-hide"></div>-->
 
                                         </form>
 
-                                    </div> <!-- grid --> 
+                                    </div> <!-- grid -->
 
                                 </div> <!-- row -->
-                                
+
                             </div>
                             <!-- APP SCREEN END -->
 
@@ -114,9 +111,9 @@
                                                 </div>
                                             </li>
 
-                                        </ul><!-- grid --> 
+                                        </ul><!-- grid -->
                                 </div> <!-- row -->
-                                
+
                             </div>
 
                             <!-- APP SCREEN END -->
@@ -129,12 +126,7 @@
 
                                         <p class="task-description" ng-bind-html="messageData[0].taskdescription"></p>
 
-                                        <div ng-show="introMediaVideo(messageData[0].media[0].type)">
-
-                                            <button class="btn-tertiary" ng-click="launchVideo(messageData[0].media[0].media, type, 1, 'TTS')">View video</button>
-                                        </div>
-
-                                        <div ng-show="introMediaImage(messageData[0].media[0].type)" ng-repeat="image in messageData[0].media">
+                                        <div ng-repeat="image in messageData[0].media">
                                             <img class="row modIntroImage" ng-src="{{getMediaURL(0, image.media, image.type)}}"/>
                                         </div>
 
@@ -158,19 +150,21 @@
                                                 <div class="msg-profile">
                                                     <img ng-src="http://explore2.thethinkingshed.com{{message.profile}}" />
                                                 </div>
-                                                
+
                                                 <p ng-bind-html="message.response"></p>
 
+
+
                                                 <div class="mediaHolder" ng-repeat="img in message.media" >
-                                                    
+
                                                     <div class="videoHolder" ng-show="isVideo(img.type)">
 
-                                                        <img ng-if="img" ng-click="launchVideo(img.media, img.type, img.isapp, 'GS')" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
+                                                        <img ng-if="img" ng-click="launchVideo(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/>
 
                                                         <img class="videoIconSmall" src="images/video-icon.png">
                                                     </div>
 
-                                                    <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchImage(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
+                                                    <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchImage(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/>
 
                                                 </div>
 
@@ -180,7 +174,7 @@
                                         <button ng-if="messageLength()" ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
 
                                     </div>
-                                
+
                             </div>
                             <!-- APP SCREEN END  -->
 
@@ -194,12 +188,12 @@
                                         <div>
 
                                         <form name="messageForm" id="upload_form" enctype="multipart/form-data">
-                                            
+
                                             <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
                                             <img id="preview" />
 
                                             <button class="btn-primary twelve btn-disabled" ng-click="submitMessage()" id="uploadFileTrigger"><p class="btn-icon btn-arrow">Submit</p></button>
-                                            
+
                                             <button class="buttonStyle selectButton" id="selectFileTrigger" >Add media</button>
 
 
@@ -214,7 +208,7 @@
                                                 <div id="filetype"></div>
                                                 <div id="filedim"></div>
                                             </div>
-                                            
+
 
                                             <div id="progress_info" ng-hide="uploadError">
                                                 <div class="load-bar center">
@@ -249,25 +243,25 @@
                                                 <div class="clear_both"></div>
                                             </div>
                                             <div id="upload_response"></div>
-                                            
+
                                         </form>
                                 </div>
-                                            
 
-                                        </div> <!-- grid --> 
+
+                                        </div> <!-- grid -->
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- APP SCREEN END -->
 
                 </div>
 
-                <div ng-show="viewUserPanel" class="appPanel">               
-                   
+                <div ng-show="viewUserPanel" class="appPanel">
+
                     <div class="row">
                         <div class="grid twelve">
-                            
+
                             <h2>Your information</h2>
 
                             <p>Full Name</p>
@@ -279,25 +273,25 @@
                             <img ng-src="{{user_userProfile}}" />
                             <hr>
                             <button class="buttonStyle btn-tertiary" ng-click="openUserPanel()">Close</button>
-                            
+
                         </div>
                     </div>
 
                 </div>
 
-                <div ng-show="viewInfoPanel" class="appPanel scroll-screen">               
-                   
+                <div ng-show="viewInfoPanel" class="appPanel scroll-screen">
+
                     <div class="row">
                         <div class="grid twelve">
                             <button class="buttonStyle btn-tertiary" ng-click="openInfoPanel()">Close</button>
                             <h2>{{project_name}}</h2>
-                            <p class="info-boldText">{{project_description}}</p>
+                            <p>{{project_description}}</p>
                             <hr>
-                            <p class="info-boldText">Introduction</p>
+                            <p>Introduction</p>
                             <p class="descriptionText" ng-bind-html="project_intro"></p>
-                            <p class="info-boldText">What do you need to do</p>
+                            <p>What do you need to do</p>
                             <p class="descriptionText" ng-bind-html="project_what"></p>
-                            <p class="info-boldText">Other instructions</p>
+                            <p>Other instructions</p>
                             <p class="descriptionText" ng-bind-html="project_other"></p>
                         </div>
                     </div>
@@ -305,8 +299,8 @@
                 </div>
 
 
-                <div ng-show="viewVideo" class="videoViewer">               
-                   
+                <div ng-show="viewVideo" class="videoViewer">
+
                     <div class="vidHolder">
 
                         <div id="angularVideo"></div>
@@ -314,7 +308,7 @@
                         <button ng-click="closeVideoViewer()" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Close Video</button>
 
                     </div>
-                        
+
                 </div>
 
                 <div class="imageViewer" ng-show="viewImage" ng-click="closeImageViewer()">
@@ -326,7 +320,7 @@
         <script src="js/uploader.js"></script>
         <script src="js/scope.js"></script>
         <script src="js/app.js"></script>
-        
+
 
     </body>
 </html>
