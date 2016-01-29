@@ -18,7 +18,7 @@ jQuery( document ).ready(function() {
 
 ///////////////
 
-document.onclick = function (e) {
+/*document.onclick = function (e) {
   e = e ||  window.event;
   var element = e.target || e.srcElement;
 
@@ -26,7 +26,7 @@ document.onclick = function (e) {
     openInAppBrowser(element.href);
     return false; // prevent default action and stop event propagation
   }
-};
+};*/
 
 function openInAppBrowser(url){
     var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
