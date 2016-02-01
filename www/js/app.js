@@ -34,8 +34,11 @@ function onDeviceReady() {
 };*/
 
 function openInAppBrowser(){
-    //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
-    window.open("http://www.google.com", "_blank", "location=yes"); 
+    //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet'); 
+
+    cordova.InAppBrowser.open(encodeURI('http://www.google.com'), '_system', 'location=yes'); 
+
+
     jQuery('#debug').html('openInAppBrowser')
 }
 
