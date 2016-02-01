@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.38.1">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.38.2">
   <name>The Thinking Shed</name>
   <description>The Thinking Shed Mobile App</description>
   <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed Team</author>
@@ -10,6 +10,9 @@
   <access origin="*"/>
 
   <preference name='phonegap-version' value='cli-5.1.1' />
+
+  <plugin name="org.apache.cordova.inappbrowser" spec="0.6.0" source="pgb" />
+
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="portrait"/>
   <preference name="target-device" value="universal"/>

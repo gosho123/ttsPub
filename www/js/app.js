@@ -28,11 +28,18 @@ jQuery( document ).ready(function() {
   }
 };*/
 
-function openInAppBrowser(url){
+function openInAppBrowser(){
     //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
-    window.open("http://www.google.com", "_system", "location=yes"); 
-    jQuery('#debug').html('clicked')
+    window.open("http://www.google.com", "_blank", "location=yes"); 
+    jQuery('#debug').html('openInAppBrowser')
 }
+
+function openSystemBrowser(){
+    //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
+    window.open("http://www.google.com", "_system"); 
+    jQuery('#debug').html('openSystemBrowser')
+}
+
 
 ////////////
 
