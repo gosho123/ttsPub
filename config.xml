@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.38.2">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.38.3">
   <name>The Thinking Shed</name>
   <description>The Thinking Shed Mobile App</description>
   <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed Team</author>
@@ -12,6 +12,8 @@
   <preference name='phonegap-version' value='cli-5.1.1' />
 
   <plugin name="org.apache.cordova.inappbrowser" spec="0.6.0" source="pgb" />
+
+  <!-- <gap:plugin name="org.apache.cordova.inappbrowser"/> -->
 
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="portrait"/>
@@ -41,7 +43,6 @@
   <gap:plugin name="org.apache.cordova.file-transfer"/>
   <gap:plugin name="org.apache.cordova.geolocation"/>
   <gap:plugin name="org.apache.cordova.globalization"/>
-  <gap:plugin name="org.apache.cordova.inappbrowser"/>
   <gap:plugin name="org.apache.cordova.media"/>
   <gap:plugin name="org.apache.cordova.network-information"/>
   <gap:plugin name="org.apache.cordova.splashscreen"/>
