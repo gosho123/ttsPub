@@ -35,16 +35,14 @@ function onDeviceReady() {
 
 function openInAppBrowser(){
     //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet'); 
+    jQuery('#debug').html('openInAppBrowser');
 
-    cordova.InAppBrowser.open(encodeURI('http://www.google.com'), '_system', 'location=yes'); 
-
-
-    jQuery('#debug').html('openInAppBrowser')
+    cordova.InAppBrowser.open(encodeURI('http://www.google.com'), '_blank', 'location=yes'); 
 }
 
-function openSystemBrowser(){
+function openSystemBrowser(url){
     //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
-    window.open("http://www.google.com", "_system"); 
+    window.open(url, "_system"); 
     jQuery('#debug').html('openSystemBrowser')
 }
 
