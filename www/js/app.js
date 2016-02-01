@@ -29,7 +29,8 @@ jQuery( document ).ready(function() {
 };*/
 
 function openInAppBrowser(url){
-    var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
+    //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
+    window.open("http://www.google.com", "_system", "location=yes"); 
 }
 
 ////////////
