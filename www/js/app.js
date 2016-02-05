@@ -23,7 +23,7 @@ function onDeviceReady() {
 
 ///////////////
 
-/*document.onclick = function (e) {
+document.onclick = function (e) {
   e = e ||  window.event;
   var element = e.target || e.srcElement;
 
@@ -31,13 +31,13 @@ function onDeviceReady() {
     openInAppBrowser(element.href);
     return false; // prevent default action and stop event propagation
   }
-};*/
+};
 
-function openInAppBrowser(){
+function openInAppBrowser(link){
     //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet'); 
     jQuery('#debug').html('openInAppBrowser');
 
-    cordova.InAppBrowser.open(encodeURI('http://www.google.com'), '_blank', 'location=yes'); 
+    cordova.InAppBrowser.open(encodeURI(link), '_blank', 'location=yes'); 
 }
 
 function openSystemBrowser(url){
