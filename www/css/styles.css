@@ -198,7 +198,7 @@ button, input{
 }
 
 .text-input input:focus{
-    border-color: #1abc9c;
+    border-color: #8fbd20;
     outline: 0;
 }
 

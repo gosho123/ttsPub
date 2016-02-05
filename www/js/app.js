@@ -28,16 +28,16 @@ document.onclick = function (e) {
   var element = e.target || e.srcElement;
 
   if (element.tagName == 'A') {
-    openInAppBrowser(element.href);
+    openSystemBrowser(element.href);
     return false; // prevent default action and stop event propagation
   }
 };
 
-function openInAppBrowser(link){
+function openInAppBrowser(){
     //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet'); 
     jQuery('#debug').html('openInAppBrowser');
 
-    cordova.InAppBrowser.open(encodeURI(link), '_blank', 'location=yes'); 
+    cordova.InAppBrowser.open(encodeURI('http://www.google.com'), '_blank', 'location=yes'); 
 }
 
 function openSystemBrowser(url){
