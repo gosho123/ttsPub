@@ -80,8 +80,8 @@
 /* Spinner animation*/
 
 .spin-loader {
-	color:#fff;
-    margin: 0;
+	color:#8fbd20;
+    margin: 0 0 15px 0;
     width: auto;
     height: auto;
     font-size:25px;
