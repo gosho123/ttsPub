@@ -199,6 +199,8 @@
 
                                             <input type="file" ng-model="mediaFile" name="file1" accept="video/*;capture=camera" id="image_file" ng-click="resetMediaFile()" onchange="fileSelected();" class="selectButtonHidden"/>
 
+                                            <button class="buttonStyle selectButton" ng-click="grabMedia()">Grab media</button>
+
                                             <button ng-show="weHaveMedia" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
 
 

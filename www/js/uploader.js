@@ -29,6 +29,50 @@ function setUpUi(){
 
 setUpUi();
 
+
+
+///////////////
+
+function win(r) {
+    console.log("Code = " + r.responseCode);
+    console.log("Response = " + r.response);
+    console.log("Sent = " + r.bytesSent);
+}
+
+function fail(error) {
+    alert("An error has occurred: Code = " + error.code);
+    console.log("upload error source " + error.source);
+    console.log("upload error target " + error.target);
+}
+
+var uri = encodeURI("http://some.server.com/upload.php");
+
+var options = new FileUploadOptions();
+options.fileKey="file";
+options.fileName=fileURL.substr(fileURL.lastIndexOf('/')+1);
+options.mimeType="text/plain";
+
+var headers={'headerParam':'headerValue'};
+
+options.headers = headers;
+
+var ft = new FileTransfer();
+
+ft.onprogress = function(progressEvent) {
+    if (progressEvent.lengthComputable) {
+      loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
+    } else {
+      loadingStatus.increment();
+    }
+};
+
+ft.upload(fileURL, uri, win, fail, options);
+
+
+
+
+
+
 function secondsToTime(secs) { // we will use this function to convert seconds in normal time format
     var hr = Math.floor(secs / 3600);
     var min = Math.floor((secs - (hr * 3600))/60);
