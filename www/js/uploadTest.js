@@ -17,10 +17,10 @@
         for (i = 0, len = mediaFiles.length; i < len; i += 1) {
             path = mediaFiles[i].fullPath;
 
-            t('name ' + mediaFiles.name);
-            t('fullPath ' + mediaFiles.fullPath);
-            t('type ' + mediaFiles.type);
-            t('getFormatData ' + mediaFiles.getFormatData);
+            t('name ' + mediaFiles[i].name);
+            t('fullPath ' + mediaFiles[i].fullPath);
+            t('type ' + mediaFiles[i].type);
+            t('getFormatData ' + mediaFiles[i].getFormatData);
             
             // do something interesting with the file
         }
