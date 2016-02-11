@@ -17,7 +17,11 @@
         for (i = 0, len = mediaFiles.length; i < len; i += 1) {
             path = mediaFiles[i].fullPath;
 
-            t('mediaFiles ' + mediaFiles);
+            t('name ' + mediaFiles.name);
+            t('fullPath ' + mediaFiles.fullPath);
+            t('type ' + mediaFiles.type);
+            t('getFormatData ' + mediaFiles.getFormatData);
+            
             // do something interesting with the file
         }
     };
@@ -28,10 +32,13 @@
     };
 
     // start video capture
-    function grabMedia(){
+    function grabVideo(){
         navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:2});
     }
 
+	function captureImage(){
+		navigator.device.capture.captureImage(captureSuccess, captureError, {limit:2});
+	}
 
 
     ////////////////////////////

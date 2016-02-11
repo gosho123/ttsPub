@@ -23,7 +23,7 @@
 <body onload="onDeviceReady()">
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center">v44</div>
+            <div style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center">v45</div>
             <div  style="font-size:12px; position:fixed; top:0; right:0; z-index:99998; padding-top:20px; width:100%, text-align:right" id="debug"></div>
 
             <div class="row nav-top">
@@ -78,7 +78,11 @@
                                             <div ng-show="loggingIn" class="icon-spinner5 spin-loader animate-hide"></div>
 
 
-                                            <button class="buttonStyle selectButton" onclick="grabMedia()">Grab media</button>
+                                            <button class="buttonStyle selectButton" onclick="grabVideo()">Grab Video</button>
+
+                                            <button class="buttonStyle selectButton" onclick="captureImage()">Grab Photo</button>
+
+                                            
 
                                             <button class="buttonStyle selectButton" onclick="uploadMedia()">upload media</button>
 
