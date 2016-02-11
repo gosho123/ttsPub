@@ -1,3 +1,107 @@
+ 	var trace = "1";
+    function t(x){
+    	trace = trace + ", " + x;
+        jQuery('#debug').html = trace;
+    }
+
+    t("2");
+
+//////////////////
+    // capture callback
+
+    var captureSuccess = function(mediaFiles) {
+        var i, path, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            path = mediaFiles[i].fullPath;
+
+            t('mediaFiles ' + mediaFiles);
+            // do something interesting with the file
+        }
+    };
+
+    // capture error callback
+    var captureError = function(error) {
+        navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+    };
+
+    // start video capture
+    function grabMedia(){
+        navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:2});
+    }
+
+
+    ////////////////////////////
+    
+
+    function uploadMedia(fileURI) {
+			var options = new FileUploadOptions();
+			options.fileKey = "file";
+			options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+			
+			if (cordova.platformId == "android") {
+				options.fileName += ".jpg" 
+			}
+			
+			options.mimeType = "image/jpeg";
+			options.params = {}; // if we need to send parameters to the server request 
+			options.headers = {
+				Connection: "Close"
+			};
+			options.chunkedMode = false;
+            
+            userID = "u";
+		    taskID = "t";
+		    messageID = "m";
+		    projectID = "p";
+
+			var ft = new FileTransfer();
+			ft.upload(
+				fileURI,
+				encodeURI('http://www.gs0.co/tts/upload.php?userID='+ userID + "&taskID=" + taskID + "&messageID=" + messageID + "&projectID=" + projectID),
+				onFileUploadSuccess,
+				onFileTransferFail,
+				options);
+
+			ft.onprogress = function(progressEvent) {
+			    if (progressEvent.lengthComputable) {
+			      loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
+			    } else {
+			      loadingStatus.increment();
+			    }
+			};
+		
+			function onFileUploadSuccess (result) {
+				console.log("FileTransfer.upload");
+				console.log("Code = " + result.responseCode);
+				console.log("Response = " + result.response);
+				console.log("Sent = " + result.bytesSent);
+				console.log("Link to uploaded file: http://www.filedropper.com" + result.response);
+				var response = result.response;
+				var destination = "http://www.filedropper.com/" + response.substr(response.lastIndexOf('=') + 1);
+				document.getElementById("result").innerHTML = "File uploaded to: " + 
+															  destination + 
+															  "</br><button onclick=\"window.open('" + destination + "', '_blank', 'location=yes')\">Open Location</button>";
+				document.getElementById("downloadedImage").style.display="none";
+			}
+        
+			function onFileTransferFail (error) {
+				console.log("FileTransfer Error:");
+				console.log("Code: " + error.code);
+				console.log("Source: " + error.source);
+				console.log("Target: " + error.target);
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
@@ -99,63 +203,6 @@ downloadApp.prototype = {
 				sourceType      : navigator.camera.PictureSourceType.PHOTOLIBRARY
 			});
 		
-		function uploadPhoto(fileURI) {
-			var options = new FileUploadOptions();
-			options.fileKey = "file";
-			options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
-			
-			if (cordova.platformId == "android") {
-				options.fileName += ".jpg" 
-			}
-			
-			options.mimeType = "image/jpeg";
-			options.params = {}; // if we need to send parameters to the server request 
-			options.headers = {
-				Connection: "Close"
-			};
-			options.chunkedMode = false;
-            
-            userID = "u";
-		    taskID = "t";
-		    messageID = "m";
-		    projectID = "p";
-
-			var ft = new FileTransfer();
-			ft.upload(
-				fileURI,
-				encodeURI('http://www.gs0.co/tts/upload.php?userID='+ userID + "&taskID=" + taskID + "&messageID=" + messageID + "&projectID=" + projectID),
-				onFileUploadSuccess,
-				onFileTransferFail,
-				options);
-
-			ft.onprogress = function(progressEvent) {
-			    if (progressEvent.lengthComputable) {
-			      loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
-			    } else {
-			      loadingStatus.increment();
-			    }
-			};
 		
-			function onFileUploadSuccess (result) {
-				console.log("FileTransfer.upload");
-				console.log("Code = " + result.responseCode);
-				console.log("Response = " + result.response);
-				console.log("Sent = " + result.bytesSent);
-				console.log("Link to uploaded file: http://www.filedropper.com" + result.response);
-				var response = result.response;
-				var destination = "http://www.filedropper.com/" + response.substr(response.lastIndexOf('=') + 1);
-				document.getElementById("result").innerHTML = "File uploaded to: " + 
-															  destination + 
-															  "</br><button onclick=\"window.open('" + destination + "', '_blank', 'location=yes')\">Open Location</button>";
-				document.getElementById("downloadedImage").style.display="none";
-			}
-        
-			function onFileTransferFail (error) {
-				console.log("FileTransfer Error:");
-				console.log("Code: " + error.code);
-				console.log("Source: " + error.source);
-				console.log("Target: " + error.target);
-			}
-		}
 	}
 }
