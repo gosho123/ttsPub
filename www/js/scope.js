@@ -101,7 +101,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         for (i = 0, len = mediaFiles.length; i < len; i += 1) {
             path = mediaFiles[i].fullPath;
 
-            $scope.t('media ' + path);
+            $scope.t('mediaFiles ' + mediaFiles);
             // do something interesting with the file
         }
     };
@@ -117,7 +117,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
 
 
+    ////////////////////////////
 
+    $scope.submitMedia = function(){
+        
+    }
 
 
 
@@ -756,7 +760,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.resetForm = function(){
 
-        $scope.messageForm.$setPristine();
+        $scope.upload_form.$setPristine();
         $scope.messageText = "";
         $scope.weHaveMedia = false;
         $scope.weHaveText = false;

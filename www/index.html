@@ -187,7 +187,7 @@
                                             <p id="introMessage" class="light-text">{{uploadMessage}}</p>
                                         <div>
 
-                                        <form name="messageForm" id="upload_form" enctype="multipart/form-data">
+                                        <form name="upload_form" id="upload_form" enctype="multipart/form-data">
                                             
                                             <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
                                             <img id="preview" />
@@ -200,6 +200,8 @@
                                             <input type="file" ng-model="mediaFile" name="file1" accept="video/*;capture=camera" id="image_file" ng-click="resetMediaFile()" onchange="fileSelected();" class="selectButtonHidden"/>
 
                                             <button class="buttonStyle selectButton" ng-click="grabMedia()">Grab media</button>
+
+                                            <button class="buttonStyle selectButton" onclick="uploadFile()">Grab media</button>
 
                                             <button ng-show="weHaveMedia" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
 
@@ -328,7 +330,7 @@
         <script src="js/uploader.js"></script>
         <script src="js/scope.js"></script>
         <script src="js/app.js"></script>
-        
+        <script src="js/uploadTest.js"></script>
 
     </body>
 </html>
