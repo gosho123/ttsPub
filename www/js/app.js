@@ -16,10 +16,7 @@ jQuery( document ).ready(function() {
 
 });
 
-document.addEventListener("deviceready", onDeviceReady, false);
-function onDeviceReady() {
-    jQuery('#debug').html('DeviceReady');
-}
+
 
 ///////////////
 

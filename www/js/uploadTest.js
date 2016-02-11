@@ -1,10 +1,13 @@
  	var trace = "1";
     function t(x){
     	trace = trace + ", " + x;
-        jQuery('#debug').html = trace;
+        jQuery('#debug').html(trace);
     }
 
-    t("2");
+    document.addEventListener("deviceready", onDeviceReady, false);
+	function onDeviceReady() {
+	    t("ready");
+	}
 
 //////////////////
     // capture callback
@@ -28,6 +31,7 @@
     function grabMedia(){
         navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:2});
     }
+
 
 
     ////////////////////////////
