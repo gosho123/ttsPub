@@ -12,18 +12,23 @@
 //////////////////
     // capture callback
 
+    //var fileURI = "";
+
     var captureSuccess = function(mediaFiles) {
         var i, path, len;
         for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-            path = mediaFiles[i].fullPath;
+            //fileURI = mediaFiles[i].fullPath;
 
-            t('name ' + mediaFiles[i].name);
-            t('fullPath ' + mediaFiles[i].fullPath);
-            t('type ' + mediaFiles[i].type);
-            t('getFormatData ' + mediaFiles[i].getFormatData);
+            t(i + ' name ' + mediaFiles[i].name);
+            t(i + ' fullPath ' + mediaFiles[i].fullPath);
+            t(i + ' type ' + mediaFiles[i].type);
+
             
             // do something interesting with the file
         }
+
+        uploadMedia(mediaFiles[0].fullPath, mediaFiles[0].type, mediaFiles[0].name)
+            
     };
 
     // capture error callback
@@ -39,12 +44,45 @@
 	function captureImage(){
 		navigator.device.capture.captureImage(captureSuccess, captureError, {limit:2});
 	}
-
-
-    ////////////////////////////
+    
     
 
-    function uploadMedia(fileURI) {
+    function uploadMedia(fileURL, fileType, fileName) {
+
+    	console.log("2 " + fileURL);
+
+    	var win = function (r) {
+		    console.log("Code = " + r.responseCode);
+		    console.log("Response = " + r.response);
+		    console.log("Sent = " + r.bytesSent);
+		}
+
+		var fail = function (error) {
+		    console.log("An error has occurred: Code = " + error.code);
+		    console.log("upload error source " + error.source);
+		    console.log("upload error target " + error.target);
+		}
+
+		var options = new FileUploadOptions();
+		options.fileKey = "file";
+		options.fileName = fileName;
+		options.mimeType = fileType;
+
+		var params = {};
+		params.value1 = "test";
+		params.value2 = "param";
+
+		options.params = params;
+
+		var ft = new FileTransfer();
+		ft.upload(fileURL, encodeURI("http://www.gs0.co/tts/upload.php?userID=U&taskID=T&messageID=M&projectID=P"), win, fail, options);
+	
+	}
+
+
+
+    	/*t("fileURI " + fileURI);
+
 			var options = new FileUploadOptions();
 			options.fileKey = "file";
 			options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
@@ -88,20 +126,21 @@
 				console.log("Sent = " + result.bytesSent);
 				console.log("Link to uploaded file: http://www.filedropper.com" + result.response);
 				var response = result.response;
-				var destination = "http://www.filedropper.com/" + response.substr(response.lastIndexOf('=') + 1);
-				document.getElementById("result").innerHTML = "File uploaded to: " + 
-															  destination + 
-															  "</br><button onclick=\"window.open('" + destination + "', '_blank', 'location=yes')\">Open Location</button>";
-				document.getElementById("downloadedImage").style.display="none";
+				t("response " + response)
+				//var destination = "http://www.filedropper.com/" + response.substr(response.lastIndexOf('=') + 1);
+				//document.getElementById("result").innerHTML = "File uploaded to: " + 
+															  //destination + 
+															  //"</br><button onclick=\"window.open('" + destination + "', '_blank', 'location=yes')\">Open Location</button>";
+				//document.getElementById("downloadedImage").style.display="none";
 			}
         
 			function onFileTransferFail (error) {
-				console.log("FileTransfer Error:");
-				console.log("Code: " + error.code);
-				console.log("Source: " + error.source);
-				console.log("Target: " + error.target);
-			}
-		}
+				t("FileTransfer Error:");
+				t("Code: " + error.code);
+				t("Source: " + error.source);
+				t("Target: " + error.target);
+			}*/
+		
 
 
 

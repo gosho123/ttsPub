@@ -17,6 +17,12 @@ jQuery( document ).ready(function() {
 });
 
 
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    console.log("file " + cordova.file);
+    console.log("FileTransfer " + FileTransfer);
+}
+
 
 ///////////////
 

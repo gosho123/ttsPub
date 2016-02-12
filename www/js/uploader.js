@@ -126,6 +126,8 @@ function fileSelected() {
     // get selected file element
     var oFile = document.getElementById('image_file').files[0];
 
+    t("oFile " + oFile);
+
     // filter for files
     var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
     var vFilter = /^(video\/mp4|video\/mov|video\/wm4|video\/quicktime|video\/wmv)$/i;

@@ -474,7 +474,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.pollCount ++;
 
-        console.log($scope.pollCount + ", flash: " + $scope.flash);
+        //console.log($scope.pollCount + ", flash: " + $scope.flash);
 
         $scope.pingData = "";
 
