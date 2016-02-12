@@ -19,9 +19,7 @@
         for (i = 0, len = mediaFiles.length; i < len; i += 1) {
             //fileURI = mediaFiles[i].fullPath;
 
-            t(i + ' name ' + mediaFiles[i].name);
-            t(i + ' fullPath ' + mediaFiles[i].fullPath);
-            t(i + ' type ' + mediaFiles[i].type);
+            
 
             
             // do something interesting with the file
@@ -49,7 +47,7 @@
 
     function uploadMedia(fileURL, fileType, fileName) {
 
-    	t("2 " + fileURL + " fileType: " + fileType + " fileName: " + fileName);
+    	t("3 " + fileURL + " fileType: " + fileType + " fileName: " + fileName);
 
     	var win = function (r) {
 		    t("Code = " + r.responseCode);
@@ -74,8 +72,13 @@
 
 		options.params = params;
 
+		options.headers = {
+			Connection: "Close"
+		};
+		options.chunkedMode = false;
+
 		var ft = new FileTransfer();
-		ft.upload(fileURL, encodeURI("http://www.gs0.co/tts/upload.php?userID=U&taskID=T&messageID=M&projectID=P"), win, fail, options);
+		ft.upload(fileURL, encodeURI("http://www.gs0.co/tts/upload.php?userID=U&taskID=T&messageID=M&projectID=P"), win, fail, options, true);
 	
 	}
 
