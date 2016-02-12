@@ -49,18 +49,18 @@
 
     function uploadMedia(fileURL, fileType, fileName) {
 
-    	console.log("2 " + fileURL);
+    	t("2 " + fileURL + " fileType: " + fileType + " fileName: " + fileName);
 
     	var win = function (r) {
-		    console.log("Code = " + r.responseCode);
-		    console.log("Response = " + r.response);
-		    console.log("Sent = " + r.bytesSent);
+		    t("Code = " + r.responseCode);
+		    t("Response = " + r.response);
+		    t("Sent = " + r.bytesSent);
 		}
 
 		var fail = function (error) {
-		    console.log("An error has occurred: Code = " + error.code);
-		    console.log("upload error source " + error.source);
-		    console.log("upload error target " + error.target);
+		    t("An error has occurred: Code = " + error.code);
+		    t("upload error source " + error.source);
+		    t("upload error target " + error.target);
 		}
 
 		var options = new FileUploadOptions();
