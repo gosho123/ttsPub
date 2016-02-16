@@ -456,8 +456,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.pollCount ++;
 
-        console.log($scope.pollCount + ", flash: " + $scope.flash);
-
         $scope.pingData = "";
 
         $scope.pingDataDecode = [];
@@ -495,20 +493,18 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                         $scope.$apply();
                     }*/
 
-                    if ($scope.pingData.data[0] != ""){
+                    /*if (($scope.pingData.data[0] != "") || ($scope.pingData.data[0] != undefined)){
                         
                         $scope.pingDataDecode = JSON.parse(window.atob($scope.pingData.data[0]));
-
-                        console.log("task_id " + $scope.pingDataDecode.task_id);
 
                         $scope.unreadMessages = true;
                         $scope.$apply();
 
                     } else {
-                        
+
                         $scope.pingDataDecode = "";
                         $scope.unreadMessages = false;
-                    }
+                    }*/
                 },
 
                 error: function(a,b,c) {
