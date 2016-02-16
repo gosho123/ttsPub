@@ -76,7 +76,7 @@ function captureImage(){
 
 // capture error callback
 var captureError = function(error) {
-    navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+    navigator.notification.alert('No media added: ' + error.code, null);
 };
 
 

@@ -139,7 +139,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         if (($scope.username == "") || ($scope.username == undefined) | ($scope.username == null)){
             $scope.firstTimeUser = true;
         } else {
-            $scope.firstTimeUser = true; // revert to false
+            $scope.firstTimeUser = false; // revert to false
         }
         
 
@@ -346,7 +346,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 if (nav != 'back'){ 
 
                     $scope.proceedApp('taskList');
-                    //$scope.openInfoPanel();
+                    $scope.openInfoPanel();
                 }
 
             },
@@ -660,7 +660,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 $scope.uploadError = false;
                 $scope.weHaveMedia = false;
                 $scope.weHaveText = false;
-                $scope.$apply();
+                
 
                 $scope.uploadMessage = "Complete!"
                 
@@ -685,6 +685,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 changeUI('uploadPhotoButton', 'display', 'none');
                 changeUI('uploadVideoButton', 'display', 'none');
+
+                if (!$scope.$$phase) { // check if digest already in progress
+                    $scope.$apply(); // launch digest;
+                }
 
             },
 

@@ -23,7 +23,7 @@
 <body onload="onDeviceReady()">
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center">v50</div>
+            <div style="font-size:12px; position:fixed; top:0; z-index:99999; padding-top:20px; width:100%, text-align:center">v51</div>
             <div  style="font-size:12px; position:fixed; top:0; right:0; z-index:99998; padding-top:20px; width:100%, text-align:right" id="debug"></div>
 
             <div  style="font-size:12px; position:fixed; top:0; right:0; z-index:99997; padding-top:50px; width:100%, text-align:right; display:none" id="fileURL"></div>
@@ -197,9 +197,7 @@
 
                                                 <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
 
-                                                <img class="grid twelve" id="preview" />
-
-                                                
+                                                <div style="width:100%; text-align:center"><img class="grid twelve" id="preview" /></div>
 
                                                 <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="captureVideo()" style="width:49%; clear:none; float:left">Add Video</button>
 
@@ -295,6 +293,7 @@
                    
                     <div class="row">
                         <div class="grid twelve">
+                            <button class="buttonStyle btn-tertiary" ng-click="openInfoPanel()">Close</button>
                             <div class="infoPanelLogo"></div>
                             <h2>{{project_name}}</h2>
                             <p class="info-boldText">{{project_description}}</p>
