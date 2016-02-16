@@ -503,6 +503,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                         $scope.unreadMessages = true;
                         $scope.$apply();
+
+                    } else {
+                        
+                        $scope.pingDataDecode = "";
+                        $scope.unreadMessages = false;
                     }
                 },
 
@@ -1304,13 +1309,13 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-left');
         $scope.getTasks('back');
 
-        if ($scope.unreadMessages == true){
-            $scope.unreadMessages = false;
-            
-            if (!$scope.$$phase) { // check if digest already in progress
-                $scope.$apply(); // launch digest;
-            }
+        $scope.allowPolling = false;
+        $scope.unreadMessages = false;
+
+        if (!$scope.$$phase) { // check if digest already in progress
+            $scope.$apply(); // launch digest;
         }
+        
     }
 
 });
