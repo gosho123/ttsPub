@@ -1,4 +1,4 @@
-console.log("TTS App - v32")
+        console.log("TTS App - v32")
 
 //////////////////////////****  MY ACCOUNT CONTROLLER FUNCTIONS ***/////////////////////  
 var taskListLink = "taskList.json";
@@ -40,6 +40,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.weHaveMedia = false;
     $scope.weHaveText = false;
+    $scope.addMedia = false;
 
     $scope.messageText = "";
     $scope.mediaString  = "";
@@ -82,26 +83,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.uploadMessage = "Reply to Message";
 
-    $scope.tracer = "ready...";
-
-    $scope.appTrace = "1 ";
-
-    ////////////////////////
-
-    $scope.t = function(x){
-        $scope.appTrace =  $scope.appTrace + ", " + x;
-    }
-
-
-    
-
-
-
-
-
-
-
-
+    $scope.tracer = "ready..."
 
     $scope.openInExternalBrowser = function(){
      // Open in external browser
@@ -364,7 +346,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 if (nav != 'back'){ 
 
                     $scope.proceedApp('taskList');
-                    $scope.openInfoPanel();
+                    //$scope.openInfoPanel();
                 }
 
             },
@@ -466,7 +448,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
 
-    $scope.allowPolling = false;
+    //$scope.allowPolling = false;
     $scope.pollCount = 0;
     $scope.flash = "?flash=1";
 
@@ -474,9 +456,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.pollCount ++;
 
-        //console.log($scope.pollCount + ", flash: " + $scope.flash);
+        console.log($scope.pollCount + ", flash: " + $scope.flash);
 
         $scope.pingData = "";
+
+        $scope.pingDataDecode = [];
 
         if ($scope.allowPolling == true){
 
@@ -505,8 +489,18 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     console.log($scope.pingData);
 
-                    if ($scope.pingData.monitor != ""){
+                    /*if ($scope.pingData.monitor != ""){
                         //console.log("$scope.pingData.monitor = " + $scope.pingData.monitor);
+                        $scope.unreadMessages = true;
+                        $scope.$apply();
+                    }*/
+
+                    if ($scope.pingData.data[0] != ""){
+                        
+                        $scope.pingDataDecode = JSON.parse(window.atob($scope.pingData.data[0]));
+
+                        console.log("task_id " + $scope.pingDataDecode.task_id);
+
                         $scope.unreadMessages = true;
                         $scope.$apply();
                     }
@@ -537,14 +531,17 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.submitMessage = function(){ // Submit button clicked
 
-        $scope.messageID = $scope.randomId($scope.messageData.length + 1);
-
-        $scope.mediaString = "TTS-" + $scope.userID +'_'+ $scope.taskID +'_'+ $scope.messageID;
-
-        $scope.uploadMessage = "Uploading media... Please wait";
+        console.log("submitMessage");
 
         if ($scope.weHaveMedia == true){
 
+            $scope.messageID = $scope.randomId($scope.messageData.length + 1);
+
+            $scope.mediaString = "TTS-" + $scope.userID +'_'+ $scope.taskID +'_'+ $scope.messageID;
+
+            $scope.uploadMessage = "Uploading media... Please wait";
+
+            console.log("startUploading")
             startUploading($scope.userID, $scope.taskID, $scope.messageID, $scope.projectID);// external upload.js function
 
         } else if ($scope.weHaveMedia == false && $scope.weHaveText == true){
@@ -562,10 +559,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
-    $scope.resetMediaFile = function(){
-        // do this to reset the input
-        document.getElementById('image_file').value = null;
-    }
 
     // text input check
     $scope.checkMessage = function(){
@@ -588,19 +581,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.uploadFinished = function(userID, taskID, messageID){ 
 
         $scope.submitDataToTTS();
-        $scope.goshoUpdate()
-
-        $scope.uploadMessage = "Finishing... Please wait"
-        /* DEBUGGING
-
-        $scope.resetForm();
-        displayConfirmMessage();
-
-        changeUI('uploadFileTrigger', 'display', 'none');
-        changeUI('selectFileTrigger', 'display', 'none');
-        changeUI('messageText', 'display', 'none');
-        changeUI('messageText', 'display', 'none');
-        changeUI('removeMedia', 'display', 'none');*/
+        $scope.goshoUpdate();
     }
 
     $scope.goshoUpdate = function(){
@@ -652,7 +633,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.submitParams.push("media=");
         }
 
-        console.log($scope.submitParams)
+        console.log("submitParams " + $scope.submitParams);
+
+        $scope.uploadMessage = "Finishing... Please wait"
 
         pjq.ajax({
             url: $scope.TheThinkingShedRoot + "/en/tasks",
@@ -664,22 +647,44 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             success: function(data) {
                 var obj = data;
+
+                $scope.messageText = "";
+                $scope.mediaString  = "";
+                $scope.mediaSuffix = "";
+                $scope.mimeType = "";
+                jQuery('#fileURL').html("");
+                jQuery('#preview').attr("src", "");
+                jQuery('#fileType').html("");
+                jQuery('#fileName').html("");
+                $scope.uploadError = false;
+                $scope.weHaveMedia = false;
+                $scope.weHaveText = false;
+                $scope.$apply();
+
+                $scope.uploadMessage = "Complete!"
                 
-                if (obj.isok == "1") {
+                changeUI('progress_percent_text', 'html', 'Complete')
+                changeUI('progress', 'width', '100%')
 
-                } else {
+                changeUI('backToMessages', 'display', 'block');
 
-                }
+                changeUI( "progress_info" , 'display', 'none');
+                changeUI( "uploadComplete", 'display', 'block' );
 
-                $scope.resetForm();
-                displayConfirmMessage();
+                changeUI("progress", 'display', 'none');
+                changeUI("preview", 'display', 'none');
+
+                changeUI('uploadComplete', 'display', 'block');
+                changeUI('uploadComplete', 'opacity', 1);
 
                 changeUI('uploadFileTrigger', 'display', 'none');
-                changeUI('selectFileTrigger', 'display', 'none');
                 changeUI('messageText', 'display', 'none');
                 changeUI('messageText', 'display', 'none');
                 changeUI('removeMedia', 'display', 'none');
-                
+
+                changeUI('uploadPhotoButton', 'display', 'none');
+                changeUI('uploadVideoButton', 'display', 'none');
+
             },
 
             complete: function (data) {
@@ -694,12 +699,25 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     }
 
+    $scope.showMediaButton = function(){
+        $scope.addMedia = !$scope.addMedia;
+    }
+
     $scope.removeMedia = function(){
 
         $scope.weHaveMedia = false;
+        weHaveData = false;
         $scope.mediaString  = "";
         $scope.mediaSuffix = "";
         $scope.mimeType = "";
+
+
+        jQuery('#fileURL').html("");
+        jQuery('#preview').attr("src", "");
+        jQuery('#fileType').html("");
+        jQuery('#fileName').html("");
+
+
         setUpUi();// uploader.js
         $scope.checkMessage();
     }
@@ -723,26 +741,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.uploadError = false;
 
         changeUI('uploadFileTrigger', 'display', 'block');
-        changeUI('selectFileTrigger', 'display', 'block');
         changeUI('progress_info', 'display', 'none');
         changeUI('messageText', 'display', 'block');
         changeUI('preview', 'display', 'block');
         changeUI('removeMedia', 'display', 'block');
     }
 
-    $scope.resetForm = function(){
-
-        $scope.upload_form.$setPristine();
-        $scope.messageText = "";
-        $scope.weHaveMedia = false;
-        $scope.weHaveText = false;
-        $scope.mediaString  = "";
-        $scope.mediaSuffix = "";
-        $scope.mimeType = "";
-        $scope.uploadError = false;
-        setUpUi();// uploader.js
-
-    }
 
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
@@ -1084,6 +1088,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             // Screen functions
             if ($scope.liveScreen == "reply"){
+
                 setUpUi();
                 $scope.uploadMessage = "Reply to Message";
                 $scope.uploadError = false;
@@ -1184,7 +1189,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     $scope.loginReset();
                     
-                    
                 } else {
 
                 }
@@ -1219,6 +1223,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.mimeType = "";
         $scope.mid = "";
         $scope.errorMessage = "";
+
+        jQuery('#fileURL').html("");
+        jQuery('#preview').attr("src", "");
+        jQuery('#fileType').html("");
+        jQuery('#fileName').html("");
 
         $scope.viewUserPanel = false;
         $scope.viewInfoPanel = false;
@@ -1297,9 +1306,12 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         if ($scope.unreadMessages == true){
             $scope.unreadMessages = false;
+            
+            if (!$scope.$$phase) { // check if digest already in progress
+                $scope.$apply(); // launch digest;
+            }
         }
     }
 
 });
-
 

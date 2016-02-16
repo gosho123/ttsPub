@@ -10,89 +10,37 @@ var weHaveData = false;
 //UI Setup
 
 function setUpUi(){
-    changeUI('selectFileTrigger', 'display', 'block');
     changeUI('backToMessages', 'display', 'none');
     changeUI('progress_info', 'display', 'none');
-    changeUI('selectFileTrigger', 'html', 'Add media');
     changeUI('uploadComplete', 'display', 'none');
     changeUI('introMessage', 'display', 'block');
     changeUI('messageText', 'display', 'block');
     changeUI('uploadFileTrigger', 'display', 'block');
     changeUI('uploadFileTrigger', 'class', 'btn-primary twelve btn-disabled');
     changeUI('preview', 'display', 'none');
+    changeUI('uploadVideoButton', 'display', 'block');
+    changeUI('uploadPhotoButton', 'display', 'block');
     document.getElementById('error').style.display = 'none';
     document.getElementById('error2').style.display = 'none';
     document.getElementById('abort').style.display = 'none';
     document.getElementById('warnsize').style.display = 'none';
     document.getElementById('preview').src = "#";
+    if (weHaveData == false){
+        changeUI('uploadPhotoButton', 'display', 'block');
+        changeUI('uploadVideoButton', 'display', 'block');
+    } else {
+        changeUI('uploadPhotoButton', 'display', 'none');
+        changeUI('uploadVideoButton', 'display', 'none');
+        changeUI('preview', 'display', 'block');
+    }
+
 }
 
 setUpUi();
 
 
-
-///////////////
-
-function win(r) {
-    console.log("Code = " + r.responseCode);
-    console.log("Response = " + r.response);
-    console.log("Sent = " + r.bytesSent);
-}
-
-function fail(error) {
-    alert("An error has occurred: Code = " + error.code);
-    console.log("upload error source " + error.source);
-    console.log("upload error target " + error.target);
-}
-
-var uri = encodeURI("http://some.server.com/upload.php");
-
-var options = new FileUploadOptions();
-options.fileKey="file";
-options.fileName=fileURL.substr(fileURL.lastIndexOf('/')+1);
-options.mimeType="text/plain";
-
-var headers={'headerParam':'headerValue'};
-
-options.headers = headers;
-
-var ft = new FileTransfer();
-
-ft.onprogress = function(progressEvent) {
-    if (progressEvent.lengthComputable) {
-      loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
-    } else {
-      loadingStatus.increment();
-    }
-};
-
-ft.upload(fileURL, uri, win, fail, options);
-
-
-
-
-
-
-function secondsToTime(secs) { // we will use this function to convert seconds in normal time format
-    var hr = Math.floor(secs / 3600);
-    var min = Math.floor((secs - (hr * 3600))/60);
-    var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
-
-    if (hr < 10) {hr = "0" + hr; }
-    if (min < 10) {min = "0" + min;}
-    if (sec < 10) {sec = "0" + sec;}
-    if (hr) {hr = "00";}
-    return hr + ':' + min + ':' + sec;
-};
-
-function bytesToSize(bytes) {
-    var sizes = ['Bytes', 'KB', 'MB'];
-    if (bytes == 0) return 'n/a';
-    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
-};
-
 function changeUI(element, state, value){
+    console.log(element)
     if (state == "display"){
         document.getElementById(element).style.display = value;
     }
@@ -115,224 +63,154 @@ removeMediaFile = function(){
     document.getElementById('image_file').value = null;
 }
 
-function fileSelected() {
+// start video capture
+function captureVideo(){
+    navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1});
+    //captureSuccess()
+}
+
+function captureImage(){
+    navigator.device.capture.captureImage(captureSuccess, captureError, {limit:1});
+    //captureSuccess()
+}
+
+// capture error callback
+var captureError = function(error) {
+    navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+};
+
+
+var fileURL = "";
+var fileTypevar = "";
+var fileName = "";
+
+var captureSuccess = function(mediaFiles) {
+
+    jQuery("#debug").html(mediaFiles);
+
+    jQuery('#fileURL').html(mediaFiles[0].fullPath);
+
+    if (mediaFiles[0].type == "image/jpeg"){
+        jQuery('#preview').attr("src", mediaFiles[0].fullPath);
+    } else {
+        jQuery('#preview').attr("src", "images/videoIcon.jpg");
+    }
+
+    
+
+    jQuery('#fileType').html(mediaFiles[0].type);
+    jQuery('#fileName').html(mediaFiles[0].name);
+
 
     // hide different warnings
     document.getElementById('error').style.display = 'none';
     document.getElementById('error2').style.display = 'none';
     document.getElementById('abort').style.display = 'none';
     document.getElementById('warnsize').style.display = 'none';
-
-    // get selected file element
-    var oFile = document.getElementById('image_file').files[0];
-
-    t("oFile " + oFile);
-
-    // filter for files
-    var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
-    var vFilter = /^(video\/mp4|video\/mov|video\/wm4|video\/quicktime|video\/wmv)$/i;
-
-    if (! rFilter.test(oFile.type)) {
-        document.getElementById('error').style.display = 'block';
-
-        if (vFilter.test(oFile.type)) {
-            document.getElementById('error').style.display = 'none';
-        }
-        //return;
-    }
-
-    // little test for filesize
-    if (oFile.size > iMaxFilesize) {
-        document.getElementById('warnsize').style.display = 'block';
-        return;
-    }
-
-    // get preview element
-    var oImage = document.getElementById('preview');
-
-
-    // prepare HTML5 FileReader
-    var oReader = new FileReader();
-        oReader.onload = function(e){
-
-        // e.target.result contains the DataURL which we will use as a source of the image
-
-        if (vFilter.test(oFile.type)) {
-            oImage.src = "images/videoIcon.jpg";
-        } else {
-            oImage.src = e.target.result;
-        }
-
-        /*oImage.onload = function () { // binding onload event
-
-            // we are going to display some custom image information here
-            sResultFileSize = bytesToSize(oFile.size);
-            document.getElementById('fileinfo').style.display = 'block';
-            document.getElementById('filename').innerHTML = 'Name: ' + oFile.name;
-            document.getElementById('filesize').innerHTML = 'Size: ' + sResultFileSize;
-            document.getElementById('filetype').innerHTML = 'Type: ' + oFile.type;
-            document.getElementById('filedim').innerHTML = 'Dimension: ' + oImage.naturalWidth + ' x ' + oImage.naturalHeight;
-        };*/
-    };
-
-    // read selected file as DataURL
-    oReader.readAsDataURL(oFile);
-
-     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
-
-    angularScope.$apply(function(){
-        angularScope.fileSelected(oFile.type);
-    })
-
-    readyToUpload();
-}
-
-function readyToUpload(){
-
-    weHaveData = true;
-
     changeUI('uploadFileTrigger', 'display', 'block');
-    changeUI('selectFileTrigger', 'html', 'Add a different file');
     changeUI('uploadFileTrigger', 'class', 'btn-primary twelve')
     changeUI('preview', 'display', 'block');
-}
+
+    changeUI('uploadPhotoButton', 'display', 'none');
+    changeUI('uploadVideoButton', 'display', 'none');
+
+    var angularScope = angular.element(document.querySelector('#tts-app')).scope();
+
+    angularScope.$apply(function(){
+        angularScope.fileSelected(mediaFiles[0].type);
+    })
+
+    weHaveData = true;
+        
+};
 
 function startUploading(u, t, m, p) {
 
-    // get file schema
-    userID = u;
-    taskID = t;
-    messageID = m;
-    projectID = p;
+    var userID = u;
+    var taskID = t;
+    var messageID = m;
+    var projectID = p;
 
     console.log('media ID = ' + ' - ' + userID + ' - ' + taskID + ' - ' + messageID)
 
     changeUI('uploadFileTrigger', 'display', 'none');
-    changeUI('selectFileTrigger', 'display', 'none');
     changeUI('progress_info', 'display', 'block');
     changeUI('messageText', 'display', 'none');
     changeUI('preview', 'display', 'none');
     changeUI('removeMedia', 'display', 'none');
-    
+    changeUI('uploadVideoButton', 'display', 'none');
+    changeUI('uploadPhotoButton', 'display', 'none');
+    changeUI('progress', 'display', 'block');
 
-    // cleanup all temp states
-    iPreviousBytesLoaded = 0;
-    document.getElementById('error').style.display = 'none';
-    document.getElementById('error2').style.display = 'none';
-    document.getElementById('abort').style.display = 'none';
-    document.getElementById('warnsize').style.display = 'none';
-    document.getElementById('progress_percent_text' ).innerHTML = '';
-    var oProgress = document.getElementById('progress');
-    oProgress.style.display = 'block';
-    oProgress.style.width = '0px';
 
-    // get form data for POSTing
-    //var vFD = document.getElementById('upload_form').getFormData(); // for FF3
-    var vFD = new FormData(document.getElementById('upload_form')); 
+    var fileURL = jQuery('#fileURL').html();
+    var fileType = jQuery('#fileType').html();
+    var fileName = jQuery('#fileName').html();
 
-    // create XMLHttpRequest object, adding few event listeners, and POSTing our data
-    var oXHR = new XMLHttpRequest();        
-    oXHR.upload.addEventListener('progress', uploadProgress, false);
-    oXHR.addEventListener('load', uploadFinish, false);
-    oXHR.addEventListener('error', uploadError, false);
-    oXHR.addEventListener('abort', uploadAbort, false);
-    oXHR.open('POST', 'http://www.gs0.co/tts/upload.php?userID='+ userID + "&taskID=" + taskID + "&messageID=" + messageID + "&projectID=" + projectID);
-    oXHR.send(vFD);
 
-    // set inner timer
-    oTimer = setInterval(doInnerUpdates, 300);
-}
-
-function doInnerUpdates() { // we will use this function to display upload speed
-    var iCB = iBytesUploaded;
-    var iDiff = iCB - iPreviousBytesLoaded;
-
-    // if nothing new loaded - exit
-    if (iDiff == 0)
-        return;
-
-    iPreviousBytesLoaded = iCB;
-    iDiff = iDiff * 2;
-    var iBytesRem = iBytesTotal - iPreviousBytesLoaded;
-    var secondsRemaining = iBytesRem / iDiff;
-
-    // update speed info
-    var iSpeed = iDiff.toString() + 'B/s';
-    if (iDiff > 1024 * 1024) {
-        iSpeed = (Math.round(iDiff * 100/(1024*1024))/100).toString() + 'MB/s';
-    } else if (iDiff > 1024) {
-        iSpeed =  (Math.round(iDiff * 100/1024)/100).toString() + 'KB/s';
-    }
-
-    document.getElementById('speed').innerHTML = iSpeed;
-    document.getElementById('remaining').innerHTML = '| ' + secondsToTime(secondsRemaining);        
-}
-
-function uploadProgress(e) { // upload process in progress
-    if (e.lengthComputable) {
-        iBytesUploaded = e.loaded;
-        iBytesTotal = e.total;
-        var iPercentComplete = Math.round(e.loaded * 100 / e.total);
-        var iBytesTransfered = bytesToSize(iBytesUploaded);
-
-        document.getElementById('progress_percent_text').innerHTML = iPercentComplete.toString() + '%';
-        document.getElementById('progress').style.width = (iPercentComplete).toString() + '%';
-        //document.getElementById('progress_percent').style.left = (iPercentComplete).toString() + '%';
-
-        if (iPercentComplete == 100){
-            document.getElementById('progress_percent_text').innerHTML = "OK"
-
-        }
-        document.getElementById('b_transfered').innerHTML = iBytesTransfered;
+    var win = function () {
         
-    } else {
-        displayUploadError();
+        // post data to TTS server
+        var angularScope = angular.element(document.querySelector('#tts-app')).scope();
+
+        angularScope.$apply(function(){
+            angularScope.uploadFinished(userID, taskID, messageID);
+        });
+
+        weHaveData = false;
+
     }
+
+    var fail = function (error) {
+        uploadError();
+    }
+
+    var options = new FileUploadOptions();
+    options.fileKey = "file";
+    options.fileName = fileName;
+    options.mimeType = fileType;
+    var params = {};
+    options.params = params;
+    options.headers = {
+        Connection: "Close"
+    };
+
+    options.chunkedMode = false;
+    var ft = new FileTransfer();
+
+
+    ft.upload(
+        fileURL, 
+        encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID), win, fail, options, true);
+    
+    ft.onprogress = function(progressEvent) {
+
+        if (progressEvent.lengthComputable) {
+
+            var iPercentComplete = Math.round(progressEvent.loaded * 100 / progressEvent.total);
+
+            document.getElementById('progress_percent_text').innerHTML = iPercentComplete.toString() + '%';
+            document.getElementById('progress').style.width = (iPercentComplete).toString() + '%';
+
+            if (iPercentComplete == 100){
+                document.getElementById('progress_percent_text').innerHTML = "OK"
+            }
+
+        } else {
+            console.log("progressEvent.loaded 2");
+          loadingStatus.increment();
+        }
+    };
+    
 }
 
-
-function uploadFinish(e) { // upload successfully finished
-    var oUploadResponse = document.getElementById('upload_response');
-    oUploadResponse.innerHTML = e.target.responseText;
-    //oUploadResponse.style.display = 'block';
-
-    displayConfirmMessage();
-
-    // post data to TTS server
-    var angularScope = angular.element(document.querySelector('#tts-app')).scope();
-
-    angularScope.$apply(function(){
-        angularScope.uploadFinished(userID, taskID, messageID);
-    })
-
-    clearInterval(oTimer);
-}
-
-function displayConfirmMessage(){
-
-    changeUI('progress_percent_text', 'html', 'Complete')
-    changeUI('progress', 'width', '100%')
-
-    changeUI('backToMessages', 'display', 'block');
-
-    changeUI( "progress_info" , 'display', 'none');
-    changeUI( "uploadComplete", 'display', 'block' );
-
-    changeUI("progress_info", 'display', 'none');
-    changeUI("preview", 'display', 'none');
-
-    changeUI('uploadComplete', 'display', 'block');
-    changeUI('uploadComplete', 'opacity', 1);
-
-}
-
-function uploadError(e) { // upload error
+function uploadError() { // upload error
     document.getElementById('error2').style.display = 'block';
     clearInterval(oTimer);
     displayUploadError();
 }  
 
-function uploadAbort(e) { // upload abort
+function uploadAbort() { // upload abort
     document.getElementById('abort').style.display = 'block';
     clearInterval(oTimer);
     displayUploadError();

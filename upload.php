@@ -1,12 +1,14 @@
 <?php
 
-echo "v16";
+echo "v21";
 $userID = $_GET['userID'];
 $taskID = $_GET['taskID'];
 $messageID = $_GET['messageID'];
 $projectID = $_GET['projectID'];
 
 $mediaID = "TTS-".$userID."_".$taskID."_".$messageID;
+
+echo "FILES = " . $_FILES["file"];
 
 function bytesToSize1024($bytes, $precision = 2) {
     $unit = array('B','KB','MB');
@@ -15,11 +17,11 @@ function bytesToSize1024($bytes, $precision = 2) {
 
 // Set local PHP vars from the POST vars sent from our form using the array
 // of data that the $_FILES global variable contains for this uploaded file
-$fileName = $_FILES["file1"]["name"]; // The file name
-$fileTmpLoc = $_FILES["file1"]["tmp_name"]; // File in the PHP tmp folder
-$fileType = $_FILES["file1"]["type"]; // The type of file it is
-$fileSize = $_FILES["file1"]["size"]; // File size in bytes
-$fileErrorMsg = $_FILES["file1"]["error"]; // 0 for false... and 1 for true
+$fileName = $_FILES["file"]["name"]; // The file name
+$fileTmpLoc = $_FILES["file"]["tmp_name"]; // File in the PHP tmp folder
+$fileType = $_FILES["file"]["type"]; // The type of file it is
+$fileSize = $_FILES["file"]["size"]; // File size in bytes
+$fileErrorMsg = $_FILES["file"]["error"]; // 0 for false... and 1 for true
 
 $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
 

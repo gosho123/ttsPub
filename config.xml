@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.48.2">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.49">
   <name>The Thinking Shed</name>
   <description>The Thinking Shed Mobile App</description>
   <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed Team</author>
@@ -7,22 +7,14 @@
   <!-- <access origin="*" launch-external="yes" />
   <access origin="https://*" browserOnly="true" /> -->
 
-  <access origin="*"/>
+  
 
   <preference name='phonegap-version' value='cli-5.1.1' />
 
   <plugin name="org.apache.cordova.inappbrowser" spec="0.6.0" source="pgb" />
-
   <plugin name="org.apache.cordova.file" source="pgb" spec="1.3.3" />
-
   <plugin name="org.apache.cordova.file-transfer" source="pgb" spec="0.5.0" />
-
-
-  <!-- <plugin name="org.apache.cordova.file-transfer" source="pgb" spec="0.5.0" />
-  <plugin name="org.apache.cordova.media-capture" source="pgb" spec="0.3.6" /> -->
-
-
-  <!-- <gap:plugin name="org.apache.cordova.inappbrowser"/> -->
+  <plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="pgb" />
 
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="portrait"/>
@@ -56,6 +48,12 @@
 
   <icon src="icon.png"/>
 
+  <access origin="*"/>
+
+  <allow-navigation href="http://*/*" />
+  <allow-navigation href="https://*/*" />
+  <allow-navigation href="data:*" />
+  x
   <!-- <gap:splash src="www/res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
   <gap:splash src="www/res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
   <gap:splash src="www/res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
