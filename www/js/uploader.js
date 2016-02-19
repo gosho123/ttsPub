@@ -40,7 +40,6 @@ setUpUi();
 
 
 function changeUI(element, state, value){
-    console.log(element)
     if (state == "display"){
         document.getElementById(element).style.display = value;
     }
@@ -131,8 +130,6 @@ function startUploading(u, t, m, p) {
     var messageID = m;
     var projectID = p;
 
-    console.log('media ID = ' + ' - ' + userID + ' - ' + taskID + ' - ' + messageID)
-
     changeUI('uploadFileTrigger', 'display', 'none');
     changeUI('progress_info', 'display', 'block');
     changeUI('messageText', 'display', 'none');
@@ -197,7 +194,6 @@ function startUploading(u, t, m, p) {
             }
 
         } else {
-            console.log("progressEvent.loaded 2");
           loadingStatus.increment();
         }
     };
@@ -217,7 +213,6 @@ function uploadAbort() { // upload abort
 }
 
 function displayUploadError(){
-    console.log("_____________ ERROR")
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 

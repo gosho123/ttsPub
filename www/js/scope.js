@@ -1,23 +1,8 @@
-        console.log("TTS App - v32")
-
 //////////////////////////****  MY ACCOUNT CONTROLLER FUNCTIONS ***/////////////////////  
-var taskListLink = "taskList.json";
-var taskData = "taskData.json";
 
 var app = angular.module('App', ['ngSanitize']);
 
 var globalScope = globalScope || {};
-
-app.config(function($httpProvider) {
-    //Enable cross domain calls
-    //$httpProvider.defaults.useXDomain = true;
-});
-//var ref = cordova.InAppBrowser.open(url, target, options);
-
-
-function testLink(){
-    window.open("http://www.google.com", "_system", "location=true", "toolbar=yes");
-}
 
 app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.TheThinkingShedRoot = "http://explore2.thethinkingshed.com";
@@ -85,26 +70,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.tracer = "ready..."
 
-    $scope.openInExternalBrowser = function(){
-     // Open in external browser
-     cordova.InAppBrowser.open('http://google.com','_system','location=yes'); 
-    };
-     
-    $scope.openInAppBrowser = function(){
-     // Open in app browser
-     cordova.InAppBrowser.open('http://google.com','_blank'); 
-    };
-     
-    $scope.openCordovaWebView = function(){
-     // Open cordova webview if the url is in the whitelist otherwise opens in app browser
-     cordova.InAppBrowser.open('http://google.com','_self'); 
-    };
-
-    $scope.testlink = function(){
-        window.open('http://google.com', '_blank', 'location=yes');
-         $scope.tracer = "test link clicked"
-    }
-
     // HTML injectors
 
     $scope.deliberatelyTrustDangerousSnippet = function(txt) {
@@ -119,9 +84,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.renderError = function(header, text){
 
         return $sce.trustAsHtml($scope.errorhtml(header, text));
-
     };
-
 
     //////// LOGIN
 
@@ -131,8 +94,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.username = getUser("user");
         $scope.password = getUser("pwd");
-
-        console.log($scope.username)
         
         // Retrieve
 
@@ -141,10 +102,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         } else {
             $scope.firstTimeUser = false; // revert to false
         }
-        
-
-    } else {
-        // Sorry! No Web Storage support..
     }
 
     function lostPasswordLink (link){window.open(link, '_system', 'location=no');}
@@ -226,10 +183,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 timeout: 8000
             });
-        }
-
-    }
-
+        };
+    };
 
     /////////////////////////////////////////////////
 
@@ -310,8 +265,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.getTasks = function(nav){
 
-        console.log("GET TASKS")
-
         if ($scope.connectionError == true){
             $scope.closeError();
             $scope.connectionError = false;
@@ -364,15 +317,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     function errorCallback(message){
         alert("error " + message);
     }
-
     $scope.loadMessages = function(index, taskid, navType, isenabled){
 
         if (isenabled != 0){
-
             $scope.gotoMessages(index, taskid, navType);
-
         }
-
     }
 
     $scope.gotoMessages = function(index, taskid, navType){
@@ -406,8 +355,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             complete: function (data) {
 
                 $scope.messageData = JSON.parse(data.responseText);
-
-                console.log($scope.messageData);
                 
                 if ($scope.messageData.length > 1){
                     $scope.mid = $scope.messageData[1].mid;
@@ -422,7 +369,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.proceedApp('messages');
                     $scope.taskID = taskid;
                 }
-
                 
             },
 
@@ -448,7 +394,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
 
-    //$scope.allowPolling = false;
     $scope.pollCount = 0;
     $scope.flash = "?flash=1";
 
@@ -485,26 +430,20 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     $scope.pingData = JSON.parse(data.responseText);
 
+                    console.log("");
+                    console.log("- - - - - - - - - - - - - - - - - -   PING   - - - - - - - - - - - - - - - - - -");
+                    console.log("");
                     console.log($scope.pingData);
+                    console.log("pingData.monitor = " + $scope.pingData.monitor);
 
-                    /*if ($scope.pingData.monitor != ""){
-                        //console.log("$scope.pingData.monitor = " + $scope.pingData.monitor);
+                    if ($scope.pingData.monitor.length >= 1){
                         $scope.unreadMessages = true;
                         $scope.$apply();
-                    }*/
-
-                    /*if (($scope.pingData.data[0] != "") || ($scope.pingData.data[0] != undefined)){
-                        
-                        $scope.pingDataDecode = JSON.parse(window.atob($scope.pingData.data[0]));
-
-                        $scope.unreadMessages = true;
-                        $scope.$apply();
-
                     } else {
-
-                        $scope.pingDataDecode = "";
                         $scope.unreadMessages = false;
-                    }*/
+                        $scope.$apply();
+                    }
+
                 },
 
                 error: function(a,b,c) {
@@ -532,8 +471,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.submitMessage = function(){ // Submit button clicked
 
-        console.log("submitMessage");
-
         if ($scope.weHaveMedia == true){
 
             $scope.messageID = $scope.randomId($scope.messageData.length + 1);
@@ -542,7 +479,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             $scope.uploadMessage = "Uploading media... Please wait";
 
-            console.log("startUploading")
             startUploading($scope.userID, $scope.taskID, $scope.messageID, $scope.projectID);// external upload.js function
 
         } else if ($scope.weHaveMedia == false && $scope.weHaveText == true){
@@ -586,8 +522,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
 
     $scope.goshoUpdate = function(){
-
-        console.log("converting Video " + $scope.mediaString + "." + $scope.mediaSuffix)
 
         var pjq = jQuery.noConflict();
 
@@ -633,8 +567,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.submitParams.push("url=");
             $scope.submitParams.push("media=");
         }
-
-        console.log("submitParams " + $scope.submitParams);
 
         $scope.uploadMessage = "Finishing... Please wait"
 
@@ -736,8 +668,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         if (!$scope.$$phase) { // check if digest already in progress
             $scope.$apply(); // launch digest;
         }
-
-        console.log("Angular Error")
     }
 
     $scope.retryUpload = function(){
@@ -758,8 +688,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     //////////////////////////////////////////////////////////////////////////////
 
       $scope.errorManager = function(query, msg){
-
-        console.log("Error: " + query + "msg: " + msg);
 
         if (msg == 'Unauthorized'){
 
@@ -914,7 +842,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         mediaRoot = $scope.TheThinkingShedRoot;
 
         if (isapp == 1){
-            console.log(src + " " + type + " " + isapp + " " + host)
+
             if (host == "GS"){mediaRoot = $scope.goShoRoot};
             if (host == "TTS"){mediaRoot = $scope.TheThinkingShedRoot};
             
@@ -930,10 +858,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                             '</video>';
 
             jQuery('#angularVideo').html(vidSource);
-
-            console.log(vidSource)
             
-
         } else {
 
                 $scope.videoViewSource = src;

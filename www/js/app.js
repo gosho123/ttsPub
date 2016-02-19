@@ -1,9 +1,12 @@
+// catched all l
+function l(x){
+    console.log(x)
+}
+
 jQuery( document ).ready(function() {
 
     var width = jQuery(document).width();
     var height = jQuery(document).height();
-
-    console.log(height);
 
     jQuery('.app-screen').each(function() { // loop through the screens
         jQuery(this).width(width);
@@ -115,7 +118,7 @@ function loadcssfile(filename){
         fileref.setAttribute("rel", "stylesheet")
         fileref.setAttribute("type", "text/css")
         fileref.setAttribute("id", "remoteStyle");
-        fileref.setAttribute("href", "http://www.gs0.co/tts/css/" + filename);
+        fileref.setAttribute("href", "http://www.gs0.co/tts/client/" + filename);
         document.getElementsByTagName("head")[0].appendChild(fileref)
 }
 

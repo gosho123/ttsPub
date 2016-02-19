@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.52">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.53">
   <name>The Thinking Shed</name>
   <description>The Thinking Shed Mobile App</description>
   <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed Team</author>
@@ -54,7 +54,7 @@
   <allow-navigation href="http://*/*" />
   <allow-navigation href="https://*/*" />
   <allow-navigation href="data:*" />
-  x
+  
   <!-- <gap:splash src="www/res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
   <gap:splash src="www/res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
   <gap:splash src="www/res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
