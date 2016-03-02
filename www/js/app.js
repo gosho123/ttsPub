@@ -38,19 +38,13 @@ document.onclick = function (e) {
   }
 };
 
-function openInAppBrowser(){
-    //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet'); 
-    jQuery('#debug').html('openInAppBrowser');
-
-    cordova.InAppBrowser.open(encodeURI('http://www.google.com'), '_blank', 'location=yes'); 
-}
-
 function openSystemBrowser(url){
-    //var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,presentationstyle=formsheet');
     window.open(url, "_system"); 
-    jQuery('#debug').html('openSystemBrowser')
 }
 
+var model = device.model;
+
+//https://cordova.apache.org/docs/en/2.5.0/cordova/device/device.model.html
 
 ////////////
 
