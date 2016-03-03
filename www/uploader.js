@@ -1,3 +1,23 @@
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+    
+    var thisDevice = device.platform;
+
+    if (thisDevice == "iOS"){
+        jQuery('#androidMediaButtons').hide();
+    }
+
+    if (thisDevice == "Android"){
+        jQuery('#iosMediaButtons').hide();
+    }
+
+    jQuery('#platform').html(device.platform)
+
+    //alert("1 thisDevice " + thisDevice);
+
+}
+
 // common variables
 var iBytesUploaded = 0;
 var iBytesTotal = 0;
@@ -25,7 +45,6 @@ function setUpUi(){
     changeUI('preview', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'block');
     changeUI('uploadPhotoButton', 'display', 'block');
-    changeUI('selectFileTrigger', 'display', 'block');
     document.getElementById('error').style.display = 'none';
     document.getElementById('error2').style.display = 'none';
     document.getElementById('abort').style.display = 'none';
@@ -34,17 +53,16 @@ function setUpUi(){
     if (weHaveData == false){
         changeUI('uploadPhotoButton', 'display', 'block');
         changeUI('uploadVideoButton', 'display', 'block');
-        changeUI('selectFileTrigger', 'display', 'block');
     } else {
         changeUI('uploadPhotoButton', 'display', 'none');
         changeUI('uploadVideoButton', 'display', 'none');
-        changeUI('selectFileTrigger', 'display', 'none');
         changeUI('preview', 'display', 'block');
     }
 
 }
 
 setUpUi();
+
 
 function changeUI(element, state, value){
     if (state == "display"){
@@ -64,6 +82,7 @@ function changeUI(element, state, value){
     }
     
 }
+
 
 function secondsToTime(secs) { // we will use this function to convert seconds in normal time format
     var hr = Math.floor(secs / 3600);
@@ -123,8 +142,6 @@ function displayFileSelectedUI(file){
 
     changeUI('uploadPhotoButton', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'none');
-    changeUI('selectFileTrigger', 'display', 'none');
-    
 
     weHaveData = true;
 
@@ -199,7 +216,6 @@ function startUploading(u, t, m, p) {
     changeUI('preview', 'display', 'none');
     changeUI('removeMedia', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'none');
-    changeUI('selectFileTrigger', 'display', 'none');
     changeUI('uploadPhotoButton', 'display', 'none');
     changeUI('progress', 'display', 'block');
 
@@ -237,7 +253,7 @@ function startUploading(u, t, m, p) {
 
             ft.upload(
                 fileURL, 
-                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android"), win, fail, options, true);
+                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android", win, fail, options, true);
             
             ft.onprogress = function(progressEvent) {
 

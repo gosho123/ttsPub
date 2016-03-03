@@ -23,7 +23,8 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
 
-    var thisDevice = device.platform;
+    //var thisDevice = device.platform;
+    var thisDevice = "iOS";
 
     if (thisDevice == "iOS"){
         jQuery('#androidMediaButtons').hide();
@@ -33,7 +34,9 @@ function onDeviceReady() {
         jQuery('#iosMediaButtons').hide();
     }
 
-    jQuery('#platform').html(thisDevice);
+    jQuery('#platform').html(thisDevice)
+
+    alert("thisDevice " + thisDevice);
 
 }
 
