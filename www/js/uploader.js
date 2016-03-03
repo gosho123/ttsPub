@@ -204,7 +204,7 @@ function startUploading(u, t, m, p) {
     var fileType = jQuery('#fileType').html();
     var fileName = jQuery('#fileName').html();
 
-    if(device == "android"){
+    if(device == "Android"){
 
 
             var win = function () {
@@ -256,7 +256,7 @@ function startUploading(u, t, m, p) {
 
     } 
 
-    if (device == "ios"){
+    if (device == "iOS"){
 
             var oProgress = document.getElementById('progress');
             oProgress.style.display = 'block';

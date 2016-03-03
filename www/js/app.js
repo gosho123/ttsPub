@@ -20,24 +20,23 @@ jQuery( document ).ready(function() {
 });
 
 
-
-
 document.addEventListener("deviceready", onDeviceReady, false);
+
 function onDeviceReady() {
-    alert("device " + device.model);
+
+    alert("platform " + device.platform);
+
+    var device = device.platform;
+
+    if (device == "iOS"){
+        jQuery('#androidMediaButtons').hide();
+    }
+
+    if (device == "Android"){
+        jQuery('#iosMediaButtons').hide();
+    }
+
 }
-
-
-/*var device = device.model;
-alert(device.model)
-
-if (device == "ios"){
-    jQuery('#androidMediaButtons').hide();
-}
-if (device == "android"){
-    jQuery('#iosMediaButtons').hide();
-}*/
-
 
 ///////////////
 
@@ -54,11 +53,6 @@ document.onclick = function (e) {
 function openSystemBrowser(url){
     window.open(url, "_system"); 
 }
-
-
-
-
-//https://cordova.apache.org/docs/en/2.5.0/cordova/device/device.model.html
 
 ////////////
 
