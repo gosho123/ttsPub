@@ -23,7 +23,7 @@
 <body onload="onDeviceReady()">
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; position:fixed; bottom:0; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center">v53</div>
+            <div style="font-size:12px; position:fixed; bottom:0; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center">v54</div>
             <div  style="font-size:12px; position:fixed; top:0; right:0; z-index:99998; padding-top:20px; width:100%, text-align:right" id="debug"></div>
 
             <div  style="font-size:12px; position:fixed; top:0; right:0; z-index:99997; padding-top:50px; width:100%, text-align:right; display:none" id="fileURL"></div>
@@ -198,9 +198,21 @@
 
                                                 <div style="width:100%; text-align:center"><img class="grid twelve" id="preview" /></div>
 
-                                                <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="captureVideo()" style="width:49%; clear:none; float:left">Add Video</button>
+                                                <div id="androidMediaButtons">
+                                                    <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="captureVideo()" style="width:49%; clear:none; float:left">Add Video</button>
 
-                                                <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImage()" style="width:49%; float:right; clear:none">Add Photo</button>
+                                                    <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImage()" style="width:49%; float:right; clear:none">Add Photo</button>
+                                                </div>
+
+
+                                                <div id="iosMediaButtons">
+                                                    <button class="buttonStyle selectButton" id="selectFileTrigger" >Add media</button>
+
+                                                    <input type="file" ng-model="mediaFile" name="file" accept="video/*;capture=camera" id="image_file" ng-click="resetMediaFile()" onChange="fileSelected_iOS();" class="selectButtonHidden"/>
+                                                </div>
+
+
+
 
                                                 <button class="btn-primary twelve btn-disabled" ng-click="submitMessage()" id="uploadFileTrigger"><p class="btn-icon btn-arrow">Submit</p></button>
 
@@ -267,22 +279,17 @@
                     <div class="row">
                         <div class="grid twelve">
                             
-                            <!--<h2>Your information</h2>
+                            <h2>Your information</h2>
 
-                            <p>Full Name</p>
                             <h3>{{user_fullName}}</h3>
 
                             <p>Username</p>
                             <h3>{{user_userName}}</h3>
 
                             <img ng-src="{{user_userProfile}}" />
-                            <hr>-->
+                            <hr>
                             <button class="buttonStyle btn-tertiary" ng-click="openUserPanel()">Close</button>
 
-                            
-
-                            <div id="appTrace">{{appTrace}}</div>
-                            
                         </div>
                     </div>
 
@@ -295,7 +302,6 @@
                             <button class="buttonStyle btn-tertiary" ng-click="openInfoPanel()">Close</button>
                             <div class="infoPanelLogo"></div>
                             <h2>{{project_name}}</h2>
-                            <p class="info-boldText">{{project_description}}</p>
                             <hr>
                             <p class="info-boldText">Introduction</p>
                             <p class="descriptionText" ng-bind-html="project_intro"></p>

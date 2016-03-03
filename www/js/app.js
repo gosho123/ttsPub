@@ -20,10 +20,23 @@ jQuery( document ).ready(function() {
 });
 
 
+
+
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
-   
+    alert("device " + device.model);
 }
+
+
+/*var device = device.model;
+alert(device.model)
+
+if (device == "ios"){
+    jQuery('#androidMediaButtons').hide();
+}
+if (device == "android"){
+    jQuery('#iosMediaButtons').hide();
+}*/
 
 
 ///////////////
@@ -42,7 +55,8 @@ function openSystemBrowser(url){
     window.open(url, "_system"); 
 }
 
-var model = device.model;
+
+
 
 //https://cordova.apache.org/docs/en/2.5.0/cordova/device/device.model.html
 

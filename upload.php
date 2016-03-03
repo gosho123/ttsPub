@@ -5,6 +5,7 @@ $userID = $_GET['userID'];
 $taskID = $_GET['taskID'];
 $messageID = $_GET['messageID'];
 $projectID = $_GET['projectID'];
+$device = $_GET['device'];
 
 $mediaID = "TTS-".$userID."_".$taskID."_".$messageID;
 
