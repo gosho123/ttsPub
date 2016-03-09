@@ -317,6 +317,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     function errorCallback(message){
         alert("error " + message);
     }
+
     $scope.loadMessages = function(index, taskid, navType, isenabled){
 
         if (isenabled != 0){
@@ -374,7 +375,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             error: function(a,b,c) {
 
-
                 $scope.errorManager('gotoMessages', c);
                 
                 for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
@@ -409,9 +409,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             var pjq = jQuery.noConflict();
 
-            $scope.submitParams = []
-            $scope.submitParams.push("max=" + $scope.mid);
-            $scope.submitParams.push("task=" + $scope.taskID);
+            //$scope.submitParams = []
+            //$scope.submitParams.push("max=" + $scope.mid);
+            //$scope.submitParams.push("task=" + $scope.taskID);
 
             pjq.ajax({
 
@@ -421,7 +421,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 dataType: "json",
                 crossDomain: true,
                 xhrFields: { withCredentials: true },
-                data: $scope.submitParams.join("&"),
+                //data: $scope.submitParams.join("&"),
 
                 success: function(data) {
                 },
@@ -430,15 +430,40 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                     $scope.pingData = JSON.parse(data.responseText);
 
-                    console.log("");
+                    
                     console.log("- - - - - - - - - - - - - - - - - -   PING   - - - - - - - - - - - - - - - - - -");
+                    console.log("This data is not being sent - but for reference ?max=" + $scope.mid + "&task= " + $scope.taskID);
                     console.log("");
                     console.log($scope.pingData);
                     console.log("pingData.monitor = " + $scope.pingData.monitor);
 
                     if ($scope.pingData.monitor.length >= 1){
-                        $scope.unreadMessages = true;
-                        $scope.$apply();
+                        console.log("We have a new mesage")
+                        for (var i = 0; i < $scope.pingData.monitor.length; i++) { 
+
+                            console.log("checking array - monitor[" + i + "] = taskID = " + $scope.taskID)
+
+                            if ($scope.pingData.monitor[i] == $scope.taskID){
+
+                                if ($scope.screenArray.length == 2){ // we're in the message screen 
+
+                                    $scope.gotoMessages(0, $scope.taskID, 'none')
+
+                                }
+
+                            }
+
+                            if ($scope.pingData.monitor[i] != $scope.taskID){
+                                
+                                $scope.unreadMessages = true;
+                                $scope.$apply();
+                            }
+                            
+                        }
+
+                        
+
+
                     } else {
                         $scope.unreadMessages = false;
                         $scope.$apply();
