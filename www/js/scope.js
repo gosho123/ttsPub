@@ -447,7 +447,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                                 if ($scope.screenArray.length == 2){ // we're in the message screen 
 
-                                    $scope.gotoMessages(0, $scope.taskID, 'none')
+                                    //$scope.gotoMessages(0, $scope.taskID, 'none')
 
                                 }
 
