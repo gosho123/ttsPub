@@ -374,7 +374,7 @@ button:focus, textarea:focus{
 .scroll-screen, .app-screen{
     overflow-y: scroll !important;
     overflow-x: hidden;
-    padding-bottom: 60px;
+    padding-bottom: 40px;
 }
 
 .scroll-screen::-webkit-scrollbar { 
@@ -886,7 +886,8 @@ video{
     left: 0;
     text-align: center;
     z-index:5000;
-    padding-top: 50px;
+    padding-top: 20px;
+    -webkit-overflow-scrolling: touch;
 }
 
 .appPanel .infoPanelLogo{

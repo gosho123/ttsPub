@@ -158,15 +158,15 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                         loadcssfile($scope.projectID);
 
                         $scope.loggedIn = true;
+                        $scope.allowPolling = true;
 
-                        
+                        $scope.$apply();
 
                     } else {
 
                         $scope.loginError = true;
                         $scope.loggingIn = false;
-                        $scope.allowPolling = true;
-
+                        
                         $scope.$apply();
                     }
 
@@ -429,42 +429,23 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 complete: function (data) {
 
                     $scope.pingData = JSON.parse(data.responseText);
-
-                    
                     console.log("- - - - - - - - - - - - - - - - - -   PING   - - - - - - - - - - - - - - - - - -");
-                    console.log("This data is not being sent - but for reference ?max=" + $scope.mid + "&task= " + $scope.taskID);
-                    console.log("");
-                    console.log($scope.pingData);
                     console.log("pingData.monitor = " + $scope.pingData.monitor);
 
                     if ($scope.pingData.monitor.length >= 1){
-                        console.log("We have a new mesage")
-                        for (var i = 0; i < $scope.pingData.monitor.length; i++) { 
 
-                            console.log("checking array - monitor[" + i + "] = taskID = " + $scope.taskID)
+                        for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
 
-                            if ($scope.pingData.monitor[i] == $scope.taskID){
-
-                                if ($scope.screenArray.length == 2){ // we're in the message screen 
-
-                                    $scope.gotoMessages(0, $scope.taskID, 'none')
-
-                                }
-
+                            if(jQuery.inArray(parseInt($scope.taskLiskData.tasks[i].taskid), $scope.pingData.monitor) != -1){
+                                $scope.taskLiskData.tasks[i].hasmodresp = true;
                             }
-
-                            if ($scope.pingData.monitor[i] != $scope.taskID){
-                                
-                                $scope.unreadMessages = true;
-                                $scope.$apply();
-                            }
-                            
                         }
-
-                        
-
+                       
+                        $scope.unreadMessages = true;
+                        $scope.$apply();
 
                     } else {
+
                         $scope.unreadMessages = false;
                         $scope.$apply();
                     }
@@ -479,7 +460,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         }
           
 
-          setTimeout($scope.doPoll, 10000);
+          setTimeout($scope.doPoll, 5000);
       }
 
     $scope.doPoll();
@@ -1024,6 +1005,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             // transition 
             jQuery('#screen-'+next).addClass('top-layer');
 
+            jQuery('.top-layer').animate({scrollTop : 0},10);
+
             jQuery('#appContainer').animate({left: (0 - tts.width) * ($scope.screenArray.length - 1)},{
 
                     easing: 'easeOutSine', duration: 500, complete: function(){
@@ -1054,14 +1037,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             if (next == "taskList"){
                 $scope.showBack = false;
             }
-
-            // activate polling
-            if (($scope.liveScreen == "taskList") || ($scope.liveScreen == "messages") || $scope.liveScreen == "reply"){
-                $scope.allowPolling = true;
-            } else {
-                $scope.allowPolling = false;
-            }
-
 
             /// update $scope
             if (!$scope.$$phase) { // check if digest already in progress
@@ -1192,6 +1167,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.uploadError = false;
 
+        $scope.allowPolling = false;
+
         $scope.$apply();
 
         $scope.screenArray = ["login"];
@@ -1258,13 +1235,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.screenArray = ["login", "taskList"];
         $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-left');
         $scope.getTasks('back');
-
-        $scope.allowPolling = false;
-        $scope.unreadMessages = false;
-
-        if (!$scope.$$phase) { // check if digest already in progress
-            $scope.$apply(); // launch digest;
-        }
         
     }
 
