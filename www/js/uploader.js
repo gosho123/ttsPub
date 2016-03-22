@@ -89,6 +89,12 @@ removeMediaFile = function(){
     document.getElementById('image_file').value = null;
 }
 
+/* Android Photo library
+http://stackoverflow.com/questions/19144424/camera-picturesourcetype-photolibrary-or-camera-picturesourcetype-savedphotoalbu
+https://github.com/apache/cordova-plugin-camera/blob/00cd249dd7ffce9645f339f0cfaf383b7976bac8/doc/index.md
+https://build.phonegap.com/plugins/5500
+*/
+
 // start video capture
 function captureVideo(){
     navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1});
