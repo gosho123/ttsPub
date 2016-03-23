@@ -622,6 +622,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 changeUI('removeMedia', 'display', 'none');
 
                 changeUI('uploadPhotoButton', 'display', 'none');
+                changeUI('selectPhotoButton', 'display', 'none');
                 changeUI('uploadVideoButton', 'display', 'none');
 
                 if (!$scope.$$phase) { // check if digest already in progress

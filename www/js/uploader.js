@@ -25,6 +25,7 @@ function setUpUi(){
     changeUI('preview', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'block');
     changeUI('uploadPhotoButton', 'display', 'block');
+    changeUI('selectPhotoButton', 'display', 'block');
     changeUI('selectFileTrigger', 'display', 'block');
     document.getElementById('error').style.display = 'none';
     document.getElementById('error2').style.display = 'none';
@@ -33,10 +34,12 @@ function setUpUi(){
     document.getElementById('preview').src = "#";
     if (weHaveData == false){
         changeUI('uploadPhotoButton', 'display', 'block');
+        changeUI('selectPhotoButton', 'display', 'block');
         changeUI('uploadVideoButton', 'display', 'block');
         changeUI('selectFileTrigger', 'display', 'block');
     } else {
         changeUI('uploadPhotoButton', 'display', 'none');
+        changeUI('selectPhotoButton', 'display', 'none');
         changeUI('uploadVideoButton', 'display', 'none');
         changeUI('selectFileTrigger', 'display', 'none');
         changeUI('preview', 'display', 'block');
@@ -95,6 +98,15 @@ https://github.com/apache/cordova-plugin-camera/blob/00cd249dd7ffce9645f339f0cfa
 https://build.phonegap.com/plugins/5500
 */
 
+// Android Capture
+function capturePhoto(){
+    // Retrieve image file location from specified source
+    navigator.camera.getPicture(captureSuccess, captureError,{ quality: 80, 
+        destinationType: navigator.camera.DestinationType.DATA_URL,
+        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+    });
+}
+
 // start video capture
 function captureVideo(){
     navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1});
@@ -128,6 +140,7 @@ function displayFileSelectedUI(file){
     changeUI('preview', 'display', 'block');
 
     changeUI('uploadPhotoButton', 'display', 'none');
+    changeUI('selectPhotoButton', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
     
@@ -207,6 +220,7 @@ function startUploading(u, t, m, p) {
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
     changeUI('uploadPhotoButton', 'display', 'none');
+    changeUI('selectPhotoButton', 'display', 'none');
     changeUI('progress', 'display', 'block');
 
 
