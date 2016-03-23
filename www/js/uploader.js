@@ -47,6 +47,10 @@ function setUpUi(){
 
 }
 
+logit = function(string){
+    jQuery("#debug").html(jQuery("#debug").html() + ", " + string)
+}
+
 setUpUi();
 
 function changeUI(element, state, value){
@@ -105,22 +109,26 @@ function capturePhoto(){
         destinationType: navigator.camera.DestinationType.DATA_URL,
         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
     });
+    logit("Android img2")
 }
 
 // start video capture
 function captureVideo(){
     navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1});
     //captureSuccess()
+    logit("Android vid")
 }
 
 function captureImage(){
     navigator.device.capture.captureImage(captureSuccess, captureError, {limit:1});
     //captureSuccess()
+    logit("Android img")
 }
 
 // capture error callback
 var captureError = function(error) {
     navigator.notification.alert('No media added: ' + error.code, null);
+    logit("Android capture error")
 };
 
 var fileURL = "";
@@ -143,6 +151,8 @@ function displayFileSelectedUI(file){
     changeUI('selectPhotoButton', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
+
+    logit("captured " + file)
     
 
     weHaveData = true;
@@ -158,6 +168,8 @@ function displayFileSelectedUI(file){
 /////////////////////////////////////////////////////////////////////////
 
 function fileSelected_iOS() {
+
+    logit("file ios")
 
     var oFile = document.getElementById('image_file').files[0];
     var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
@@ -184,16 +196,14 @@ function fileSelected_iOS() {
     // read selected file as DataURL
     oReader.readAsDataURL(oFile);
     displayFileSelectedUI(oFile.type);
+    debugMediaFile(oFile);
 
 }
 
 captureSuccess = function(mediaFiles) {
 
-    jQuery("#debug").html(mediaFiles);
-
-    jQuery('#fileURL').html(mediaFiles[0].fullPath);
-    jQuery('#fileType').html(mediaFiles[0].type);
-    jQuery('#fileName').html(mediaFiles[0].name);
+    logit("capture success" + mediaFiles);
+    debugMediaFile(mediaFiles)
 
     if (mediaFiles[0].type == "image/jpeg"){
         jQuery('#preview').attr("src", mediaFiles[0].fullPath);
@@ -202,10 +212,23 @@ captureSuccess = function(mediaFiles) {
     }
 
     displayFileSelectedUI(mediaFiles[0].type);
+    
         
 };
 
+debugMediaFile = function(mediaFiles){
+    /*changeUI('fileURL', 'display', 'block');
+    changeUI('fileType', 'display', 'block');
+    changeUI('fileName', 'display', 'block');
+
+    jQuery('#fileURL').html("url="+mediaFiles[0].src);
+    jQuery('#fileType').html("type="+mediaFiles[0].type);
+    jQuery('#fileName').html("name="+mediaFiles[0].name);*/
+}
+
 function startUploading(u, t, m, p) {
+
+    logit("uploading" + u + t + m + p);
 
     userID = u;
     taskID = t;
@@ -233,12 +256,13 @@ function startUploading(u, t, m, p) {
 
 
             var win = function () {
-                
+                logit("upload complete ")
                 uploadComplete()
 
             }
 
             var fail = function (error) {
+                logit("upload error " + error)
                 uploadError();
             }
 
@@ -260,6 +284,7 @@ function startUploading(u, t, m, p) {
                 encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android"), win, fail, options, true);
             
             ft.onprogress = function(progressEvent) {
+
 
                 if (progressEvent.lengthComputable) {
 
@@ -306,6 +331,7 @@ function startUploading(u, t, m, p) {
 }
 
 function uploadComplete(){
+    logit("finish ")
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
