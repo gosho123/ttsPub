@@ -19,7 +19,7 @@
   <!-- <plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="pgb" /> -->
 
   <gap:plugin name="org.apache.cordova.battery-status"/>
-  <!-- <gap:plugin name="org.apache.cordova.camera"/> -- >
+  <!-- <gap:plugin name="org.apache.cordova.camera"/> -->
   <gap:plugin name="org.apache.cordova.media-capture"/>
   <gap:plugin name="org.apache.cordova.console"/>
   <gap:plugin name="org.apache.cordova.contacts"/>
