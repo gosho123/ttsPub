@@ -189,7 +189,7 @@ function fileSelected_iOS() {
 
 captureSuccess = function(mediaFiles) {
 
-    jQuery("#debug").html(mediaFiles);
+    jQuery("#debug").html(mediaFiles[0].type);
 
     jQuery('#fileURL').html(mediaFiles[0].fullPath);
     jQuery('#fileType').html(mediaFiles[0].type);
