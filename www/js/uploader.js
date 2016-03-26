@@ -108,7 +108,7 @@ https://build.phonegap.com/plugins/5500
 function capturePhoto(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureSuccess, captureError,{ quality: 80, 
-        destinationType: navigator.camera.DestinationType.DATA_URL,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
     });
     logit("Android img2")
@@ -205,7 +205,7 @@ function fileSelected_iOS() {
 
 captureSuccess = function(mediaFiles) {
 
-    jQuery("#debug").html(mediaFiles);
+    logit(mediaFiles[0]);
 
     jQuery('#fileURL').html(mediaFiles[0].fullPath);
     jQuery('#fileType').html(mediaFiles[0].type);
@@ -218,7 +218,7 @@ captureSuccess = function(mediaFiles) {
     }
 
     displayFileSelectedUI(mediaFiles[0].type);
-    
+
     //logit("url="+mediaFiles[0].src);
     //logit("type="+mediaFiles[0].type);
     //logit("name="+mediaFiles[0].name);
