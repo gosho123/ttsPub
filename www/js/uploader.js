@@ -205,15 +205,11 @@ function fileSelected_iOS() {
 
 captureSuccess = function(mediaFiles) {
 
-    logit("url="+mediaFiles[0].src);
-    logit("type="+mediaFiles[0].type);
-    logit("name="+mediaFiles[0].name);
+    jQuery("#debug").html(mediaFiles);
 
     jQuery('#fileURL').html(mediaFiles[0].fullPath);
     jQuery('#fileType').html(mediaFiles[0].type);
     jQuery('#fileName').html(mediaFiles[0].name);
-
-    debugMediaFile(mediaFiles)
 
     if (mediaFiles[0].type == "image/jpeg"){
         jQuery('#preview').attr("src", mediaFiles[0].fullPath);
@@ -223,6 +219,9 @@ captureSuccess = function(mediaFiles) {
 
     displayFileSelectedUI(mediaFiles[0].type);
     
+    //logit("url="+mediaFiles[0].src);
+    //logit("type="+mediaFiles[0].type);
+    //logit("name="+mediaFiles[0].name);
         
 };
 
