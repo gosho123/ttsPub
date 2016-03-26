@@ -111,7 +111,7 @@ function capturePhoto(){
         destinationType: navigator.camera.DestinationType.FILE_URI,
         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
     });
-    logit("Android img2")
+    logit("Android library")
 }
 
 // start video capture
@@ -154,7 +154,7 @@ function displayFileSelectedUI(file){
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
 
-    logit("captured " + file)
+    logit("displayFile " + file)
     
 
     weHaveData = true;
@@ -205,7 +205,7 @@ function fileSelected_iOS() {
 
 captureSuccess = function(mediaFiles) {
 
-    logit(mediaFiles[0]);
+    logit("captureSuccess " + mediaFiles);
 
     jQuery('#fileURL').html(mediaFiles[0].fullPath);
     jQuery('#fileType').html(mediaFiles[0].type);
