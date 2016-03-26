@@ -31,8 +31,8 @@ function setUpUi(){
     document.getElementById('error2').style.display = 'none';
     document.getElementById('abort').style.display = 'none';
     document.getElementById('warnsize').style.display = 'none';
-    document.getElementById('preview').src = "#";
     if (weHaveData == false){
+        document.getElementById('preview').src = "#";
         changeUI('uploadPhotoButton', 'display', 'block');
         changeUI('selectPhotoButton', 'display', 'block');
         changeUI('uploadVideoButton', 'display', 'block');
@@ -41,14 +41,16 @@ function setUpUi(){
         changeUI('uploadPhotoButton', 'display', 'none');
         changeUI('selectPhotoButton', 'display', 'none');
         changeUI('uploadVideoButton', 'display', 'none');
+        changeUI('uploadFileTrigger', 'class', 'btn-primary twelve btn-disabled');
         changeUI('selectFileTrigger', 'display', 'none');
         changeUI('preview', 'display', 'block');
     }
 
 }
 
-logit = function(string){
+function logit(string){
     jQuery("#debug").html(jQuery("#debug").html() + ", " + string)
+    console.log("log: " + string)
 }
 
 setUpUi();
@@ -193,16 +195,24 @@ function fileSelected_iOS() {
             oImage.src = e.target.result;
         }
     };
+
     // read selected file as DataURL
     oReader.readAsDataURL(oFile);
     displayFileSelectedUI(oFile.type);
-    debugMediaFile(oFile);
+    
 
 }
 
 captureSuccess = function(mediaFiles) {
 
-    logit("capture success" + mediaFiles);
+    logit("url="+mediaFiles[0].src);
+    logit("type="+mediaFiles[0].type);
+    logit("name="+mediaFiles[0].name);
+
+    jQuery('#fileURL').html(mediaFiles[0].fullPath);
+    jQuery('#fileType').html(mediaFiles[0].type);
+    jQuery('#fileName').html(mediaFiles[0].name);
+
     debugMediaFile(mediaFiles)
 
     if (mediaFiles[0].type == "image/jpeg"){
@@ -217,13 +227,11 @@ captureSuccess = function(mediaFiles) {
 };
 
 debugMediaFile = function(mediaFiles){
-    /*changeUI('fileURL', 'display', 'block');
-    changeUI('fileType', 'display', 'block');
-    changeUI('fileName', 'display', 'block');
+    logit("logging " + mediaFiles)
+    logit("url="+mediaFiles[0].src);
+    logit("type="+mediaFiles[0].type);
+    logit("name="+mediaFiles[0].name);
 
-    jQuery('#fileURL').html("url="+mediaFiles[0].src);
-    jQuery('#fileType').html("type="+mediaFiles[0].type);
-    jQuery('#fileName').html("name="+mediaFiles[0].name);*/
 }
 
 function startUploading(u, t, m, p) {
