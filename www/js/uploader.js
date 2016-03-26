@@ -32,7 +32,7 @@ function setUpUi(){
     document.getElementById('abort').style.display = 'none';
     document.getElementById('warnsize').style.display = 'none';
     if (weHaveData == false){
-        document.getElementById('preview').src = "#";
+        document.getElementById('preview').src = "";
         changeUI('uploadPhotoButton', 'display', 'block');
         changeUI('selectPhotoButton', 'display', 'block');
         changeUI('uploadVideoButton', 'display', 'block');
