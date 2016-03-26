@@ -108,7 +108,7 @@ https://build.phonegap.com/plugins/5500
 function capturePhoto(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureLibrarySuccess, captureError,{ quality: 80, 
-        destinationType: navigator.camera.DestinationType.FILE_URI,
+        destinationType: navigator.camera.DestinationType.DATA_URL,
         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
     });
     logit("Android library")
