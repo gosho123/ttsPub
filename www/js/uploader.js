@@ -208,7 +208,7 @@ captureLibrarySuccess = function(oFile){
     oReader.readAsDataURL(oFile);
     displayFileSelectedUI(oFile.type);
 
-    logit(oFile);
+    //logit(oFile);
 
     jQuery('#fileURL').html(oFile.fullPath);
     jQuery('#fileType').html(oFile.type);
