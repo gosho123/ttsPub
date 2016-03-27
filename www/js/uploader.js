@@ -205,14 +205,13 @@ function fileSelected_iOS() {
 
 captureLibrarySuccess = function(oFile){
 
-    //jQuery('#messageText').val(oFile);
+    jQuery('#messageText').val(oFile);
 
-    logit("oFile: " + oFile);
-    displayFileSelectedUI();
+    //logit("oFile: " + oFile);
 
     //jQuery('#fileURL').html(oFile.fullPath);
     //jQuery('#fileType').html(oFile.type);
-    // Query('#fileName').html(oFile.name);
+    //jQuery('#fileName').html(oFile.name);
 }
 
 captureSuccess = function(mediaFiles) {
@@ -323,7 +322,9 @@ function startUploading(u, t, m, p) {
             };
     
 
-    } else {
+    } 
+
+    //if (thisDevice == "iOS"){
 
     if (jQuery('#platform').html() == "iOS"){
 
