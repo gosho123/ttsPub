@@ -51,13 +51,12 @@ function setUpUi(){
 var debugString = ""
 
 function logit(string){
-    debugString = debugString + ", " + string;
 
-    jQuery('#debugText').val(debugString);
+    debugString = debugString + ", " + string;
+    jQuery('#debug').html(debugString)
     console.log("log: " + debugString);
 }
 
-logit("Debug: ");
 
 setUpUi();
 
@@ -143,36 +142,6 @@ var fileURL = "";
 var fileTypevar = "";
 var fileName = ""
 
-///////////////////////////////////////////////////////////////
-
-function displayFileSelectedUI(file){
-    // hide different warnings
-    document.getElementById('error').style.display = 'none';
-    document.getElementById('error2').style.display = 'none';
-    document.getElementById('abort').style.display = 'none';
-    document.getElementById('warnsize').style.display = 'none';
-    changeUI('uploadFileTrigger', 'display', 'block');
-    changeUI('uploadFileTrigger', 'class', 'btn-primary twelve')
-    changeUI('preview', 'display', 'block');
-
-    changeUI('uploadPhotoButton', 'display', 'none');
-    changeUI('selectPhotoButton', 'display', 'none');
-    changeUI('uploadVideoButton', 'display', 'none');
-    changeUI('selectFileTrigger', 'display', 'none');
-
-    logit("displayFile " + file)
-    
-
-    weHaveData = true;
-
-    var angularScope = angular.element(document.querySelector('#tts-app')).scope();
-
-    angularScope.$apply(function(){
-        angularScope.fileSelected(file);
-    })
-
-}
-
 /////////////////////////////////////////////////////////////////////////
 
 function fileSelected_iOS() {
@@ -218,7 +187,7 @@ function captureLibrarySuccess(imageURI) {
     jQuery('#fileType').html("jpg");
     jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1));
 
-    displayFileSelectedUI(imageURI);
+    displayFileSelectedUI("image/jpeg");
  
 }
 
@@ -243,6 +212,36 @@ captureSuccess = function(mediaFiles) {
     //logit("name="+mediaFiles[0].name);
         
 };
+
+///////////////////////////////////////////////////////////////
+
+function displayFileSelectedUI(file){
+    // hide different warnings
+    document.getElementById('error').style.display = 'none';
+    document.getElementById('error2').style.display = 'none';
+    document.getElementById('abort').style.display = 'none';
+    document.getElementById('warnsize').style.display = 'none';
+    changeUI('uploadFileTrigger', 'display', 'block');
+    changeUI('uploadFileTrigger', 'class', 'btn-primary twelve')
+    changeUI('preview', 'display', 'block');
+
+    changeUI('uploadPhotoButton', 'display', 'none');
+    changeUI('selectPhotoButton', 'display', 'none');
+    changeUI('uploadVideoButton', 'display', 'none');
+    changeUI('selectFileTrigger', 'display', 'none');
+
+    logit("displayFile " + file)
+    
+
+    weHaveData = true;
+
+    var angularScope = angular.element(document.querySelector('#tts-app')).scope();
+
+    angularScope.$apply(function(){
+        angularScope.fileSelected(file);
+    })
+
+}
 
 debugMediaFile = function(mediaFiles){
     logit("logging " + mediaFiles)
@@ -330,11 +329,11 @@ function startUploading(u, t, m, p) {
             };
     
 
-    } 
+    } else {
 
     //if (thisDevice == "iOS"){
 
-    if (jQuery('#platform').html() == "iOS"){
+    //if (jQuery('#platform').html() == "iOS"){
 
             var oProgress = document.getElementById('progress');
             oProgress.style.display = 'block';
@@ -451,40 +450,33 @@ function displayUploadError(){
 }
 
 
-
-
-
-
-
-
 submitDebug = function(){
-            jQuery('#debugButton').html("Wait..");
 
-            var fileString = "fileURL: " + jQuery('#fileURL').html() + ", typfileType: " + jQuery('#fileType').html() + ", fileName: " + jQuery('#fileName').html() + ", debug: " + jQuery('#debug').html();
-            console.log(fileString)
-            var pjq = jQuery.noConflict();
+    jQuery('#debugButton').html("Wait..");
 
-            pjq.ajax({
-                url: "http://www.gs0.co/tts/debug.php?debug=" +  fileString,
-                type: "POST",
-                dataType: "json",
-                crossDomain: true,
-                xhrFields: { withCredentials: true },
-                //data: $scope.submitParams.join("&"),
+    var fileString = "fileURL: " + jQuery('#fileURL').html() + ", typfileType: " + jQuery('#fileType').html() + ", fileName: " + jQuery('#fileName').html() + ", debug: " + jQuery('#debug').html();
+    console.log(fileString)
+    var pjq = jQuery.noConflict();
 
-                success: function(data) {
-                    jQuery('#debugButton').html("Success");
-                    jQuery('#debugButton').addClass("btn-tertiary");
-                    jQuery('#debugButton').removeClass("btn-primary");
+    pjq.ajax({
+        url: "http://www.gs0.co/tts/debug.php?debug=" +  fileString,
+        type: "POST",
+        dataType: "json",
+        crossDomain: true,
+        xhrFields: { withCredentials: true },
+        //data: $scope.submitParams.join("&"),
 
-                },
+        success: function(data) {
+            jQuery('#debugButton').html("Success");
+            jQuery('#debugButton').addClass("btn-tertiary");
+            jQuery('#debugButton').removeClass("btn-primary");
 
-                complete: function (data) {
-                    jQuery('#debugButton').html("Success");
-                    jQuery('#debugButton').addClass("btn-tertiary");
-                    jQuery('#debugButton').removeClass("btn-primary");
-                },
-            });
+        },
 
-        
-      }
+        complete: function (data) {
+            jQuery('#debugButton').html("Success");
+            jQuery('#debugButton').addClass("btn-tertiary");
+            jQuery('#debugButton').removeClass("btn-primary");
+        },
+    });
+}

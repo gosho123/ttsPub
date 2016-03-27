@@ -21,7 +21,7 @@
 <body onload="onDeviceReady()">
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; position:fixed; bottom:0; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center">v90</div>
+            <div style="font-size:12px; position:fixed; bottom:0; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center">v91</div>
             
 
             <div class="row nav-top">
@@ -282,6 +282,7 @@
                             <hr>
                             <button class="buttonStyle btn-tertiary" ng-click="openUserPanel()">Close</button>
 
+                             <button id="debugButton" class="buttonStyle btn-primary" onlyclick="submitDebug()">Submit Debug Report</button>
 
                             <div  style="font-size:12px; display:none" id="debug">1 Debug</div>
 
@@ -289,13 +290,6 @@
                             <div  style="font-size:12px; display:none" id="fileType">fileType</div>
                             <div  style="font-size:12px; display:none" id="fileName">fileName</div>
                             <div  style="font-size:12px; display:none" id="platform">platform</div>
-
-                             <form action="http://www.gs0.co/tts/debug.php" method="post">
-                              <textarea  style="width:100%; margin-bottom:10px" id="debugText" type="text" name="debug" value="debug"></textarea>
-                              <input class="buttonStyle btn-primary" id="debugButton" type="submit" value="Submit">
-                            </form> 
-
-                            
 
                         </div>
                     </div>
