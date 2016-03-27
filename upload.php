@@ -174,7 +174,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
 
 }
 
-function errorLog(errorString){
+function errorLog($errorString){
     $link = mysql_connect("localhost", "root", "moosheensql")  or die ('Error in connection: ' . mysql_error());;
 
             mysql_select_db("TTS", $link);
@@ -197,7 +197,7 @@ function errorLog(errorString){
                 '" . $taskID . "',
                 '" . $messageID . "',
                 'false',
-                '". errorString . $data_URI ."')";
+                '". $errorString . $data_URI ."')";
 
             mysql_query($query, $link) or die ('Error: Updating Database' . mysql_error());
 

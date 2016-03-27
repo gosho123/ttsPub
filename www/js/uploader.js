@@ -300,7 +300,7 @@ function startUploading(u, t, m, p) {
 
             ft.upload(
                 fileURL, 
-                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&data_URI="+data_URI), win, fail, options, true);
+                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"$device=Android&data_URI="+data_URI), win, fail, options, true);
             
             ft.onprogress = function(progressEvent) {
 
@@ -322,10 +322,11 @@ function startUploading(u, t, m, p) {
             };
     
 
-    } 
+    } else {
 
     //if (thisDevice == "iOS"){
-    if (jQuery('#platform').html() == "iOS"){
+
+    //if (jQuery('#platform').html() == "iOS"){
 
             var oProgress = document.getElementById('progress');
             oProgress.style.display = 'block';
@@ -341,7 +342,7 @@ function startUploading(u, t, m, p) {
             oXHR.addEventListener('load', uploadComplete, false);
             oXHR.addEventListener('error', uploadError, false);
             oXHR.addEventListener('abort', uploadAbort, false);
-            oXHR.open('POST', "http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=iOS");
+            oXHR.open('POST', "http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=iOS"+"&data_URI="+data_URI);
             oXHR.send(vFD);
 
             // set inner timer

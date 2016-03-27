@@ -488,7 +488,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             startUploading($scope.userID, $scope.taskID, $scope.messageID, $scope.projectID);// external upload.js function
 
         } else if ($scope.weHaveMedia == false && $scope.weHaveText == true){
-            $scope.submitDataToTTS();
+            //$scope.submitDataToTTS();
+            startUploading($scope.userID, $scope.taskID, $scope.messageID, $scope.projectID)
         }
         
     }
