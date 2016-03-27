@@ -205,13 +205,14 @@ function fileSelected_iOS() {
 
 captureLibrarySuccess = function(oFile){
 
-    jQuery('#messageText').val(oFile);
+    
+    displayFileSelectedUI();
 
-    //logit("oFile: " + oFile);
+    logit("oFile: " + oFile);
 
-    //jQuery('#fileURL').html(oFile.fullPath);
-    //jQuery('#fileType').html(oFile.type);
-    //jQuery('#fileName').html(oFile.name);
+    jQuery('#fileURL').html(oFile.fullPath);
+    jQuery('#fileType').html(oFile.type);
+    jQuery('#fileName').html(oFile.name);
 }
 
 captureSuccess = function(mediaFiles) {
