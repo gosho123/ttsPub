@@ -216,7 +216,7 @@ function captureLibrarySuccess(imageURI) {
 
     var options = new FileUploadOptions();
     options.fileKey="file";
-    options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1)+'.png';
+    options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1)+'.jpg';
     options.mimeType="text/plain";
 
     var params = new Object();
@@ -225,7 +225,7 @@ function captureLibrarySuccess(imageURI) {
 
     var ft = new FileTransfer();
     ft.upload(imageURI, 
-        encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"$device=Android&data_URI="+data_URI), win, fail, options, true);
+        encodeURI("http://www.gs0.co/tts/upload.php?userID=1&taskID=2&messageID=3&projectID=4$device=Android&data_URI=xxx"), win, fail, options, true);
 
 
 
