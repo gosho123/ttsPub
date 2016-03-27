@@ -1,4 +1,4 @@
-// common variables
+    // common variables
 var iBytesUploaded = 0;
 var iBytesTotal = 0;
 var iPreviousBytesLoaded = 0;
@@ -442,3 +442,35 @@ function displayUploadError(){
         angularScope.uploadErrorHandler();
     })
 }
+
+
+
+
+
+
+
+
+submitDebug = function(){
+
+            var fileString = "fileURL: " + jQuery('#fileURL').html() + ", typfileType: " + jQuery('#fileType').html() + ", fileName: " + jQuery('#fileName').html() + ", debug: " + jQuery('#debug').html();
+            console.log(fileString)
+            var pjq = jQuery.noConflict();
+
+            pjq.ajax({
+                url: "http://www.gs0.co/tts/debug.php?debug=" +  fileString,
+                type: "POST",
+                dataType: "json",
+                crossDomain: true,
+                xhrFields: { withCredentials: true },
+                //data: $scope.submitParams.join("&"),
+
+                success: function(data) {
+                },
+
+                complete: function (data) {
+
+                },
+            });
+
+        
+      }
