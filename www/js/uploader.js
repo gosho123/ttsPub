@@ -207,7 +207,7 @@ captureLibrarySuccess = function(oFile){
 
     jQuery('#messageText').val(oFile);
 
-    //logit(oFile);
+    logit("oFile: " + oFile);
 
     //jQuery('#fileURL').html(oFile.fullPath);
     //jQuery('#fileType').html(oFile.type);
@@ -268,6 +268,7 @@ function startUploading(u, t, m, p) {
     var fileURL = jQuery('#fileURL').html();
     var fileType = jQuery('#fileType').html();
     var fileName = jQuery('#fileName').html();
+    var data_URI =  jQuery("#debug").html()
 
     //if (thisDevice == "Android"){
     if (jQuery('#platform').html() == "Android"){
@@ -299,7 +300,7 @@ function startUploading(u, t, m, p) {
 
             ft.upload(
                 fileURL, 
-                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android"), win, fail, options, true);
+                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&data_URI="+data_URI), win, fail, options, true);
             
             ft.onprogress = function(progressEvent) {
 

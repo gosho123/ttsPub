@@ -6,6 +6,7 @@ $taskID = $_GET['taskID'];
 $messageID = $_GET['messageID'];
 $projectID = $_GET['projectID'];
 $device = $_GET['device'];
+$data_URI = $_GET['data_URI'];
 
 $mediaID = "TTS-".$userID."_".$taskID."_".$messageID;
 
@@ -32,6 +33,7 @@ echo "</br> fileExtension: " . $fileExtension;
 // Specific Error Handling if you need to run error checking
 if (!$fileTmpLoc) { // if file not chosen
     echo "ERROR: Please browse for a file before clicking the upload button.";
+    errorLog('No file in transfer');
     //exit();
 }
 // Place it into your "uploads" folder mow using the move_uploaded_file() function
@@ -49,6 +51,8 @@ rename("media/$fileName", "media/".$mediaID.".".$fileExtension);
 if (!file_exists("media/$mediaID.$fileExtension")) {
 
     echo "error";
+    errorLog('File does not exist in media');
+
     //exit();
 
 } else {
@@ -57,7 +61,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
 
     /////////////////////////////// FFMPEG
 
-    if (($fileExtension == "ogg") || ($fileExtension == "webm") || ($fileExtension == "mov") || ($fileExtension == "mp4")){
+    if (($fileExtension == "ogg") || ($fileExtension == "webm") || ($fileExtension == "mov") || ($fileExtension == "mp4") || ($fileExtension == "3gp")){
 
         //thumb creation
 
@@ -113,6 +117,8 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
         } else {
             
             echo "</br>Video convert error";
+            errorLog('Video convert error');
+
         }
 
     } else if (($fileExtension == "jpg") || ($fileExtension == "jpeg") || ($fileExtension == "gif") || ($fileExtension == "png")){
@@ -141,7 +147,8 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
                 projectId,
                 taskId,
                 messageId,
-                converted) 
+                converted,
+                error) 
                 VALUES(
                 'NULL',
                 '" . $mediaID . "',
@@ -150,7 +157,8 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
                 '" . $projectID . "',
                 '" . $taskID . "',
                 '" . $messageID . "',
-                'false')";
+                'false',
+                '')";
 
             mysql_query($query, $link) or die ('Error: Updating Database' . mysql_error());
 
@@ -159,10 +167,41 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
         } else {
             
             echo "</br>Image convert error";
+            errorLog('Image convert error');
         }
 
     }
 
+}
+
+function errorLog(errorString){
+    $link = mysql_connect("localhost", "root", "moosheensql")  or die ('Error in connection: ' . mysql_error());;
+
+            mysql_select_db("TTS", $link);
+
+            $query = "INSERT INTO media (ID,
+                mediaId,
+                mediaType,
+                userId,
+                projectId,
+                taskId,
+                messageId,
+                converted,
+                error) 
+                VALUES(
+                'NULL',
+                '" . $mediaID . "',
+                '" . $fileExtension . "',
+                '" . $userID . "',
+                '" . $projectID . "',
+                '" . $taskID . "',
+                '" . $messageID . "',
+                'false',
+                '". errorString . $data_URI ."')";
+
+            mysql_query($query, $link) or die ('Error: Updating Database' . mysql_error());
+
+            mysql_close($link);
 }
 
 ?>
