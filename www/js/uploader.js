@@ -214,60 +214,12 @@ function captureLibrarySuccess(imageURI) {
     logit("captureLibrarySuccess ")
     logit(imageURI)
 
-    var options = new FileUploadOptions();
-    options.fileKey="file";
-    options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1)+'.jpg';
-    options.mimeType="text/plain";
+    jQuery('#fileURL').html(imageURI);
+    jQuery('#fileType').html("jpg");
+    jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1));
 
-    var params = new Object();
-
-    options.params = params;
-
-    var ft = new FileTransfer();
-    ft.upload(imageURI, 
-        encodeURI("http://www.gs0.co/tts/upload.php?userID=1&taskID=2&messageID=3&projectID=4$device=Android&data_URI=xxx"), win, fail, options, true);
-
-
-
-    var win = function () {
-        logit("upload complete ")
-        uploadComplete()
-
-    }
-
-    var fail = function (error) {
-        logit("upload error " + error)
-        uploadError();
-    }
-
-
-    /*var options = new FileUploadOptions();
-            options.fileKey = "file";
-            options.fileName = fileName;
-            options.mimeType = fileType;
-            var params = {};
-            options.params = params;
-            options.headers = {
-                Connection: "Close"
-            };
-
-            options.chunkedMode = false;
-            var ft = new FileTransfer();
-
-            ft.upload(
-                fileURL, 
-                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"$device=Android&data_URI="+data_URI), win, fail, options, true);
-            
-    
-    //displayFileSelectedUI();
-
-    /*
-    jQuery('#fileURL').html(oFile.fullPath);
-    jQuery('#fileType').html(oFile.type);
-    jQuery('#fileName').html(oFile.name);
-    */
-
-    
+    displayFileSelectedUI(imageURI);
+ 
 }
 
 captureSuccess = function(mediaFiles) {
