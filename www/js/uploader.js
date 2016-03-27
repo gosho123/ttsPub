@@ -185,7 +185,9 @@ function captureLibrarySuccess(imageURI) {
 
     jQuery('#fileURL').html(imageURI);
     jQuery('#fileType').html("jpg");
-    jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1));
+    jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1) + '.jpg');
+
+    jQuery('#preview').attr("src", imageURI);
 
     displayFileSelectedUI("image/jpeg");
  
