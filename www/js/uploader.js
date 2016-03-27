@@ -211,6 +211,9 @@ function fileSelected_iOS() {
 
 function captureLibrarySuccess(imageURI) {
 
+    logit("captureLibrarySuccess ")
+    logit(imageURI)
+
     var options = new FileUploadOptions();
     options.fileKey="file";
     options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1)+'.png';
@@ -237,7 +240,7 @@ function captureLibrarySuccess(imageURI) {
         uploadError();
     }
 
-            
+
     /*var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = fileName;
