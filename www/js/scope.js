@@ -70,6 +70,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.tracer = "ready..."
 
+    $scope.debugText = "";
+
     // HTML injectors
 
     $scope.deliberatelyTrustDangerousSnippet = function(txt) {

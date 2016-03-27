@@ -1,8 +1,8 @@
 <?php
 
-    echo "v21";
+echo "v21";
 
-$debug = $_GET['debug'];
+$debug = $_POST['debug'];
 
 
 $link = mysql_connect("localhost", "root", "moosheensql")  or die ('Error in connection: ' . mysql_error());;

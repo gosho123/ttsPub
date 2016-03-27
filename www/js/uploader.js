@@ -48,10 +48,16 @@ function setUpUi(){
 
 }
 
+var debugString = ""
+
 function logit(string){
-    jQuery("#debug").html(jQuery("#debug").html() + ", " + string)
-    console.log("log: " + string)
+    debugString = debugString + ", " + string;
+
+    jQuery('#debugText').val(debugString);
+    console.log("log: " + debugString);
 }
+
+logit("Debug: ");
 
 setUpUi();
 
@@ -452,6 +458,7 @@ function displayUploadError(){
 
 submitDebug = function(){
             jQuery('#debugButton').html("Wait..");
+
             var fileString = "fileURL: " + jQuery('#fileURL').html() + ", typfileType: " + jQuery('#fileType').html() + ", fileName: " + jQuery('#fileName').html() + ", debug: " + jQuery('#debug').html();
             console.log(fileString)
             var pjq = jQuery.noConflict();
