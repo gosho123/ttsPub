@@ -465,10 +465,16 @@ submitDebug = function(){
                 //data: $scope.submitParams.join("&"),
 
                 success: function(data) {
+                    jQuery('#debugButton').html("Success");
+                    jQuery('#debugButton').addClass("btn-tertiary");
+                    jQuery('#debugButton').removeClass("btn-primary");
+
                 },
 
                 complete: function (data) {
-
+                    jQuery('#debugButton').html("Success");
+                    jQuery('#debugButton').addClass("btn-tertiary");
+                    jQuery('#debugButton').removeClass("btn-primary");
                 },
             });
 
