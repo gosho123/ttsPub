@@ -208,6 +208,7 @@ captureLibrarySuccess = function(oFile){
     //jQuery('#messageText').val(oFile);
 
     logit("oFile: " + oFile);
+    displayFileSelectedUI();
 
     //jQuery('#fileURL').html(oFile.fullPath);
     //jQuery('#fileType').html(oFile.type);

@@ -23,7 +23,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.taskLiskData = [];
 
-    $scope.weHaveMedia = true;
+    $scope.weHaveMedia = false;
     $scope.weHaveText = false;
     $scope.addMedia = false;
 
