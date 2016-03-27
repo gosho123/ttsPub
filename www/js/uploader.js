@@ -209,16 +209,23 @@ function fileSelected_iOS() {
 
 }
 
-captureLibrarySuccess = function(oFile){
-
+function captureLibrarySuccess(imageURI) {
     
     displayFileSelectedUI();
 
-    logit("oFile: " + oFile);
-
+    /*
     jQuery('#fileURL').html(oFile.fullPath);
     jQuery('#fileType').html(oFile.type);
     jQuery('#fileName').html(oFile.name);
+    */
+
+    img_uri = imageURI;
+    window.resolveLocalFileSystemURI(img_uri, function(fileEntry) {
+        logit(fileEntry.fullPath);
+        logit(fileEntry.type);
+        logit(fileEntry.name);
+        //Plugin.callNativeFunction(nativePluginResultHandler, nativePluginErrorHandler, 'success', fileEntry.fullPath);
+    }, onError);      
 }
 
 captureSuccess = function(mediaFiles) {
