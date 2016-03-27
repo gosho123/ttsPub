@@ -114,7 +114,7 @@ https://build.phonegap.com/plugins/5500
 function capturePhoto(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureLibrarySuccess, captureError,{ quality: 80, 
-        destinationType: navigator.camera.DestinationType.DATA_URL,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
     });
     logit("Android library")
@@ -210,8 +210,53 @@ function fileSelected_iOS() {
 }
 
 function captureLibrarySuccess(imageURI) {
+
+    var options = new FileUploadOptions();
+    options.fileKey="file";
+    options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1)+'.png';
+    options.mimeType="text/plain";
+
+    var params = new Object();
+
+    options.params = params;
+
+    var ft = new FileTransfer();
+    ft.upload(imageURI, 
+        encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"$device=Android&data_URI="+data_URI), win, fail, options, true);
+
+
+
+    var win = function () {
+        logit("upload complete ")
+        uploadComplete()
+
+    }
+
+    var fail = function (error) {
+        logit("upload error " + error)
+        uploadError();
+    }
+
+            
+    /*var options = new FileUploadOptions();
+            options.fileKey = "file";
+            options.fileName = fileName;
+            options.mimeType = fileType;
+            var params = {};
+            options.params = params;
+            options.headers = {
+                Connection: "Close"
+            };
+
+            options.chunkedMode = false;
+            var ft = new FileTransfer();
+
+            ft.upload(
+                fileURL, 
+                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"$device=Android&data_URI="+data_URI), win, fail, options, true);
+            
     
-    displayFileSelectedUI();
+    //displayFileSelectedUI();
 
     /*
     jQuery('#fileURL').html(oFile.fullPath);
@@ -219,13 +264,7 @@ function captureLibrarySuccess(imageURI) {
     jQuery('#fileName').html(oFile.name);
     */
 
-    img_uri = imageURI;
-    window.resolveLocalFileSystemURI(img_uri, function(fileEntry) {
-        logit(fileEntry.fullPath);
-        logit(fileEntry.type);
-        logit(fileEntry.name);
-        //Plugin.callNativeFunction(nativePluginResultHandler, nativePluginErrorHandler, 'success', fileEntry.fullPath);
-    }, onError);      
+    
 }
 
 captureSuccess = function(mediaFiles) {
