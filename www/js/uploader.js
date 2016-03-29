@@ -105,9 +105,7 @@ removeMediaFile = function(){
 }
 
 /* Android Photo library
-http://stackoverflow.com/questions/19144424/camera-picturesourcetype-photolibrary-or-camera-picturesourcetype-savedphotoalbu
-https://github.com/apache/cordova-plugin-camera/blob/00cd249dd7ffce9645f339f0cfaf383b7976bac8/doc/index.md
-https://build.phonegap.com/plugins/5500
+http://stackoverflow.com/questions/9891160/select-video-in-library
 */
 
 // Android Capture
@@ -175,7 +173,10 @@ function fileSelected_iOS() {
     // read selected file as DataURL
     oReader.readAsDataURL(oFile);
     displayFileSelectedUI(oFile.type);
-    
+
+    jQuery('#fileURL').html(oFile.fullPath);
+    jQuery('#fileType').html(oFile.type);
+    jQuery('#fileName').html(oFile.name);
 
 }
 
@@ -462,14 +463,15 @@ submitDebug = function(){
         //data: $scope.submitParams.join("&"),
 
         success: function(data) {
-            jQuery('#debugButton').html("Success");
+            jQuery('#debugButton').html("Debug sent");
             jQuery('#debugButton').addClass("btn-tertiary");
             jQuery('#debugButton').removeClass("btn-primary");
+            jQuery('#debug').html(fileString)
 
         },
 
         complete: function (data) {
-            jQuery('#debugButton').html("Success");
+            jQuery('#debugButton').html("Debug sent");
             jQuery('#debugButton').addClass("btn-tertiary");
             jQuery('#debugButton').removeClass("btn-primary");
         },
