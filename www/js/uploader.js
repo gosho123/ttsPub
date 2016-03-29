@@ -44,6 +44,7 @@ function setUpUi(){
         changeUI('uploadFileTrigger', 'class', 'btn-primary twelve btn-disabled');
         changeUI('selectFileTrigger', 'display', 'none');
         changeUI('preview', 'display', 'block');
+        changeUI('uploadFileTrigger', 'class', 'btn-primary twelve btn-disabled');
     }
 
 }
@@ -209,9 +210,9 @@ captureSuccess = function(mediaFiles) {
 
     displayFileSelectedUI(mediaFiles[0].type);
 
-    //logit("url="+mediaFiles[0].src);
-    //logit("type="+mediaFiles[0].type);
-    //logit("name="+mediaFiles[0].name);
+    logit("url="+mediaFiles[0].src);
+    logit("type="+mediaFiles[0].type);
+    logit("name="+mediaFiles[0].name);
         
 };
 
@@ -242,14 +243,6 @@ function displayFileSelectedUI(file){
     angularScope.$apply(function(){
         angularScope.fileSelected(file);
     })
-
-}
-
-debugMediaFile = function(mediaFiles){
-    logit("logging " + mediaFiles)
-    logit("url="+mediaFiles[0].src);
-    logit("type="+mediaFiles[0].type);
-    logit("name="+mediaFiles[0].name);
 
 }
 
