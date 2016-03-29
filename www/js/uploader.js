@@ -221,6 +221,7 @@ captureSuccess = function(mediaFiles) {
 
 function displayFileSelectedUI(file){
     // hide different warnings
+    //https://quickleft.com/blog/4-steps-to-minimizing-rendering-issues-in-cordova-applications/
     document.getElementById('error').style.display = 'none';
     document.getElementById('error2').style.display = 'none';
     document.getElementById('abort').style.display = 'none';
