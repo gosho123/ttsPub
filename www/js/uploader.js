@@ -278,8 +278,8 @@ function startUploading(u, t, m, p) {
     if (jQuery('#platform').html() == "Android"){
 
 
-            var win = function () {
-                logit("upload complete ")
+            var win = function (r) {
+                logit("upload complete - response " + r)
                 uploadComplete()
 
             }
@@ -354,7 +354,13 @@ function startUploading(u, t, m, p) {
     }
 }
 
-function uploadComplete(){
+function uploadComplete(e){
+    console.log(e.target.responseText)
+
+    var response = JSON.parse(e.target.responseText);
+
+    console.log(response.response);
+
     logit("finish ")
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();

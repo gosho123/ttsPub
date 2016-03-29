@@ -4,8 +4,6 @@ echo "v21";
 
 $debug = $_GET['debug'];
 
-function errorLog($errorString){
-
 $link = mysql_connect("localhost", "root", "moosheensql")  or die ('Error in connection: ' . mysql_error());;
 
 mysql_select_db("TTS", $link);

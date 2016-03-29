@@ -1,6 +1,5 @@
 <?php
 
-echo "v21";
 $userID = $_GET['userID'];
 $taskID = $_GET['taskID'];
 $messageID = $_GET['messageID'];
@@ -9,8 +8,6 @@ $device = $_GET['device'];
 $data_URI = $_GET['data_URI'];
 
 $mediaID = "TTS-".$userID."_".$taskID."_".$messageID;
-
-echo "FILES = " . $_FILES["file"];
 
 function bytesToSize1024($bytes, $precision = 2) {
     $unit = array('B','KB','MB');
@@ -27,14 +24,12 @@ $fileErrorMsg = $_FILES["file"]["error"]; // 0 for false... and 1 for true
 
 $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-echo "</br> mediaID: " . $mediaID;
-echo "</br> fileExtension: " . $fileExtension;
 
 // Specific Error Handling if you need to run error checking
 if (!$fileTmpLoc) { // if file not chosen
-    echo "ERROR: Please browse for a file before clicking the upload button.";
+    echo '{ "response": "error" }';
     errorLog('No file in transfer');
-    //exit();
+    exit();
 }
 // Place it into your "uploads" folder mow using the move_uploaded_file() function
 move_uploaded_file($fileTmpLoc, "media/$fileName");
@@ -50,14 +45,13 @@ rename("media/$fileName", "media/".$mediaID.".".$fileExtension);
 // Check to make sure the uploaded file is in place where you want it
 if (!file_exists("media/$mediaID.$fileExtension")) {
 
-    echo "error";
+    echo '{ "response": "error" }';
     errorLog('File does not exist in media');
-
-    //exit();
+    exit();
 
 } else {
 
-    echo "</br> File Exists";
+    echo '{ "response": "success", "fileType ": "'. $fileType .'"}';
 
     /////////////////////////////// FFMPEG
 
@@ -78,11 +72,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
         $output = $ffmpegultimate->previewThumb ($input, $outputFolder, $outputFile, $time, $dimension);
         //$output2 = $ffmpegultimate->previewThumb ($input, $outputFolder, $outputFile2, $time, $dimension);
 
-        echo '</br> checking file ' . $outputFolder.$outputFile;
-
         if (file_exists($outputFolder.$outputFile)) {
-            
-            echo "</br> Video convert success";
 
             $link = mysql_connect("localhost", "root", "moosheensql")  or die ('Error in connection: ' . mysql_error());;
 
@@ -106,8 +96,6 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
                 '" . $messageID . "',
                 'false')";
 
-                echo "adding to DB -".$mediaID.", ".$fileExtension.", _".$messageID.", ".$taskID;
-
             mysql_query($query, $link) or die ('Error: Updating Database' . mysql_error());
 
             mysql_close($link);
@@ -115,8 +103,7 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
             include ("convert.php");
             
         } else {
-            
-            echo "</br>Video convert error";
+
             errorLog('Video convert error');
 
         }
@@ -131,10 +118,6 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
         exec ( "ffmpeg -i $input -vf scale=250:-1 $output" );
 
         if (file_exists($output)) {
-            
-            echo "</br> Image convert success";
-
-            echo '</br> Update database 2';
 
             $link = mysql_connect("localhost", "root", "moosheensql")  or die ('Error in connection: ' . mysql_error());;
 
@@ -166,8 +149,9 @@ if (!file_exists("media/$mediaID.$fileExtension")) {
             
         } else {
             
-            echo "</br>Image convert error";
+            echo '{ "response": "error" }';
             errorLog('Image convert error');
+            exit();
         }
 
     }
