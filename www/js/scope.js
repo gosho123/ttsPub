@@ -857,7 +857,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             
             $scope.viewVideo = true;
 
-            vidSource = '<video id="videoPlayer" webkit-playsinline controls width="100%" height="auto" preload="metadata" ' + 
+            vidSource = '<video id="videoPlayer" webkit-playsinline controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
                             'poster="'+ mediaRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
                             //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.ogg') +'" type="video/ogg">' + 
                             //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.webm') +'" type="video/webm">'+
