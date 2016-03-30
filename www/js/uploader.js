@@ -50,10 +50,12 @@ function setUpUi(){
 }
 
 var debugString = ""
+var debugNum = 0;
 
 function logit(string){
 
-    debugString = debugString + ", " + string;
+    debugNum ++;
+    debugString = debugString + "<br>" + debugNum + ": " + string;
     jQuery('#debug').html(debugString)
     console.log("log: " + debugString);
 }
