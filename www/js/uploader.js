@@ -12,6 +12,11 @@ var taskID;
 var messageID;
 var projectID;
 
+var fileURL = "";
+var fileType = "";
+var fileName = "";
+var data_URI =  "";
+
 //UI Setup
 
 function setUpUi(){
@@ -142,9 +147,7 @@ var captureError = function(error) {
     logit("Android capture error")
 };
 
-var fileURL = "";
-var fileTypevar = "";
-var fileName = ""
+
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -187,30 +190,26 @@ function fileSelected_iOS() {
 
 function captureLibrarySuccess(imageURI) {
 
-    //media/external/video/media/
-    //media/external/images/media/
-
     window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
         fileEntry.file(function(f) {
-            logit("resolveFile: " + f.type); //THIS IS MIME TYPE
+
+            logit("captureLibrarySuccess " + imageURI);
+
+            logit("fileType: " + f.type); //THIS IS MIME TYPE
+            jQuery('#fileType').html(f.type);
+            jQuery('#fileURL').html(imageURI);
+            jQuery('#fileName').html(f.name);
+            jQuery('#preview').attr("src", imageURI);
+            displayFileSelectedUI(f.type);
+
         }, function() {
             logit('error');
         });
 
     }, onError);
-
-
-    logit("captureLibrarySuccess ")
-    logit(imageURI)
-
-    jQuery('#fileURL').html(imageURI);
-    jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1));
-
-    //jQuery('#preview').attr("src", imageURI);
-
-    displayFileSelectedUI("");
  
 }
+
 function onError() {
     logit('can not resolve file system');
 }
@@ -289,17 +288,15 @@ function startUploading(u, t, m, p) {
     changeUI('progress', 'display', 'block');
 
 
-    var fileURL = jQuery('#fileURL').html();
-    var fileType = jQuery('#fileType').html();
-    var fileName = jQuery('#fileName').html();
-    var data_URI =  jQuery("#debug").html()
+    fileURL = jQuery('#fileURL').html();
+    fileType = jQuery('#fileType').html();
+    fileName = jQuery('#fileName').html();
+    data_URI =  jQuery("#debug").html();
 
     //if (thisDevice == "Android"){
     if (jQuery('#platform').html() == "Android"){
 
-
             var win = function (r) {
-
 
                 logit("win: Response = " + r.response.toString()+"\n");
 
@@ -310,7 +307,7 @@ function startUploading(u, t, m, p) {
                 logit("win: fileType = " + data.fileType);
 
                 //logit("upload complete - response " + JSON.parse(r.target.responseText))
-                uploadComplete(JSON.parse(data.fileType, "android"));
+                uploadComplete();
 
             }
 
@@ -384,21 +381,13 @@ function startUploading(u, t, m, p) {
     }
 }
 
-function uploadComplete(e, device){
-
-    if (device == "android"){
-        var response = e;
-    } else {
-
-        var response = JSON.parse(e.target.responseText).fileType;
-    }
-
-    logit("finished upload " + response)
+function uploadComplete(){
+    
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
     angularScope.$apply(function(){
-        angularScope.uploadFinished(userID, taskID, messageID, response);
+        angularScope.uploadFinished(userID, taskID, messageID, fileType);
     });
 
     weHaveData = false;
