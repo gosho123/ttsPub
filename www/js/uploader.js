@@ -282,11 +282,12 @@ function startUploading(u, t, m, p) {
 
             var win = function (r) {
 
-                logit("Code = " + r.responseCode.toString()+"\n");
-                logit("Response = " + r.response.toString()+"\n");
+                //logit("Response = " + r.response.toString()+"\n");
+
+                logit("upload complete - response " + JSON.parse(r.response))
 
                 //logit("upload complete - response " + JSON.parse(r.target.responseText))
-                uploadComplete(r);
+                uploadComplete(r.response, "android");
 
             }
 
@@ -360,16 +361,21 @@ function startUploading(u, t, m, p) {
     }
 }
 
-function uploadComplete(e){
+function uploadComplete(e, device){
 
-    var response = JSON.parse(e.target.responseText);
+    if (device == "android"){
+        var response = e.fileType;
+    } else {
 
-    logit("finished upload " + response.fileType)
+        var response = JSON.parse(e.target.responseText).fileType;
+    }
+
+    logit("finished upload " + response)
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
     angularScope.$apply(function(){
-        angularScope.uploadFinished(userID, taskID, messageID, response.fileType);
+        angularScope.uploadFinished(userID, taskID, messageID, response);
     });
 
     weHaveData = false;
