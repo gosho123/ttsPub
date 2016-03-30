@@ -282,8 +282,8 @@ function startUploading(u, t, m, p) {
 
             var win = function (r) {
 
-                logit("Response = " + r.response.toString()+"\n");
-                logit("fileType = " + r.response.fileType.toString()+"\n");
+                logit("win: Response = " + r.response.toString()+"\n");
+                logit("win: fileType = " + r.response.fileType.toString()+"\n");
 
                 logit("upload complete - response " + JSON.parse(r.response.fileType))
 
