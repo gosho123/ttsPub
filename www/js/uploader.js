@@ -282,7 +282,10 @@ function startUploading(u, t, m, p) {
 
             var win = function (r) {
 
-                logit("upload complete - response " + JSON.parse(r.target.responseText))
+                logit("Code = " + r.responseCode.toString()+"\n");
+                logit("Response = " + r.response.toString()+"\n");
+
+                //logit("upload complete - response " + JSON.parse(r.target.responseText))
                 uploadComplete(r);
 
             }
