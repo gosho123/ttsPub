@@ -200,6 +200,14 @@ function captureLibrarySuccess(imageURI) {
             jQuery('#fileURL').html(imageURI);
             jQuery('#fileName').html(f.name);
             jQuery('#preview').attr("src", imageURI);
+
+            if (f.type == "image/jpeg"){
+                jQuery('#preview').attr("src", imageURI);
+            } else {
+                jQuery('#preview').attr("src", "images/videoIcon.jpg");
+            }
+
+
             displayFileSelectedUI(f.type);
 
         }, function() {
@@ -382,7 +390,7 @@ function startUploading(u, t, m, p) {
 }
 
 function uploadComplete(){
-    
+
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
