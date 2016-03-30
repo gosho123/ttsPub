@@ -187,6 +187,19 @@ function fileSelected_iOS() {
 
 function captureLibrarySuccess(imageURI) {
 
+    //media/external/video/media/
+    //media/external/images/media/
+
+    window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
+        fileEntry.file(function(f) {
+            logit("resolveFile: " + f.type); //THIS IS MIME TYPE
+        }, function() {
+            logit('error');
+        });
+
+    }, onError);
+
+
     logit("captureLibrarySuccess ")
     logit(imageURI)
 
@@ -197,6 +210,9 @@ function captureLibrarySuccess(imageURI) {
 
     displayFileSelectedUI("");
  
+}
+function onError() {
+    logit('can not resolve file system');
 }
 
 captureSuccess = function(mediaFiles) {
