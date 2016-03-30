@@ -360,8 +360,6 @@ function uploadComplete(e){
 
     var response = JSON.parse(e.target.responseText);
 
-    console.log(response.fileType);
-
     logit("finished upload " + response.fileType)
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
