@@ -106,6 +106,8 @@ removeMediaFile = function(){
 
 /* Android Photo library
 http://stackoverflow.com/questions/9891160/select-video-in-library
+
+http://stackoverflow.com/questions/31338853/cordova-camera-plugin-obtain-full-image-path-from-gallery-android?rq=1
 */
 
 // Android Capture
@@ -189,7 +191,7 @@ function captureLibrarySuccess(imageURI) {
     jQuery('#fileURL').html(imageURI);
     jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1));
 
-    jQuery('#preview').attr("src", imageURI);
+    //jQuery('#preview').attr("src", imageURI);
 
     displayFileSelectedUI("");
  
@@ -280,7 +282,7 @@ function startUploading(u, t, m, p) {
 
             var win = function (r) {
                 logit("upload complete - response " + r)
-                uploadComplete()
+                uploadComplete(r)
 
             }
 
@@ -355,8 +357,6 @@ function startUploading(u, t, m, p) {
 }
 
 function uploadComplete(e){
-
-    console.log(e.target.responseText)
 
     var response = JSON.parse(e.target.responseText);
 
