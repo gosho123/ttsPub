@@ -284,10 +284,10 @@ function startUploading(u, t, m, p) {
 
                 //logit("Response = " + r.response.toString()+"\n");
 
-                logit("upload complete - response " + JSON.parse(r.response))
+                logit("upload complete - response " + JSON.parse(r.response.fileType))
 
                 //logit("upload complete - response " + JSON.parse(r.target.responseText))
-                uploadComplete(r.response, "android");
+                uploadComplete(JSON.parse(r.response.fileType), "android");
 
             }
 
@@ -364,7 +364,7 @@ function startUploading(u, t, m, p) {
 function uploadComplete(e, device){
 
     if (device == "android"){
-        var response = e.fileType;
+        var response = e;
     } else {
 
         var response = JSON.parse(e.target.responseText).fileType;
