@@ -284,13 +284,17 @@ function startUploading(u, t, m, p) {
 
             var win = function (r) {
 
-                logit("win: Response = " + r.response.toString()+"\n");
-                logit("win: fileType = " + r.response.fileType.toString()+"\n");
 
-                logit("upload complete - response " + JSON.parse(r.response.fileType))
+                logit("win: Response = " + r.response.toString()+"\n");
+
+                var data = JSON.parse(r.response);
+
+                logit("win: data = " + data);
+
+                logit("win: fileType = " + data.fileType);
 
                 //logit("upload complete - response " + JSON.parse(r.target.responseText))
-                uploadComplete(JSON.parse(r.response.fileType, "android"));
+                uploadComplete(JSON.parse(data.fileType, "android"));
 
             }
 
