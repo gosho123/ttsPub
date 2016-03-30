@@ -113,7 +113,8 @@ function capturePhoto(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureLibrarySuccess, captureError,{ quality: 80, 
         destinationType: navigator.camera.DestinationType.FILE_URI,
-        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        mediaType: navigator.camera.MediaType.ALLMEDIA
     });
     logit("Android library")
 }
@@ -186,12 +187,11 @@ function captureLibrarySuccess(imageURI) {
     logit(imageURI)
 
     jQuery('#fileURL').html(imageURI);
-    jQuery('#fileType').html("jpg");
-    jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1) + '.jpg');
+    jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1));
 
     jQuery('#preview').attr("src", imageURI);
 
-    displayFileSelectedUI("image/jpeg");
+    displayFileSelectedUI("");
  
 }
 
@@ -220,6 +220,7 @@ captureSuccess = function(mediaFiles) {
 ///////////////////////////////////////////////////////////////
 
 function displayFileSelectedUI(file){
+
     // hide different warnings
     //https://quickleft.com/blog/4-steps-to-minimizing-rendering-issues-in-cordova-applications/
     document.getElementById('error').style.display = 'none';
@@ -236,14 +237,13 @@ function displayFileSelectedUI(file){
     changeUI('selectFileTrigger', 'display', 'none');
 
     logit("displayFile " + file)
-    
 
     weHaveData = true;
 
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
     angularScope.$apply(function(){
-        angularScope.fileSelected(file);
+        angularScope.fileSelected();
     })
 
 }
@@ -355,18 +355,19 @@ function startUploading(u, t, m, p) {
 }
 
 function uploadComplete(e){
+
     console.log(e.target.responseText)
 
     var response = JSON.parse(e.target.responseText);
 
-    console.log(response.response);
+    console.log(response.fileType);
 
-    logit("finish ")
+    logit("finished upload " + response.fileType)
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
     angularScope.$apply(function(){
-        angularScope.uploadFinished(userID, taskID, messageID);
+        angularScope.uploadFinished(userID, taskID, messageID, response.fileType);
     });
 
     weHaveData = false;
