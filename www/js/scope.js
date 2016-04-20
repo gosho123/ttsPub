@@ -499,12 +499,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
 
     // Called from upload.js after file selected
-    $scope.fileSelected = function(src){
-
+    $scope.fileSelected = function(){
         $scope.weHaveMedia = true;
-        $scope.mediaSuffix = $scope.getMediaType(src);
-        $scope.mimeType = src;
-
     }
 
 
@@ -526,7 +522,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
 
     // external upload has finished (from upload.js)
-    $scope.uploadFinished = function(userID, taskID, messageID){ 
+    $scope.uploadFinished = function(userID, taskID, messageID, src){ 
+
+        $scope.mediaSuffix = $scope.getMediaType(src);
+        $scope.mimeType = src;
 
         $scope.submitDataToTTS();
         $scope.goshoUpdate();

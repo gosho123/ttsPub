@@ -12,6 +12,11 @@ var taskID;
 var messageID;
 var projectID;
 
+var fileURL = "";
+var fileType = "";
+var fileName = "";
+var data_URI =  "";
+
 //UI Setup
 
 function setUpUi(){
@@ -50,10 +55,12 @@ function setUpUi(){
 }
 
 var debugString = ""
+var debugNum = 0;
 
 function logit(string){
 
-    debugString = debugString + ", " + string;
+    debugNum ++;
+    debugString = debugString + "<br>" + debugNum + ": " + string;
     jQuery('#debug').html(debugString)
     console.log("log: " + debugString);
 }
@@ -106,6 +113,8 @@ removeMediaFile = function(){
 
 /* Android Photo library
 http://stackoverflow.com/questions/9891160/select-video-in-library
+
+http://stackoverflow.com/questions/31338853/cordova-camera-plugin-obtain-full-image-path-from-gallery-android?rq=1
 */
 
 // Android Capture
@@ -113,7 +122,8 @@ function capturePhoto(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureLibrarySuccess, captureError,{ quality: 80, 
         destinationType: navigator.camera.DestinationType.FILE_URI,
-        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        mediaType: navigator.camera.MediaType.ALLMEDIA
     });
     logit("Android library")
 }
@@ -137,9 +147,7 @@ var captureError = function(error) {
     logit("Android capture error")
 };
 
-var fileURL = "";
-var fileTypevar = "";
-var fileName = ""
+
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -182,17 +190,36 @@ function fileSelected_iOS() {
 
 function captureLibrarySuccess(imageURI) {
 
-    logit("captureLibrarySuccess ")
-    logit(imageURI)
+    window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
+        fileEntry.file(function(f) {
 
-    jQuery('#fileURL').html(imageURI);
-    jQuery('#fileType').html("jpg");
-    jQuery('#fileName').html(imageURI.substr(imageURI.lastIndexOf('/')+1) + '.jpg');
+            logit("captureLibrarySuccess " + imageURI);
 
-    jQuery('#preview').attr("src", imageURI);
+            logit("fileType: " + f.type); //THIS IS MIME TYPE
+            jQuery('#fileType').html(f.type);
+            jQuery('#fileURL').html(imageURI);
+            jQuery('#fileName').html(f.name);
+            jQuery('#preview').attr("src", imageURI);
 
-    displayFileSelectedUI("image/jpeg");
+            if (f.type == "image/jpeg"){
+                jQuery('#preview').attr("src", imageURI);
+            } else {
+                jQuery('#preview').attr("src", "images/videoIcon.jpg");
+            }
+
+
+            displayFileSelectedUI(f.type);
+
+        }, function() {
+            logit('error');
+        });
+
+    }, onError);
  
+}
+
+function onError() {
+    logit('can not resolve file system');
 }
 
 captureSuccess = function(mediaFiles) {
@@ -220,6 +247,7 @@ captureSuccess = function(mediaFiles) {
 ///////////////////////////////////////////////////////////////
 
 function displayFileSelectedUI(file){
+
     // hide different warnings
     //https://quickleft.com/blog/4-steps-to-minimizing-rendering-issues-in-cordova-applications/
     document.getElementById('error').style.display = 'none';
@@ -236,14 +264,13 @@ function displayFileSelectedUI(file){
     changeUI('selectFileTrigger', 'display', 'none');
 
     logit("displayFile " + file)
-    
 
     weHaveData = true;
 
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
     angularScope.$apply(function(){
-        angularScope.fileSelected(file);
+        angularScope.fileSelected();
     })
 
 }
@@ -269,18 +296,26 @@ function startUploading(u, t, m, p) {
     changeUI('progress', 'display', 'block');
 
 
-    var fileURL = jQuery('#fileURL').html();
-    var fileType = jQuery('#fileType').html();
-    var fileName = jQuery('#fileName').html();
-    var data_URI =  jQuery("#debug").html()
+    fileURL = jQuery('#fileURL').html();
+    fileType = jQuery('#fileType').html();
+    fileName = jQuery('#fileName').html();
+    data_URI =  jQuery("#debug").html();
 
     //if (thisDevice == "Android"){
     if (jQuery('#platform').html() == "Android"){
 
-
             var win = function (r) {
-                logit("upload complete - response " + r)
-                uploadComplete()
+
+                logit("win: Response = " + r.response.toString()+"\n");
+
+                var data = JSON.parse(r.response);
+
+                logit("win: data = " + data);
+
+                logit("win: fileType = " + data.fileType);
+
+                //logit("upload complete - response " + JSON.parse(r.target.responseText))
+                uploadComplete();
 
             }
 
@@ -354,23 +389,18 @@ function startUploading(u, t, m, p) {
     }
 }
 
-function uploadComplete(e){
-    console.log(e.target.responseText)
+function uploadComplete(){
 
-    var response = JSON.parse(e.target.responseText);
-
-    console.log(response.response);
-
-    logit("finish ")
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
     angularScope.$apply(function(){
-        angularScope.uploadFinished(userID, taskID, messageID);
+        angularScope.uploadFinished(userID, taskID, messageID, fileType);
     });
 
     weHaveData = false;
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
