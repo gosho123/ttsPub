@@ -628,6 +628,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 changeUI('uploadPhotoButton', 'display', 'none');
                 changeUI('selectPhotoButton', 'display', 'none');
                 changeUI('uploadVideoButton', 'display', 'none');
+                changeUI('selectFileTrigger', 'display', 'none');
+                
 
                 if (!$scope.$$phase) { // check if digest already in progress
                     $scope.$apply(); // launch digest;

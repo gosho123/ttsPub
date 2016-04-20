@@ -32,6 +32,7 @@ function setUpUi(){
     changeUI('uploadPhotoButton', 'display', 'block');
     changeUI('selectPhotoButton', 'display', 'block');
     changeUI('selectFileTrigger', 'display', 'block');
+    changeUI('removeMedia', 'display', 'none');
     document.getElementById('error').style.display = 'none';
     document.getElementById('error2').style.display = 'none';
     document.getElementById('abort').style.display = 'none';
@@ -50,6 +51,8 @@ function setUpUi(){
         changeUI('selectFileTrigger', 'display', 'none');
         changeUI('preview', 'display', 'block');
         changeUI('uploadFileTrigger', 'class', 'btn-primary twelve btn-disabled');
+        changeUI('removeMedia', 'display', 'block');
+
     }
 
 }
@@ -262,6 +265,7 @@ function displayFileSelectedUI(file){
     changeUI('selectPhotoButton', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
+    changeUI('removeMedia', 'display', 'block');
 
     logit("displayFile " + file)
 
