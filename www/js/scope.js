@@ -301,7 +301,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 if (nav != 'back'){ 
 
                     $scope.proceedApp('taskList');
-                    $scope.openInfoPanel();
+
+                    if ($scope.firstTimeUser == true){
+                        $scope.openInfoPanel();
+                    }
                 }
 
             },
