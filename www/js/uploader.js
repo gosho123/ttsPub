@@ -233,7 +233,7 @@ captureSuccess = function(mediaFiles) {
     jQuery('#fileType').html(mediaFiles[0].type);
     jQuery('#fileName').html(mediaFiles[0].name);
 
-    if (mediaFiles[0].type == "image/jpeg"){
+    if ((mediaFiles[0].type == "image/jpeg") || (mediaFiles[0].type == "image/png")){
         jQuery('#preview').attr("src", mediaFiles[0].fullPath);
     } else {
         jQuery('#preview').attr("src", "images/videoIcon.jpg");
