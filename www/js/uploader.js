@@ -30,6 +30,7 @@ function setUpUi(){
     changeUI('preview', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'block');
     changeUI('uploadPhotoButton', 'display', 'block');
+    changeUI('uploadVideoButtonAndroid', 'display', 'block');
     changeUI('selectPhotoButton', 'display', 'block');
     changeUI('selectFileTrigger', 'display', 'block');
     changeUI('removeMedia', 'display', 'none');
@@ -40,11 +41,13 @@ function setUpUi(){
     if (weHaveData == false){
         document.getElementById('preview').src = "";
         changeUI('uploadPhotoButton', 'display', 'block');
+        changeUI('uploadVideoButtonAndroid', 'display', 'block');
         changeUI('selectPhotoButton', 'display', 'block');
         changeUI('uploadVideoButton', 'display', 'block');
         changeUI('selectFileTrigger', 'display', 'block');
     } else {
         changeUI('uploadPhotoButton', 'display', 'none');
+        changeUI('uploadVideoButtonAndroid', 'display', 'none');
         changeUI('selectPhotoButton', 'display', 'none');
         changeUI('uploadVideoButton', 'display', 'none');
         changeUI('uploadFileTrigger', 'class', 'btn-primary twelve btn-disabled');
@@ -296,6 +299,7 @@ function displayFileSelectedUI(file){
     changeUI('preview', 'display', 'block');
 
     changeUI('uploadPhotoButton', 'display', 'none');
+    changeUI('uploadVideoButtonAndroid', 'display', 'none');
     changeUI('selectPhotoButton', 'display', 'none');
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
@@ -330,6 +334,7 @@ function startUploading(u, t, m, p) {
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
     changeUI('uploadPhotoButton', 'display', 'none');
+    changeUI('uploadVideoButtonAndroid', 'display', 'none');
     changeUI('selectPhotoButton', 'display', 'none');
     changeUI('progress', 'display', 'block');
 

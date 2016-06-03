@@ -626,6 +626,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 changeUI('removeMedia', 'display', 'none');
 
                 changeUI('uploadPhotoButton', 'display', 'none');
+                changeUI('uploadVideoButtonAndroid', 'display', 'none');
                 changeUI('selectPhotoButton', 'display', 'none');
                 changeUI('uploadVideoButton', 'display', 'none');
                 changeUI('selectFileTrigger', 'display', 'none');
@@ -1089,8 +1090,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.backToMessages = function(){
         
         $scope.screenArray.pop();
+        $scope.screenArray.pop();
         $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-right');
-        $scope.gotoMessages('null', $scope.taskID, 'backwards');
+        $scope.getTasks('back');
     }
 
     $scope.loginApp = function(nextScreen){

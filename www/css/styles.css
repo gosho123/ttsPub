@@ -451,7 +451,7 @@ body::-webkit-scrollbar {
     vertical-align: middle;
     display: table-cell;
     padding: 0 10px;
-    font-size: 14px;
+    font-size: 16px;
 }
 .task-title{
     text-align: center;
@@ -481,7 +481,7 @@ body::-webkit-scrollbar {
     
 }
 .task-description{
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 10px;
     clear: both;
     margin-top: 35px;
@@ -640,7 +640,7 @@ body::-webkit-scrollbar {
 .message-box p{
     padding:10px 20px;
     word-wrap: break-word;
-    font-size:14px;
+    font-size:16px;
     text-align: left;
 }
 
@@ -690,7 +690,7 @@ body::-webkit-scrollbar {
 }
 
 .admin-msg{
-    background-color:#8fbd20;
+    background-color:#aaaaaa;
     float:right;
     margin-right: 10px;
     color:#fff;
