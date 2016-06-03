@@ -21,7 +21,7 @@
 <body onload="onDeviceReady()">
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; display:none; position:fixed; bottom:0; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center">v110</div>
+            <div style="font-size:12px; display:block; position:fixed; top:10px; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center">v2.1</div>
             
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>    
@@ -38,8 +38,11 @@
             <div class="row nav-bottom" id="bottom-nav" ng-click="testTrans()">
 
                 <ul id="global-controls">
-                    <li class="grid icon-user" ng-class="getFooterSectionClass()" ng-click="openUserPanel()"></li>
-                    <li ng-click="newMessageClick()" ng-show="unreadMessages" class="pingClass grid four icon-bubbles2" ng-class="{'pingNotification': unreadMessages}"><div id="notification">!</li></li>
+                    <li class="grid icon-user" ng-class="getFooterSectionClass()" ng-click="openUserPanel()">
+                    </li>
+                    <li ng-click="newMessageClick()" ng-show="unreadMessages" class="pingClass grid four icon-bubbles2" ng-class="{'pingNotification': unreadMessages}">
+                        <div id="notification">!</div>
+                    </li>
                     <li class="grid push icon-info" ng-class="getFooterSectionClass()" ng-click="openInfoPanel()"></li>
                 </ul>
 
@@ -178,82 +181,101 @@
                                 <div class="row">
                                     <div class="grid twelve">
 
-                                        <div class="grid twelve box">
+                                                <div id="androidVideoAlert" style="display:none">
+                                                    <div class="grid twelve box">
 
-                                            <p id="introMessage" class="light-text">{{uploadMessage}}</p>
-                                        <div>
+                                                        <div class="icon-warning"></div>
 
-                                        <form name="upload_form" id="upload_form" enctype="multipart/form-data">
-                                            
-                                            <div ng-hide="addMedia">
+                                                        <h3>When you record your video response please lower the recording quality setting on you device</h3>
 
-                                                <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
+                                                        <p>Do this by selecting 'settings' and changing the quality to 720p</p>
 
-                                                <div style="width:100%; text-align:center"><img class="grid twelve" id="preview" /></div>
+                                                        <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="captureVideo()">Proceed</button>
 
-                                                <div id="androidMediaButtons">
-                                                    <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="captureVideo()" style="width:49%; clear:none; float:left">Record Video</button>
+                                                        <button class="buttonStyle btn-tertiary" onclick="cancelAndroidVideoAlert()">Cancel</button>
 
-                                                    <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImage()" style="width:49%; float:right; clear:none">Take Photo</button>
-
-                                                    <button class="buttonStyle selectButton" id="selectPhotoButton" onclick="capturePhoto()" style="width:100%; float:right; clear:none">Select from library</button>
+                                                    </div>
                                                 </div>
 
-                                                <div id="iosMediaButtons">
-                                                    <button class="buttonStyle selectButton" id="selectFileTrigger" >Add media</button>
+                                                <div id="respondScreen">
 
-                                                    <input type="file" ng-model="mediaFile" name="file" accept="video/*;capture=camera" id="image_file" onChange="fileSelected_iOS();" class="selectButtonHidden"/>
-                                                </div>
+                                                    <div class="grid twelve box">
+                                                        <p id="introMessage" class="light-text">{{uploadMessage}}</p>
+                                                    <div>
 
-                                                <button class="btn-primary twelve btn-disabled" ng-click="submitMessage()" id="uploadFileTrigger"><p class="btn-icon btn-arrow">Submit</p></button>
+                                                    <form name="upload_form" id="upload_form" enctype="multipart/form-data">
+                                                        
+                                                        <div ng-hide="addMedia">
 
-                                                <button ng-show="weHaveMedia" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
+                                                            <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
 
+                                                            <div style="width:100%; text-align:center"><img class="grid twelve" id="preview" /></div>
+
+                                                            <div id="androidMediaButtons">
+                                                                <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="androidVideoAlert()" style="width:49%; clear:none; float:left">Record Video</button>
+
+                                                                <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImage()" style="width:49%; float:right; clear:none">Take Photo</button>
+
+                                                                <button class="buttonStyle selectButton" id="selectPhotoButton" onclick="capturePhoto()" style="width:100%; float:right; clear:none">Select from library</button>
+                                                            </div>
+
+                                                            <div id="iosMediaButtons">
+                                                                <button class="buttonStyle selectButton" id="selectFileTrigger" >Add media</button>
+
+                                                                <input type="file" ng-model="mediaFile" name="file" accept="video/*;capture=camera" id="image_file" onChange="fileSelected_iOS();" class="selectButtonHidden"/>
+                                                            </div>
+
+                                                            <button class="btn-primary twelve btn-disabled" ng-click="submitMessage()" id="uploadFileTrigger"><p class="btn-icon btn-arrow">Submit</p></button>
+
+                                                            <button ng-show="weHaveMedia" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
+
+                                                        </div>
+
+                                                        <div id="fileinfo">
+                                                            <div id="filename"></div>
+                                                            <div id="filesize"></div>
+                                                            <div id="filetype"></div>
+                                                            <div id="filedim"></div>
+                                                        </div>
+                                                        
+                                                        <div id="progress_info" ng-hide="uploadError">
+                                                            <div class="load-bar center">
+                                                                <div class="load-bar-progress" id="progress"></div>
+                                                                <div id="progress_percent"><p id="progress_percent_text"></p></div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div ng-show="uploadError">
+                                                            <p id="error">You should select valid image or video files only!</p>
+                                                            <p id="error2">An error occurred while uploading the file</p>
+                                                            <p id="abort">The upload has been canceled by the user or the browser dropped the connection</p>
+                                                            <p id="warnsize">Your file is very big. We can't accept it. Please select more small file</p>
+                                                        </div>
+
+                                                        <button style="margin-top:10px" ng-show="uploadError" class="buttonStyle btn-primary-red" ng-click="retryUpload()">Try again</button>
+
+                                                        <div style="display:none" id="uploadComplete">
+                                                            <p class="row light-text">Thank you</p>
+                                                            <div class="center completeIcon">
+                                                                <p class="icon-checkmark"></p>
+                                                            </div>
+                                                        </div>
+
+                                                        <button style="display:none" class="buttonStyle selectButton" id="backToMessages" ng-click="backToMessages()">Back to tasks</button>
+
+                                                        <div class="clear_both"></div>
+                                                        <div style="display:none">
+                                                            <div id="speed">&nbsp;</div>
+                                                            <div id="remaining">&nbsp;</div>
+                                                            <div id="b_transfered">&nbsp;</div>
+                                                            <div class="clear_both"></div>
+                                                        </div>
+                                                        <div id="upload_response"></div>
+                                                        
+                                                    </form>
+
+                                                </div><!-- respond screen holder -->
                                             </div>
-
-                                            <div id="fileinfo">
-                                                <div id="filename"></div>
-                                                <div id="filesize"></div>
-                                                <div id="filetype"></div>
-                                                <div id="filedim"></div>
-                                            </div>
-                                            
-                                            <div id="progress_info" ng-hide="uploadError">
-                                                <div class="load-bar center">
-                                                    <div class="load-bar-progress" id="progress"></div>
-                                                    <div id="progress_percent"><p id="progress_percent_text"></p></div>
-                                                </div>
-                                            </div>
-
-                                            <div ng-show="uploadError">
-                                                <p id="error">You should select valid image or video files only!</p>
-                                                <p id="error2">An error occurred while uploading the file</p>
-                                                <p id="abort">The upload has been canceled by the user or the browser dropped the connection</p>
-                                                <p id="warnsize">Your file is very big. We can't accept it. Please select more small file</p>
-                                            </div>
-
-                                            <button style="margin-top:10px" ng-show="uploadError" class="buttonStyle btn-primary-red" ng-click="retryUpload()">Try again</button>
-
-                                            <div style="display:none" id="uploadComplete">
-                                                <p class="row light-text">Thank you</p>
-                                                <div class="center completeIcon">
-                                                    <p class="icon-checkmark"></p>
-                                                </div>
-                                            </div>
-
-                                            <button style="display:none" class="buttonStyle selectButton" id="backToMessages" ng-click="backToMessages()">Back to tasks</button>
-
-                                            <div class="clear_both"></div>
-                                            <div style="display:none">
-                                                <div id="speed">&nbsp;</div>
-                                                <div id="remaining">&nbsp;</div>
-                                                <div id="b_transfered">&nbsp;</div>
-                                                <div class="clear_both"></div>
-                                            </div>
-                                            <div id="upload_response"></div>
-                                            
-                                        </form>
-                                </div>
                                             
 
                                         </div> <!-- grid --> 
@@ -283,12 +305,13 @@
 
                             <!-- <button id="debugButton" class="buttonStyle btn-primary" onclick="submitDebug()">Submit Debug Report</button> -->
 
-                            <div  style="font-size:12px; display:none" id="debug">Debug</div>
+                            <div  style="font-size:12px; display:block" id="debug">Debug</div>
 
-                            <div  style="font-size:12px; display:none" id="fileURL">fileURL</div>
-                            <div  style="font-size:12px; display:none" id="fileType">fileType</div>
-                            <div  style="font-size:12px; display:none" id="fileName">fileName</div>
-                            <div  style="font-size:12px; display:none" id="platform">platform</div>
+                            <div  style="font-size:12px; display:block" id="fileURL">fileURL</div>
+                            <div  style="font-size:12px; display:block" id="fileType">fileType</div>
+                            <div  style="font-size:12px; display:block" id="fileName">fileName</div>
+                            <div  style="font-size:12px; display:block" id="fileSize">fileSize</div>
+                            <div  style="font-size:12px; display:block" id="platform">platform</div>
 
                         </div>
                     </div>

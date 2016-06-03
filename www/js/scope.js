@@ -528,7 +528,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.mimeType = src;
 
         $scope.submitDataToTTS();
-        $scope.goshoUpdate();
+        
     }
 
     $scope.goshoUpdate = function(){
@@ -630,6 +630,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 changeUI('uploadVideoButton', 'display', 'none');
                 changeUI('selectFileTrigger', 'display', 'none');
                 
+                $scope.goshoUpdate();
 
                 if (!$scope.$$phase) { // check if digest already in progress
                     $scope.$apply(); // launch digest;

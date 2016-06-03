@@ -121,6 +121,28 @@ http://stackoverflow.com/questions/31338853/cordova-camera-plugin-obtain-full-im
 */
 
 // Android Capture
+
+function androidVideoAlert(){
+
+    document.getElementById("respondScreen" ).style.opacity = "0";
+    jQuery( "#respondScreen" ).hide();
+
+    jQuery( "#androidVideoAlert" ).fadeTo( "fast" , 1, function() {
+
+    });
+}
+
+function cancelAndroidVideoAlert(){
+
+
+    document.getElementById("androidVideoAlert" ).style.opacity = "0";
+    jQuery( "#androidVideoAlert" ).hide();
+
+    jQuery( "#respondScreen" ).fadeTo( "fast" , 1, function() {
+
+    });
+}
+
 function capturePhoto(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureLibrarySuccess, captureError,{ quality: 80, 
@@ -130,6 +152,7 @@ function capturePhoto(){
     });
     logit("Android library")
 }
+
 
 // start video capture
 function captureVideo(){
@@ -147,7 +170,9 @@ function captureImage(){
 // capture error callback
 var captureError = function(error) {
     navigator.notification.alert('No media added: ' + error.code, null);
-    logit("Android capture error")
+    logit("Android capture error");
+    jQuery('#respondScreen').show();
+    jQuery('#androidVideoAlert').hide();
 };
 
 
@@ -198,10 +223,13 @@ function captureLibrarySuccess(imageURI) {
 
             logit("captureLibrarySuccess " + imageURI);
 
+            logit("fileSize: " + f.size); //THIS IS MIME TYPE
+
             logit("fileType: " + f.type); //THIS IS MIME TYPE
             jQuery('#fileType').html(f.type);
             jQuery('#fileURL').html(imageURI);
             jQuery('#fileName').html(f.name);
+            jQuery('#fileSize').html(f.size);
             jQuery('#preview').attr("src", imageURI);
 
             if (f.type == "image/jpeg"){
@@ -210,7 +238,10 @@ function captureLibrarySuccess(imageURI) {
                 jQuery('#preview').attr("src", "images/videoIcon.jpg");
             }
 
+            if (f.size > 99999999999999){
 
+            }
+            
             displayFileSelectedUI(f.type);
 
         }, function() {
@@ -229,11 +260,14 @@ captureSuccess = function(mediaFiles) {
 
     logit("captureSuccess " + mediaFiles);
 
+    jQuery('#respondScreen').show();
+    jQuery('#androidVideoAlert').hide();
+
     jQuery('#fileURL').html(mediaFiles[0].fullPath);
     jQuery('#fileType').html(mediaFiles[0].type);
     jQuery('#fileName').html(mediaFiles[0].name);
 
-    if (mediaFiles[0].type == "image/jpeg"){
+    if ((mediaFiles[0].type == "image/jpeg") || (mediaFiles[0].type == "image/png")){
         jQuery('#preview').attr("src", mediaFiles[0].fullPath);
     } else {
         jQuery('#preview').attr("src", "images/videoIcon.jpg");

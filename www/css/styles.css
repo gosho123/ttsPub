@@ -998,6 +998,25 @@ video{
     font-size: 10px;
 }
 
+#androidVideoAlert .icon-warning:before{
+    border: 5px solid;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    padding: 15px;
+    font-size: 50px;
+        color: #aaa;
+}
+
+#androidVideoAlert .icon-warning{
+    margin-top: 27px;
+    margin-bottom: 36px;
+}
+
+#androidVideoAlert p, #androidVideoAlert h3{
+    margin-bottom:10px;
+}
+
 @media (min-width: 680px) {
   
 
