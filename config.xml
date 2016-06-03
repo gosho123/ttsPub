@@ -1,5 +1,5 @@
 
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="2.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="2.2">
 
   <name>The Thinking Shed</name>
   <description>The Thinking Shed Mobile App</description>
