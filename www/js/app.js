@@ -8,12 +8,19 @@ jQuery( document ).ready(function() {
     var width = jQuery(document).width();
     var height = jQuery(document).height();
 
-    jQuery('.app-screen').each(function() { // loop through the screens
-        jQuery(this).width(width);
-        jQuery(this).height(height);
-    });
 
     jQuery('#appContainer').width((width * 4) + 100);
+
+    jQuery('#screen-login').width(width);
+    jQuery('#screen-taskList').width(width);
+    jQuery('#screen-messages').width(width);
+    jQuery('#screen-reply').width(width);
+
+    jQuery('#screen-login').height(height);
+    jQuery('#screen-taskList').height(height);
+    jQuery('#screen-messages').height(height);
+    jQuery('#screen-reply').height(height);
+
 
     jQuery('.wrapper').css({opacity: 1})
 
@@ -34,6 +41,9 @@ function onDeviceReady() {
     }
 
     jQuery('#platform').html(thisDevice);
+
+    jQuery('#trace').html('v2.6');
+
 
 }
 
@@ -67,23 +77,9 @@ var tts = tts || {};
 tts.width = jQuery(window).width();
 tts.height = jQuery(window).height();
 
-
 jQuery('#screen-'+liveScreen).addClass('top-layer');
 
 /////////////////////////////////////
-
-tts.resizeHandler = function(){
-
-    width = jQuery(document).width();
-    height = jQuery(document).height();
-
-    jQuery('.app-screen').each(function() { // loop through the screens
-        jQuery(this).width(width);
-        jQuery(this).height(height);
-    });
-
-    jQuery('#appContainer').width((width * 4) + 100);
-}
 
 //// local storage
 
