@@ -99,9 +99,10 @@ ul{
     background-color: #fff;
     border-radius: 6px;
     padding:10px;
-    -webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
+    border: 1px solid #ddd;
+    /*-webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
     -moz-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
-    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
+    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);*/
     margin: 0 auto 50px auto;
     float: none;
 }
@@ -119,6 +120,12 @@ ul{
     -webkit-overflow-scrolling: touch;
 
 }
+
+.testClass{
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+}
+
 .second-layer{
     display: block !important;
     position: absolute;
@@ -350,9 +357,11 @@ button:focus, textarea:focus{
     background-color: #fff;
     border-radius: 6px;
     padding: 10px;
-    -webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
+    /*-webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
     -moz-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
-    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
+    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);*/
+    border: 1px solid #ddd;
+
     margin-top:20px;
 }
 
@@ -401,9 +410,9 @@ body::-webkit-scrollbar {
     color:#fff;
     width:100%;
     padding-top:25px;
-    -webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
+    /*-webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
     -moz-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
-    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
+    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);*/
 
 }
 
@@ -425,9 +434,9 @@ body::-webkit-scrollbar {
     font-size:150%;
     margin-bottom:0;
     padding:0;
-    -webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
+    /*-webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
     -moz-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
-    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);
+    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.45);*/
 }
 .nav-bottom div{
     text-align:center;
@@ -442,7 +451,6 @@ body::-webkit-scrollbar {
     display: inline-block; 
 }
 .center-cell{
-    border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
     height:75px;
     display: table;
@@ -515,8 +523,8 @@ body::-webkit-scrollbar {
 .inActiveClass{
     background-color: #eeeff1;
     color: #ccc;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+    /*-webkit-box-shadow: none;
+    box-shadow: none;*/
     border: 1px solid #ccc;
 }
 

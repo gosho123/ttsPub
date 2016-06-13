@@ -264,11 +264,13 @@ captureSuccess = function(mediaFiles) {
     logit("captureSuccess " + mediaFiles);
 
     jQuery('#respondScreen').show();
+    document.getElementById("respondScreen" ).style.opacity = "1";
     jQuery('#androidVideoAlert').hide();
 
     jQuery('#fileURL').html(mediaFiles[0].fullPath);
     jQuery('#fileType').html(mediaFiles[0].type);
     jQuery('#fileName').html(mediaFiles[0].name);
+    jQuery('#fileSize').html(mediaFiles[0].size);
 
     if ((mediaFiles[0].type == "image/jpeg") || (mediaFiles[0].type == "image/png")){
         jQuery('#preview').attr("src", mediaFiles[0].fullPath);
@@ -276,17 +278,19 @@ captureSuccess = function(mediaFiles) {
         jQuery('#preview').attr("src", "images/videoIcon.jpg");
     }
 
-    displayFileSelectedUI(mediaFiles[0].type);
-
     logit("url="+mediaFiles[0].src);
     logit("type="+mediaFiles[0].type);
     logit("name="+mediaFiles[0].name);
+
+    displayFileSelectedUI(mediaFiles[0].type);
         
 };
 
 ///////////////////////////////////////////////////////////////
 
 function displayFileSelectedUI(file){
+
+    logit("displayFile " + file)
 
     // hide different warnings
     //https://quickleft.com/blog/4-steps-to-minimizing-rendering-issues-in-cordova-applications/
@@ -304,8 +308,6 @@ function displayFileSelectedUI(file){
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
     changeUI('removeMedia', 'display', 'block');
-
-    logit("displayFile " + file)
 
     weHaveData = true;
 
