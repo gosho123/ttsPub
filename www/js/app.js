@@ -19,7 +19,7 @@ jQuery( document ).ready(function() {
     jQuery('#screen-reply').height(height);
 
 
-    jQuery('#appContainer').width((width * 4) + 100);
+    jQuery('#appContainer').width((width * 4));
 
     jQuery('.wrapper').css({opacity: 1})
 });
@@ -40,7 +40,7 @@ function onDeviceReady() {
 
     jQuery('#platform').html(thisDevice);
 
-    jQuery('#trace').html('v3.1');
+    jQuery('#trace').html('v3.2');
 
     jQuery('#screen-login').hide();
     jQuery('#screen-login').show();
