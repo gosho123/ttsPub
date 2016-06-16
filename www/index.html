@@ -52,7 +52,7 @@
             <!--<div class="app-screen screen-fader-hide" id="fader"></div>-->
             <div id="appContainer">
 
-                            <div class="testClass screen-login" id="screen-login" style="float:left; padding-top: 55px; background-color: #eeeff1;">
+                            <div class="screen-login" id="screen-login" style="float:left; padding-top: 55px; background-color: #eeeff1;">
                                 <div class="row">
 
                                     <div class="grid twelve center">
@@ -87,7 +87,7 @@
                             </div>
                             <!-- APP SCREEN END -->
 
-                            <div class="testClass scroll-screen" id="screen-taskList" style="float:left; padding-top: 55px; background-color: #eeeff1;">
+                            <div class="scroll-screen" id="screen-taskList" style="float:left; padding-top: 55px; background-color: #eeeff1;">
                                 <div class="row">
 
                                     <h2 class="task-title">Task List</h2>
@@ -115,7 +115,7 @@
 
                             <!-- APP SCREEN END -->
 
-                            <div class="testClass scroll-screen" id="screen-messages" style="float:left; padding-top: 55px; background-color: #eeeff1;">
+                            <div class="scroll-screen" id="screen-messages" style="float:left; padding-top: 55px; background-color: #eeeff1;">
 
                                     <div class="row conversation-stream">
 
@@ -178,7 +178,7 @@
                             </div>
                             <!-- APP SCREEN END  -->
 
-                            <div class="testClass scroll-screen" id="screen-reply" style="float:left; padding-top: 55px; background-color: #eeeff1;">
+                            <div class="scroll-screen translateZFix" id="screen-reply" style="float:left; padding-top: 55px; background-color: #eeeff1;">
 
                                 <div class="row">
                                     <div class="grid twelve">
@@ -212,6 +212,18 @@
                                                             <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
 
                                                             <div style="width:100%; text-align:center"><img class="grid twelve" id="preview" /></div>
+
+                                                            
+                                                            <div id="uploadMessage">
+                                                                <span class="icon-cloud-upload"></span>
+                                                                <p>For best results upload over a strong internet connection</p>
+                                                            </div>
+
+
+                                                            <div id="filesizeError" class="fileSizeWarning">
+                                                                <span class="icon-warning"></span>
+                                                                <p>Sorry this file is too large.<br> Please lower your camera resolution and record again</p>
+                                                            </div>
 
                                                             <div id="androidMediaButtons">
                                                                 <button class="buttonStyle selectButton" id="uploadVideoButtonAndroid" onclick="androidVideoAlert()" style="width:49%; clear:none; float:left">Record Video</button>
@@ -256,8 +268,9 @@
 
                                                         <button style="margin-top:10px" ng-show="uploadError" class="buttonStyle btn-primary-red" ng-click="retryUpload()">Try again</button>
 
+                                                        <button style="margin-top:10px" ng-show="submitTextError" class="buttonStyle btn-primary" ng-click="submitDataToTTS()">Try again</button>
+
                                                         <div style="display:none" id="uploadComplete">
-                                                            <p class="row light-text">Thank you</p>
                                                             <div class="center completeIcon">
                                                                 <p class="icon-checkmark"></p>
                                                             </div>

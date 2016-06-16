@@ -235,17 +235,23 @@ function captureLibrarySuccess(imageURI) {
             jQuery('#fileSize').html(f.size);
             jQuery('#preview').attr("src", imageURI);
 
-            if (f.type == "image/jpeg"){
-                jQuery('#preview').attr("src", imageURI);
-            } else {
-                jQuery('#preview').attr("src", "images/videoIcon.jpg");
-            }
-
-            if (f.size > 99999999999999){
-
-            }
             
-            displayFileSelectedUI(f.type);
+
+
+            if (f.size > 100000000 ){
+
+                jQuery('#filesizeError').show();
+           
+            } else {
+
+                if (f.type == "image/jpeg"){
+                    jQuery('#preview').attr("src", imageURI);
+                } else {
+                    jQuery('#preview').attr("src", "images/videoIcon.jpg");
+                }
+
+                displayFileSelectedUI(f.type);
+            }
 
         }, function() {
             logit('error');
@@ -272,17 +278,26 @@ captureSuccess = function(mediaFiles) {
     jQuery('#fileName').html(mediaFiles[0].name);
     jQuery('#fileSize').html(mediaFiles[0].size);
 
-    if ((mediaFiles[0].type == "image/jpeg") || (mediaFiles[0].type == "image/png")){
-        jQuery('#preview').attr("src", mediaFiles[0].fullPath);
-    } else {
-        jQuery('#preview').attr("src", "images/videoIcon.jpg");
-    }
+    
 
     logit("url="+mediaFiles[0].src);
     logit("type="+mediaFiles[0].type);
     logit("name="+mediaFiles[0].name);
+    logit("size="+mediaFiles[0].size);
 
-    displayFileSelectedUI(mediaFiles[0].type);
+    if (mediaFiles[0].size > 100000000){
+        jQuery('#filesizeError').show();
+    
+    } else {
+
+        if ((mediaFiles[0].type == "image/jpeg") || (mediaFiles[0].type == "image/png")){
+            jQuery('#preview').attr("src", mediaFiles[0].fullPath);
+        } else {
+            jQuery('#preview').attr("src", "images/videoIcon.jpg");
+        }
+        
+        displayFileSelectedUI(mediaFiles[0].type);
+    }
         
 };
 
@@ -308,6 +323,8 @@ function displayFileSelectedUI(file){
     changeUI('uploadVideoButton', 'display', 'none');
     changeUI('selectFileTrigger', 'display', 'none');
     changeUI('removeMedia', 'display', 'block');
+
+    jQuery('#uploadMessage').show();
 
     weHaveData = true;
 
@@ -339,6 +356,10 @@ function startUploading(u, t, m, p) {
     changeUI('uploadVideoButtonAndroid', 'display', 'none');
     changeUI('selectPhotoButton', 'display', 'none');
     changeUI('progress', 'display', 'block');
+
+    
+    changeUI('uploadMessage', 'display', 'none');
+    changeUI('filesizeError', 'display', 'none');
 
 
     fileURL = jQuery('#fileURL').html();

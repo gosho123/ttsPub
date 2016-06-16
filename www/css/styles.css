@@ -398,6 +398,10 @@ button:focus, textarea:focus{
     display: none; 
 }
 
+.translateZFix{
+    -webkit-transform: translateZ(0);
+}
+
 body::-webkit-scrollbar { 
     display: none; 
 }
@@ -593,6 +597,30 @@ body::-webkit-scrollbar {
     background-color: #8fbd20;
     opacity:0.5;
     border-radius: 0 25px 25px 0;
+}
+
+.fileSizeWarning{
+    color:#e74c3c;
+    margin-bottom:15px;
+    display:none;
+}
+
+.fileSizeWarning span{
+    color:#e74c3c;
+    margin: 10px;
+    display: inline-block;
+}
+
+#uploadMessage{
+    display:none;
+    color:#008CBA;
+    margin-bottom:15px;
+}
+
+.uploadMessage span{
+    color:#008CBA;
+    margin: 10px;
+    display: inline-block;
 }
 
 .errorMessage{

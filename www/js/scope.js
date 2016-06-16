@@ -72,6 +72,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.debugText = "";
 
+    $scope.submitTextError = false;
+
     // HTML injectors
 
     $scope.deliberatelyTrustDangerousSnippet = function(txt) {
@@ -527,8 +529,119 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.mediaSuffix = $scope.getMediaType(src);
         $scope.mimeType = src;
 
+        $scope.uploadMessage = "Upload finished - submitting message!";
+
+        changeUI('progress_percent_text', 'html', 'OK');
+        changeUI('progress', 'width', '100%');
+        
+        changeUI("preview", 'display', 'none');
+
         $scope.submitDataToTTS();
         
+    }
+
+    $scope.ttsPostAttempts = 0;
+
+    $scope.submitDataToTTS = function(){
+
+        $scope.submitTextError = false;
+
+        $scope.ttsPostAttempts ++;
+
+        var pjq = jQuery.noConflict();   
+
+        $scope.submitParams = []
+        $scope.submitParams.push("commentEntry=" + $scope.taskID);
+        $scope.submitParams.push("commentData=" + $scope.messageText);
+
+        if ($scope.weHaveMedia == true){
+            $scope.submitParams.push("url=" + $scope.mediaString +'.'+ $scope.mediaSuffix);
+            $scope.submitParams.push("media=" + $scope.mimeType);
+        } else {
+            $scope.submitParams.push("url=");
+            $scope.submitParams.push("media=");
+        }
+
+        $scope.uploadMessage = "Submitting message";
+
+        pjq.ajax({
+            url: $scope.TheThinkingShedRoot + "/en/tasks",
+            type: "POST",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: { withCredentials: true },
+            data: $scope.submitParams.join("&"),
+
+            success: function(data) {
+                var obj = data;
+
+                changeUI('backToMessages', 'display', 'block');
+
+                changeUI( "progress_info" , 'display', 'none');
+                changeUI( "uploadComplete", 'display', 'block' );
+
+                changeUI("progress", 'display', 'none');
+
+                changeUI('uploadComplete', 'display', 'block');
+                changeUI('uploadComplete', 'opacity', 1);
+
+                changeUI('uploadFileTrigger', 'display', 'none');
+                changeUI('messageText', 'display', 'none');
+                changeUI('messageText', 'display', 'none');
+                changeUI('removeMedia', 'display', 'none');
+
+                changeUI('uploadPhotoButton', 'display', 'none');
+                changeUI('uploadVideoButtonAndroid', 'display', 'none');
+                changeUI('selectPhotoButton', 'display', 'none');
+                changeUI('uploadVideoButton', 'display', 'none');
+                changeUI('selectFileTrigger', 'display', 'none');
+
+                jQuery('#filesizeError').hide();
+                jQuery('#uploadMessage').hide();
+
+                $scope.messageText = "";
+                $scope.mediaString  = "";
+                $scope.mediaSuffix = "";
+                $scope.mimeType = "";
+                jQuery('#fileURL').html("");
+                jQuery('#preview').attr("src", "");
+                jQuery('#fileType').html("");
+                jQuery('#fileName').html("");
+                $scope.uploadError = false;
+                $scope.weHaveMedia = false;
+                $scope.weHaveText = false;
+                
+                $scope.submitTextError = false;
+
+                $scope.uploadMessage = "Complete"
+
+                $scope.goshoUpdate();
+
+                if (!$scope.$$phase) { // check if digest already in progress
+                    $scope.$apply(); // launch digest;
+                }
+
+            },
+
+            complete: function (data) {
+            },
+
+            error: function(a,b,c) {
+
+                if ($scope.ttsPostAttempts < 10){
+
+                    setTimeout($scope.submitDataToTTS, 1000)
+
+                } else {
+
+                    $scope.submitTextError = true;
+                    $scope.errorManager('submitDataToTTS', c);
+                }
+            },
+
+            timeout: 2000
+        });
+
     }
 
     $scope.goshoUpdate = function(){
@@ -562,95 +675,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     };
 
-    $scope.submitDataToTTS = function(){
-
-        var pjq = jQuery.noConflict();   
-
-        $scope.submitParams = []
-        $scope.submitParams.push("commentEntry=" + $scope.taskID);
-        $scope.submitParams.push("commentData=" + $scope.messageText);
-
-        if ($scope.weHaveMedia == true){
-            $scope.submitParams.push("url=" + $scope.mediaString +'.'+ $scope.mediaSuffix);
-            $scope.submitParams.push("media=" + $scope.mimeType);
-        } else {
-            $scope.submitParams.push("url=");
-            $scope.submitParams.push("media=");
-        }
-
-        $scope.uploadMessage = "Finishing... Please wait"
-
-        pjq.ajax({
-            url: $scope.TheThinkingShedRoot + "/en/tasks",
-            type: "POST",
-            dataType: "json",
-            crossDomain: true,
-            xhrFields: { withCredentials: true },
-            data: $scope.submitParams.join("&"),
-
-            success: function(data) {
-                var obj = data;
-
-                $scope.messageText = "";
-                $scope.mediaString  = "";
-                $scope.mediaSuffix = "";
-                $scope.mimeType = "";
-                jQuery('#fileURL').html("");
-                jQuery('#preview').attr("src", "");
-                jQuery('#fileType').html("");
-                jQuery('#fileName').html("");
-                $scope.uploadError = false;
-                $scope.weHaveMedia = false;
-                $scope.weHaveText = false;
-                
-
-                $scope.uploadMessage = "Complete!"
-                
-                changeUI('progress_percent_text', 'html', 'Complete')
-                changeUI('progress', 'width', '100%')
-
-                changeUI('backToMessages', 'display', 'block');
-
-                changeUI( "progress_info" , 'display', 'none');
-                changeUI( "uploadComplete", 'display', 'block' );
-
-                changeUI("progress", 'display', 'none');
-                changeUI("preview", 'display', 'none');
-
-                changeUI('uploadComplete', 'display', 'block');
-                changeUI('uploadComplete', 'opacity', 1);
-
-                changeUI('uploadFileTrigger', 'display', 'none');
-                changeUI('messageText', 'display', 'none');
-                changeUI('messageText', 'display', 'none');
-                changeUI('removeMedia', 'display', 'none');
-
-                changeUI('uploadPhotoButton', 'display', 'none');
-                changeUI('uploadVideoButtonAndroid', 'display', 'none');
-                changeUI('selectPhotoButton', 'display', 'none');
-                changeUI('uploadVideoButton', 'display', 'none');
-                changeUI('selectFileTrigger', 'display', 'none');
-                
-                $scope.goshoUpdate();
-
-                if (!$scope.$$phase) { // check if digest already in progress
-                    $scope.$apply(); // launch digest;
-                }
-
-            },
-
-            complete: function (data) {
-            },
-
-            error: function(a,b,c) {
-                $scope.errorManager('submitDataToTTS', c);
-            },
-
-            timeout: 2000
-        });
-
-    }
-
     $scope.showMediaButton = function(){
         $scope.addMedia = !$scope.addMedia;
     }
@@ -669,6 +693,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         jQuery('#fileType').html("");
         jQuery('#fileName').html("");
 
+        jQuery('#filesizeError').hide();
+        jQuery('#uploadMessage').hide();
 
         setUpUi();// uploader.js
         $scope.checkMessage();
@@ -729,7 +755,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 case "submitDataToTTS":
 
-                    $scope.displayError('There was problem submitting your post - 04', '128');
+                    $scope.displayError('There was problem submitting your text - 04', '128');
                     break;
 
                 case "doPoll":
@@ -1016,7 +1042,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             jQuery('.top-layer').animate({scrollTop : 0},10);
 
-            jQuery('#appContainer').animate({left: (0 - tts.width) * ($scope.screenArray.length - 1)},{
+            num = $scope.screenArray.indexOf($scope.liveScreen);
+
+            jQuery('#appContainer').animate({left: (0 - tts.width) * ($scope.screenArray.length - 1) + (num * num)},{
 
                     easing: 'easeOutSine', duration: 500, complete: function(){
 
@@ -1070,6 +1098,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         } else if ($scope.liveScreen == "reply"){
 
             $scope.backToMessages();
+            $scope.removeMedia()
+
 
         } else if ($scope.liveScreen == "messages"){
 

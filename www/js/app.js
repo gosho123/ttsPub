@@ -11,7 +11,7 @@ jQuery( document ).ready(function() {
     jQuery('#screen-login').width(width);
     jQuery('#screen-taskList').width(width);
     jQuery('#screen-messages').width(width);
-    jQuery('#screen-reply').width(width);
+    jQuery('#screen-reply').width(width + 4);
 
     jQuery('#screen-login').height(height);
     jQuery('#screen-taskList').height(height);
@@ -19,7 +19,7 @@ jQuery( document ).ready(function() {
     jQuery('#screen-reply').height(height);
 
 
-    jQuery('#appContainer').width((width * 4));
+    jQuery('#appContainer').width((width * 4) + 100);
 
     jQuery('.wrapper').css({opacity: 1})
 });
@@ -40,7 +40,7 @@ function onDeviceReady() {
 
     jQuery('#platform').html(thisDevice);
 
-    jQuery('#trace').html('v3.2');
+    jQuery('#trace').html('v3.4');
 
     jQuery('#screen-login').hide();
     jQuery('#screen-login').show();
