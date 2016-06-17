@@ -1260,6 +1260,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     $scope.openUserPanel = function(){
 
         $scope.viewUserPanel = !$scope.viewUserPanel;
+        $scope.reRender();
     
     }
 
@@ -1276,6 +1277,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         $scope.changeScreen($scope.screenArray[$scope.screenArray.length - 1], 'swipe-left');
         $scope.getTasks('back');
         
+    }
+
+    $scope.reRender(){
+        jQuery('#screen-reply').addClass('foo');
+        jQuery('#screen-reply').width();
     }
 
 });

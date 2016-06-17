@@ -172,7 +172,6 @@ function captureImage(){
 
 // capture error callback
 var captureError = function(error) {
-    navigator.notification.alert('No media added: ' + error.code, null);
     logit("Android capture error");
     jQuery('#respondScreen').show();
     jQuery('#androidVideoAlert').hide();

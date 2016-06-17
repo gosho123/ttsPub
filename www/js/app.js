@@ -40,7 +40,7 @@ function onDeviceReady() {
 
     jQuery('#platform').html(thisDevice);
 
-    jQuery('#trace').html('v3.4');
+    jQuery('#trace').html('v3.5');
 
     jQuery('#screen-login').hide();
     jQuery('#screen-login').show();

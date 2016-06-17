@@ -398,8 +398,14 @@ button:focus, textarea:focus{
     display: none; 
 }
 
-.translateZFix{
-    -webkit-transform: translateZ(0);
+.reRender{
+    -webkit-transform: translateZ(0,0,0);
+    -webkit-backface-visibility: hidden;
+}
+
+.reRender div{
+    -webkit-transform: translateZ(0,0,0);
+    -webkit-backface-visibility: hidden;
 }
 
 body::-webkit-scrollbar { 
