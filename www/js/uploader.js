@@ -218,7 +218,7 @@ function fileSelected_iOS() {
 
 }
 
-function captureLibrarySuccess(imageURI) {
+function captureLibrarySuccess(imageURI) { // iOS
 
     window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
         fileEntry.file(function(f) {
@@ -264,7 +264,7 @@ function onError() {
     logit('can not resolve file system');
 }
 
-captureSuccess = function(mediaFiles) {
+captureSuccess = function(mediaFiles) { // ANDROID
 
     logit("captureSuccess " + mediaFiles);
 
@@ -399,7 +399,7 @@ function startUploading(u, t, m, p) {
                 Connection: "Close"
             };
 
-            options.chunkedMode = false;
+            options.chunkedMode = true;
             var ft = new FileTransfer();
 
             ft.upload(
