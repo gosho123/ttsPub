@@ -503,7 +503,6 @@ body::-webkit-scrollbar {
     margin-bottom: 10px;
     clear: both;
     margin-top: 35px;
-    white-space: pre-wrap;
 }
 
 .modIntroImage{
