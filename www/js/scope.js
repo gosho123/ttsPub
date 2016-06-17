@@ -1279,7 +1279,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         
     }
 
-    $scope.reRender(){
+    $scope.reRender = function(){
         jQuery('#screen-reply').addClass('foo');
         jQuery('#screen-reply').width();
     }
