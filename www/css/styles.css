@@ -587,22 +587,19 @@ body::-webkit-scrollbar {
     margin-bottom:40px;
 }
 .load-bar{
-    border-radius:25px;
     border:3px solid #8fbd20;
     height:50px;
-    overflow: hidden;
     background-color: #8fbd20;
     margin-bottom:10px;
+    border-radius: 10px;
 }
 
 .load-bar-progress{
-    background: url('../images/loadbar.gif') center repeat-x;
     height:44px;
     margin-bottom:-20px;
     position: relative; 
-    background-color: #8fbd20;
-    opacity:0.5;
-    border-radius: 0 25px 25px 0;
+    background-color: #c7de8f;
+    border-radius: 6px;
 }
 
 .fileSizeWarning{
