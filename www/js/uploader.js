@@ -159,7 +159,7 @@ function capturePhoto(){
 
 // start video capture
 function captureVideo(){
-    navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1});
+    navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1, quality: 0});
     //captureSuccess()
     logit("Android vid")
 }
