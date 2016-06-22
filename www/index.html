@@ -183,18 +183,53 @@
                                 <div class="row">
                                     <div class="grid twelve">
 
-                                                <div id="androidVideoAlert" style="display:none">
-                                                    <div class="grid twelve box">
+                                                <div  id="androidVideoAlert" class="row" style="display:none;">
+                                                        <div class="grid twelve box">
 
-                                                        <div class="icon-warning"></div>
+                                                            <div class="icon-warning"></div>
 
-                                                        <h3>When you record your video response please lower the recording quality setting on you device</h3>
+                                                            <h3>When you record your video response please lower the recording quality setting on you device. This will help speed up the upload process.</h3>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="grid one">
+                                                                    <p class="android-settings">1:</p>
+                                                                </div>
+                                                                <div class="grid eleven">
+                                                                    <p>Select "Settings" <img class="android-cog" src="images/cog.png" /> when in video mode</p>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="grid one">
+                                                                    <p class="android-settings">2:</p>
+                                                                </div>
+                                                                <div class="grid eleven">
+                                                                    <p>Go to "Video Quality" or "Resolution"</p>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="grid one">
+                                                                    <p class="android-settings">3:</p>
+                                                                </div>
+                                                                <div class="grid eleven">
+                                                                    <p>Select a lower resolution <br>(720x480 / 640x480 / 320x240)</p>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="grid one">
+                                                                    <p class="android-settings">4:</p>
+                                                                </div>
+                                                                <div class="grid eleven">
+                                                                    <p>Record your response</p>
+                                                                </div>
+                                                            </div>
+                                                            <hr style="margin-bottom:10px;">
 
-                                                        <p>Do this by selecting 'settings' and changing the quality to 720p</p>
+                                                            <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="captureVideo()">Proceed</button>
 
-                                                        <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="captureVideo()">Proceed</button>
-
-                                                        <button class="buttonStyle btn-tertiary" onclick="cancelAndroidVideoAlert()">Cancel</button>
+                                                            <button class="buttonStyle btn-tertiary" onclick="cancelAndroidVideoAlert()">Cancel</button>
 
                                                     </div>
                                                 </div>

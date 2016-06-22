@@ -1037,22 +1037,46 @@ video{
 }
 
 #androidVideoAlert .icon-warning:before{
-    border: 5px solid;
+    border: 3px solid;
     border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    padding: 15px;
-    font-size: 50px;
-        color: #aaa;
+    width: 110px;
+    height: 110px;
+    padding: 10px;
+    font-size: 25px;
+    color: #aaa;
+}
+
+.android-cog{
+    height:30px;
+    width:30px !important;
 }
 
 #androidVideoAlert .icon-warning{
     margin-top: 27px;
-    margin-bottom: 36px;
+    margin-bottom: 24px;
+}
+#androidVideoAlert h3{
+    font-size:18px;
+    margin-bottom:10px;
+}
+#androidVideoAlert p{
+    vertical-align: middle;
 }
 
-#androidVideoAlert p, #androidVideoAlert h3{
-    margin-bottom:10px;
+
+#androidVideoAlert hr{
+    margin-bottom:0;
+    border: 0;
+    height: 1px;
+    background: #ccc;
+}
+#androidVideoAlert .row{
+    padding:5px;
+}
+
+#androidVideoAlert img{
+    margin-bottom:0;
+    vertical-align: middle;
 }
 
 @media (min-width: 680px) {
