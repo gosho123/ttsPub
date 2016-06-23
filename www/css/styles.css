@@ -167,6 +167,12 @@ ul{
 }
 #screen-reply{
     margin-left: -5px;
+    
+}
+
+#respondScreen{
+    margin-bottom:50px;
+    display: inline-block;
 }
 
 
@@ -1036,6 +1042,9 @@ video{
     font-size: 10px;
 }
 
+#androidVideoAlert{
+    margin-bottom:50px;
+}
 #androidVideoAlert .icon-warning:before{
     border: 3px solid;
     border-radius: 50%;
@@ -1078,6 +1087,8 @@ video{
     margin-bottom:0;
     vertical-align: middle;
 }
+
+
 
 @media (min-width: 680px) {
   

@@ -150,9 +150,17 @@ function capturePhoto(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureLibrarySuccess, captureError,{ quality: 80, 
         destinationType: navigator.camera.DestinationType.FILE_URI,
-        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM,
         mediaType: navigator.camera.MediaType.ALLMEDIA
     });
+
+    /*navigator.camera.getPicture(captureLibrarySuccess, captureError, { quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        mediaType: Camera.MediaType.VIDEO
+      });*/
+
+
     logit("Android library")
 }
 
@@ -234,10 +242,7 @@ function captureLibrarySuccess(imageURI) { // iOS
             jQuery('#fileSize').html(f.size);
             jQuery('#preview').attr("src", imageURI);
 
-            
-
-
-            if (f.size > 100000000 ){
+            if (f.size > 800000000 ){
 
                 jQuery('#filesizeError').show();
            
@@ -246,7 +251,7 @@ function captureLibrarySuccess(imageURI) { // iOS
                 if (f.type == "image/jpeg"){
                     jQuery('#preview').attr("src", imageURI);
                 } else {
-                    jQuery('#preview').attr("src", "images/videoIcon.jpg");
+                    //jQuery('#preview').attr("src", "images/videoIcon.jpg");
                 }
 
                 displayFileSelectedUI(f.type);
@@ -284,7 +289,9 @@ captureSuccess = function(mediaFiles) { // ANDROID
     logit("name="+mediaFiles[0].name);
     logit("size="+mediaFiles[0].size);
 
-    if (mediaFiles[0].size > 100000000){
+    
+    if (mediaFiles[0].size > 800000000){ // 800Mb
+
         jQuery('#filesizeError').show();
     
     } else {
@@ -292,17 +299,17 @@ captureSuccess = function(mediaFiles) { // ANDROID
         if ((mediaFiles[0].type == "image/jpeg") || (mediaFiles[0].type == "image/png")){
             jQuery('#preview').attr("src", mediaFiles[0].fullPath);
         } else {
-            jQuery('#preview').attr("src", "images/videoIcon.jpg");
+            //jQuery('#preview').attr("src", "images/videoIcon.jpg");
         }
         
-        displayFileSelectedUI(mediaFiles[0].type);
+        displayFileSelectedUI(mediaFiles[0].type, mediaFiles[0].size);
     }
         
 };
 
 ///////////////////////////////////////////////////////////////
 
-function displayFileSelectedUI(file){
+function displayFileSelectedUI(file, size){
 
     logit("displayFile " + file)
 
@@ -323,7 +330,31 @@ function displayFileSelectedUI(file){
     changeUI('selectFileTrigger', 'display', 'none');
     changeUI('removeMedia', 'display', 'block');
 
-    jQuery('#uploadMessage').show();
+    if (size < 20000000){ //20Mb
+        jQuery('#uploadMessage').hide();
+
+        jQuery('#uploadMessageText').text("");
+    }
+
+    if (size >= 20000000){ //20Mb
+        jQuery('#uploadMessage').show();
+        jQuery('#uploadMessageText').text("For best results upload over a fast internet connection");
+    }
+
+    if (size >= 100000000){ // 100Mb
+        jQuery('#uploadMessage').show();
+        jQuery('#uploadMessageText').text("Your video is large and may take a long time to upload.  We recommend uploading when you have a fast internet connection");
+    }
+
+    if (size >= 500000000){ // 100Mb
+        jQuery('#uploadMessage').show();
+        jQuery('#uploadMessageText').text("Your video is very large and may take a long time to upload.  We recommend uploading over a Wi-Fi connection.");
+    }
+
+    if (size > 800000000){ // 800Mb
+        jQuery('#uploadMessage').hide();
+        jQuery('#uploadMessageText').text("");
+    }
 
     weHaveData = true;
 
