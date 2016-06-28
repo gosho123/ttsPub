@@ -632,6 +632,11 @@ body::-webkit-scrollbar {
     display: inline-block;
 }
 
+#iosMediaButtons, #androidMediaButtons{
+    display: inline-block;
+    width: 100%;
+}
+
 .errorMessage{
     /*background-color: #e74c3c;
     border-radius: 10px;
