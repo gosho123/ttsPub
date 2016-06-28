@@ -210,11 +210,37 @@ function fileSelected_iOS() {
 
     // read selected file as DataURL
     oReader.readAsDataURL(oFile);
-    displayFileSelectedUI(oFile.type);
+    
 
-    jQuery('#fileURL').html(oFile.fullPath);
-    jQuery('#fileType').html(oFile.type);
-    jQuery('#fileName').html(oFile.name);
+            logit("captureLibrarySuccess " + imageURI);
+
+            logit("fileSize: " + oFile.size); //THIS IS MIME TYPE
+
+            logit("fileType: " + oFile.type); //THIS IS MIME TYPE
+            jQuery('#fileURL').html(oFile.fullPath);
+            jQuery('#fileType').html(oFile.type);
+            jQuery('#fileName').html(oFile.name);
+            jQuery('#fileSize').html(oFile.size);
+
+            if (oFile.size > 800000000 ){
+
+                jQuery('#filesizeError').show();
+           
+            } else {
+
+                if (oFile.type == "image/jpeg"){
+
+                    jQuery('#preview').attr("src", oFile.fullPath);
+                    displayFileSelectedUI(oFile.type, oFile.size, 'image');
+
+                } else {
+
+                    displayFileSelectedUI(oFile.type, oFile.size, 'video');
+                    
+                }
+
+                
+            }
 
 }
 
@@ -312,7 +338,6 @@ function displayFileSelectedUI(file, size, type){
     logit("displayFile " + file)
 
     // hide different warnings
-    //https://quickleft.com/blog/4-steps-to-minimizing-rendering-issues-in-cordova-applications/
     document.getElementById('error').style.display = 'none';
     document.getElementById('error2').style.display = 'none';
     document.getElementById('abort').style.display = 'none';
@@ -331,7 +356,7 @@ function displayFileSelectedUI(file, size, type){
     if (type == 'image'){
         changeUI('preview', 'display', 'block');
     }
-
+    console.log("type " + type)
     if (size < 20000000){ //20Mb
 
         jQuery('#uploadMessage').hide();
