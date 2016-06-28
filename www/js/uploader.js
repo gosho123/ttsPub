@@ -195,21 +195,12 @@ function fileSelected_iOS() {
         }
     }
 
+    //
+   
+    logit("fileSize: " + oFile.size);
+    logit("fileType: " + oFile.type);
 
-     logit("captureLibrarySuccess " + oFile.fullPath);
-
-    logit("fileSize: " + oFile.size); //THIS IS MIME TYPE
-
-    logit("fileType: " + oFile.type); //THIS IS MIME TYPE
-
-    jQuery('#fileURL').html(oFile.fullPath);
-    jQuery('#fileType').html(oFile.type);
-    jQuery('#fileName').html(oFile.name);
-    jQuery('#fileSize').html(oFile.size);
-
-    // read selected file as DataURL
-    oReader.readAsDataURL(oFile);
-           
+  
     if (oFile.size > 800000000 ){
 
         jQuery('#filesizeError').show();
@@ -223,6 +214,13 @@ function fileSelected_iOS() {
             oReader.onload = function(e){
             // e.target.result contains the DataURL which we will use as a source of the image
 
+            
+            logit("captureLibrarySuccess " + e.target.result);
+            jQuery('#fileURL').html(e.target.result);
+            jQuery('#fileType').html(oFile.type);
+            jQuery('#fileName').html(oFile.name);
+            jQuery('#fileSize').html(oFile.size);
+
             if (vFilter.test(oFile.type)) {
 
                 oImage.src = "images/videoIcon.jpg";
@@ -235,6 +233,8 @@ function fileSelected_iOS() {
                 displayFileSelectedUI(oFile.type, oFile.size, 'image');
             }
         };
+
+        oReader.readAsDataURL(oFile);
         
     }
 
