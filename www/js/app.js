@@ -36,12 +36,11 @@ function onDeviceReady() {
 
     if (thisDevice == "Android"){
         jQuery('#iosMediaButtons').hide();
-        jQuery('.nav-bottom').addClass('nav-bottom-android')
     }
 
     jQuery('#platform').html(thisDevice);
 
-    jQuery('#trace').html('v3.28');
+    jQuery('#trace').html('v3.29');
 
     jQuery('#screen-login').hide();
     jQuery('#screen-login').show();
