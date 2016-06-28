@@ -183,9 +183,6 @@ var captureError = function(error) {
 
 function fileSelected_iOS() {
 
-    logit("fileSize: " + oFile.size);
-    logit("fileType: " + oFile.type);
-    
     logit("file ios")
 
     var oFile = document.getElementById('image_file').files[0];
@@ -206,22 +203,20 @@ function fileSelected_iOS() {
 
         if (vFilter.test(oFile.type)) {
             oImage.src = "images/videoIcon.jpg";
-            displayFileSelectedUI(oFile.type, oFile.size, 'video');
         } else {
             oImage.src = e.target.result;
-            displayFileSelectedUI(oFile.type, oFile.size, 'image');
         }
     };
 
     // read selected file as DataURL
     oReader.readAsDataURL(oFile);
+    displayFileSelectedUI(oFile.type);
 
-    
+    displayFileSelectedUI(oFile.type, oFile.size, 'video');
 
     jQuery('#fileURL').html(oFile.fullPath);
     jQuery('#fileType').html(oFile.type);
     jQuery('#fileName').html(oFile.name);
-
 
 }
 
