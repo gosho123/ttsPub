@@ -600,8 +600,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 jQuery('#uploadMessage').hide();
 
                 $scope.messageText = "";
-                $scope.mediaString  = "";
-                $scope.mediaSuffix = "";
+            
                 $scope.mimeType = "";
                 jQuery('#fileURL').html("");
                 jQuery('#preview').attr("src", "");
@@ -650,11 +649,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.params = []
 
-        $scope.params.push("mediaID=" + $scope.mediaString);
-        $scope.params.push("format=" + $scope.mediaSuffix);
+        //$scope.params.push("mediaID=" + $scope.mediaString);
+        //$scope.params.push("format=" + $scope.mediaSuffix);
 
         pjq.ajax({
-            url: $scope.convertURL,
+            url: $scope.convertURL + "?mediaID=" + $scope.mediaString + "&format=" + $scope.mediaSuffix,
             type: "GET",
             dataType: "json",
             crossDomain: true,
@@ -662,15 +661,21 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             data: $scope.params.join("&"),
 
             success: function(data) {
+                $scope.mediaString  = "";
+                $scope.mediaSuffix = "";
             },
 
             complete: function (data) {
+                $scope.mediaString  = "";
+                $scope.mediaSuffix = "";
             },
 
             error: function(a,b,c) {
+                $scope.mediaString  = "";
+                $scope.mediaSuffix = "";
             },
 
-            timeout: 8000
+            //timeout: 8000
         });
 
     };
