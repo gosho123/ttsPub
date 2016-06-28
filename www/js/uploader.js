@@ -183,6 +183,9 @@ var captureError = function(error) {
 
 function fileSelected_iOS() {
 
+    logit("fileSize: " + oFile.size);
+    logit("fileType: " + oFile.type);
+    
     logit("file ios")
 
     var oFile = document.getElementById('image_file').files[0];
@@ -194,45 +197,31 @@ function fileSelected_iOS() {
             document.getElementById('error').style.display = 'none';
         }
     }
+    // get preview element
+    var oImage = document.getElementById('preview');
+    // prepare HTML5 FileReader
+    var oReader = new FileReader();
+        oReader.onload = function(e){
+        // e.target.result contains the DataURL which we will use as a source of the image
 
-    //
-   
-    logit("fileSize: " + oFile.size);
-    logit("fileType: " + oFile.type);
+        if (vFilter.test(oFile.type)) {
+            oImage.src = "images/videoIcon.jpg";
+            displayFileSelectedUI(oFile.type, oFile.size, 'video');
+        } else {
+            oImage.src = e.target.result;
+            displayFileSelectedUI(oFile.type, oFile.size, 'image');
+        }
+    };
 
-  
-    if (oFile.size > 800000000 ){
+    // read selected file as DataURL
+    oReader.readAsDataURL(oFile);
 
-        jQuery('#filesizeError').show();
-   
-    } else {
+    
 
-        // get preview element
-        var oImage = document.getElementById('preview');
-        // prepare HTML5 FileReader
-        var oReader = new FileReader();
-            oReader.onload = function(e){
-            // e.target.result contains the DataURL which we will use as a source of the image
+    jQuery('#fileURL').html(oFile.fullPath);
+    jQuery('#fileType').html(oFile.type);
+    jQuery('#fileName').html(oFile.name);
 
-            if (vFilter.test(oFile.type)) {
-
-                oImage.src = "images/videoIcon.jpg";
-                displayFileSelectedUI(oFile.type, oFile.size, 'video');
-
-
-            } else {
-
-                oImage.src = e.target.result;
-                displayFileSelectedUI(oFile.type, oFile.size, 'image');
-            }
-        };
-
-        oReader.readAsDataURL(oFile);
-
-        jQuery('#fileURL').html(oFile.fullPath);
-        jQuery('#fileName').html(oFile.name);
-        
-    }
 
 }
 
