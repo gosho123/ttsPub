@@ -210,13 +210,28 @@ function fileSelected_iOS() {
 
     // read selected file as DataURL
     oReader.readAsDataURL(oFile);
-    displayFileSelectedUI(oFile.type);
-
-    displayFileSelectedUI(oFile.type, oFile.size, 'video');
 
     jQuery('#fileURL').html(oFile.fullPath);
     jQuery('#fileType').html(oFile.type);
     jQuery('#fileName').html(oFile.name);
+
+     if (oFile.size > 800000000 ){
+
+        jQuery('#filesizeError').show();
+   
+    } else {
+
+        if (oFile.type == "image/jpeg"){
+
+            displayFileSelectedUI(oFile.type, oFile.size, 'image');
+
+        } else {
+
+            displayFileSelectedUI(oFile.type, oFile.size, 'video');
+            
+        }
+        
+    }
 
 }
 
