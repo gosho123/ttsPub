@@ -210,9 +210,9 @@ function fileSelected_iOS() {
 
     // read selected file as DataURL
     oReader.readAsDataURL(oFile);
-    
 
-            logit("captureLibrarySuccess " + imageURI);
+
+            logit("captureLibrarySuccess " + oFile.fullPath);
 
             logit("fileSize: " + oFile.size); //THIS IS MIME TYPE
 
@@ -222,7 +222,7 @@ function fileSelected_iOS() {
             jQuery('#fileName').html(oFile.name);
             jQuery('#fileSize').html(oFile.size);
 
-            if (oFile.size > 800000000 ){
+            /*if (oFile.size > 800000000 ){
 
                 jQuery('#filesizeError').show();
            
@@ -240,7 +240,9 @@ function fileSelected_iOS() {
                 }
 
                 
-            }
+            }*/
+
+             displayFileSelectedUI(oFile.type, oFile.size, 'video'); /// revert
 
 }
 
