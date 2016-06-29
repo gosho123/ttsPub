@@ -1,9 +1,9 @@
 
-  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="3.30">
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.2.0">
 
-    <name>TTS Test App</name>
-    <description>TTS Test App</description>
-    <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">TTS Test App</author>
+    <name>The Thinking Shed</name>
+    <description>The Thinking Shed</description>
+    <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">The Thinking Shed</author>
     <content src="index.html"/>
 
     <preference name='phonegap-version' value='cli-5.2.0' />

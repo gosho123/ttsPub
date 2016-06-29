@@ -13,10 +13,10 @@ jQuery( document ).ready(function() {
     jQuery('#screen-messages').width(width);
     jQuery('#screen-reply').width(width + 4);
 
-    jQuery('#screen-login').height(height + 100);
-    jQuery('#screen-taskList').height(height + 100);
-    jQuery('#screen-messages').height(height + 100);
-    jQuery('#screen-reply').height(height + 100);
+    jQuery('#screen-login').height(height);
+    jQuery('#screen-taskList').height(height);
+    jQuery('#screen-messages').height(height);
+    jQuery('#screen-reply').height(height);
 
 
     jQuery('#appContainer').width((width * 4) + 100);
@@ -40,7 +40,7 @@ function onDeviceReady() {
 
     jQuery('#platform').html(thisDevice);
 
-    jQuery('#trace').html('v3.30');
+    //jQuery('#trace').html('v3.30');
 
     jQuery('#screen-login').hide();
     jQuery('#screen-login').show();
