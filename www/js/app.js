@@ -22,6 +22,9 @@ jQuery( document ).ready(function() {
     jQuery('#appContainer').width((width * 4) + 100);
 
     jQuery('.wrapper').css({opacity: 1})
+
+    jQuery('#trace').html('v3.31 - screen height: ' + height);
+    
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
