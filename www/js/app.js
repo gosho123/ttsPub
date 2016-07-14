@@ -23,7 +23,7 @@ jQuery( document ).ready(function() {
 
     jQuery('.wrapper').css({opacity: 1})
 
-    jQuery('#trace').html('v3.0.1');
+    jQuery('#trace').html('v3.31 - screen height: ' + height);
     
 });
 
@@ -45,7 +45,6 @@ function onDeviceReady() {
 
     //jQuery('#trace').html('v3.30');
 
-    jQuery('#screen-login').hide();
     jQuery('#screen-login').show();
 
 }

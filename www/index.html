@@ -1,5 +1,7 @@
 <html>
 <head>
+    
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta http-equiv="Content-Security-Policy"/>
     <meta charset="utf-8" />
@@ -20,7 +22,7 @@
 <body onload="onDeviceReady()">
         <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
 
-            <div style="font-size:12px; display:block; position:fixed; top:10px; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center" id="trace"></div>
+            <div style="font-size:12px; display:none; position:fixed; top:10px; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center" id="trace"></div>
 
             <div class="row nav-top">
                 <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>    
@@ -236,16 +238,14 @@
 
                                                     <div class="grid twelve box">
                                                         <p id="introMessage" class="light-text">{{uploadMessage}}</p>
-                                                    </div>
+                                                    <div>
 
                                                     
                                                         
-                                                    <div ng-hide="addMedia">
-
+                                                        <div ng-hide="addMedia">
                                                         <form name="upload_form" id="upload_form" enctype="multipart/form-data">
                                                             <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
-                                                         </form>
-
+                                                        </form>
                                                             <div style="width:100%; text-align:center; display: inline-block;"><img class="grid twelve" id="preview" /></div>
 
                                                             
@@ -271,11 +271,11 @@
                                                             <div id="iosMediaButtons">
 
 
-                                                                 <button class="buttonStyle selectButton" id="uploadVideoButtonAndroid" onclick="captureVideoiOS()" style="width:49%; clear:none; float:left">Record Video</button>
+                                                                 <button class="buttonStyle selectButton" id="uploadVideoButtoniOS" onclick="captureVideoiOS()" style="width:49%; clear:none; float:left">Record Video</button>
 
-                                                                <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImageiOS()" style="width:49%; float:right; clear:none">Take Photo</button>
+                                                                <button class="buttonStyle selectButton" id="uploadPhotoButtoniOS" onclick="captureImageiOS()" style="width:49%; float:right; clear:none">Take Photo</button>
 
-                                                                <button class="buttonStyle selectButton" id="selectPhotoButton" onclick="capturePhotoiOS()" style="width:100%; float:right; clear:none">Select from library</button>
+                                                                <button class="buttonStyle selectButton" id="selectPhotoButtoniOS" onclick="capturePhotoiOS()" style="width:100%; float:right; clear:none">Select from library</button>
 
                                                                 <!--<input type="file" ng-model="mediaFile" name="file" accept="video/*;capture=camera" id="image_file" onChange="fileSelected_iOS();" class="selectButtonHidden"/> -->
                                                             </div>
@@ -328,7 +328,7 @@
                                                         </div>
                                                         <div id="upload_response"></div>
                                                         
-                                                   
+                                                    
 
                                                 </div><!-- respond screen holder -->
                                             </div>
