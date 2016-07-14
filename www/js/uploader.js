@@ -491,8 +491,8 @@ function startUploading(u, t, m, p) {
 
     var options = new FileUploadOptions();
     options.fileKey = "file";
-    options.fileName = fileName;
-    options.mimeType = fileType;
+    options.name = fileName;
+    options.type = fileType;
     var params = {};
     options.params = params;
     options.headers = {
