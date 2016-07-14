@@ -469,92 +469,61 @@ function startUploading(u, t, m, p) {
     fileName = jQuery('#fileName').html();
     data_URI =  jQuery("#debug").html();
 
-    //if (thisDevice == "Android"){
-    if (jQuery('#platform').html() == "Android"){
+    var win = function (r) {
 
-            var win = function (r) {
+        logit("win: Response = " + r.response.toString()+"\n");
 
-                logit("win: Response = " + r.response.toString()+"\n");
+        var data = JSON.parse(r.response);
 
-                var data = JSON.parse(r.response);
+        logit("win: data = " + data);
 
-                logit("win: data = " + data);
+        logit("win: fileType = " + data.fileType);
 
-                logit("win: fileType = " + data.fileType);
+        //logit("upload complete - response " + JSON.parse(r.target.responseText))
+        uploadComplete();
 
-                //logit("upload complete - response " + JSON.parse(r.target.responseText))
-                uploadComplete();
-
-            }
-
-            var fail = function (error) {
-                logit("upload error " + error)
-                uploadError();
-            }
-
-            var options = new FileUploadOptions();
-            options.fileKey = "file";
-            options.fileName = fileName;
-            options.mimeType = fileType;
-            var params = {};
-            options.params = params;
-            options.headers = {
-                Connection: "Close"
-            };
-
-            options.chunkedMode = true;
-            var ft = new FileTransfer();
-
-            ft.upload(
-                fileURL, 
-                encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android&data_URI="+data_URI), win, fail, options, true);
-            
-            ft.onprogress = function(progressEvent) {
-
-
-                if (progressEvent.lengthComputable) {
-
-                    var iPercentComplete = Math.round(progressEvent.loaded * 100 / progressEvent.total);
-
-                    document.getElementById('progress_percent_text').innerHTML = iPercentComplete.toString() + '%';
-                    document.getElementById('progress').style.width = (iPercentComplete).toString() + '%';
-
-                    if (iPercentComplete == 100){
-                        document.getElementById('progress_percent_text').innerHTML = "OK"
-                    }
-
-                } else {
-                  loadingStatus.increment();
-                }
-            };
-    
-
-    } else {
-
-    //if (thisDevice == "iOS"){
-
-    //if (jQuery('#platform').html() == "iOS"){
-
-            var oProgress = document.getElementById('progress');
-            oProgress.style.display = 'block';
-            oProgress.style.width = '0px';
-
-            // get form data for POSTing
-            //var vFD = document.getElementById('upload_form').getFormData(); // for FF3
-            var vFD = new FormData(document.getElementById('upload_form')); 
-
-            // create XMLHttpRequest object, adding few event listeners, and POSTing our data
-            var oXHR = new XMLHttpRequest();        
-            oXHR.upload.addEventListener('progress', uploadProgress, false);
-            oXHR.addEventListener('load', uploadComplete, false);
-            oXHR.addEventListener('error', uploadError, false);
-            oXHR.addEventListener('abort', uploadAbort, false);
-            oXHR.open('POST', "http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=iOS"+"&data_URI="+data_URI);
-            oXHR.send(vFD);
-
-            // set inner timer
-            oTimer = setInterval(doInnerUpdates, 300);
     }
+
+    var fail = function (error) {
+        logit("upload error " + error)
+        uploadError();
+    }
+
+    var options = new FileUploadOptions();
+    options.fileKey = "file";
+    options.fileName = fileName;
+    options.mimeType = fileType;
+    var params = {};
+    options.params = params;
+    options.headers = {
+        Connection: "Close"
+    };
+
+    options.chunkedMode = true;
+    var ft = new FileTransfer();
+
+    ft.upload(
+        fileURL, 
+        encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android&data_URI="+data_URI), win, fail, options, true);
+    
+    ft.onprogress = function(progressEvent) {
+
+
+        if (progressEvent.lengthComputable) {
+
+            var iPercentComplete = Math.round(progressEvent.loaded * 100 / progressEvent.total);
+
+            document.getElementById('progress_percent_text').innerHTML = iPercentComplete.toString() + '%';
+            document.getElementById('progress').style.width = (iPercentComplete).toString() + '%';
+
+            if (iPercentComplete == 100){
+                document.getElementById('progress_percent_text').innerHTML = "OK"
+            }
+
+        } else {
+          loadingStatus.increment();
+        }
+    };
 }
 
 function uploadComplete(){

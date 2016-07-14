@@ -23,7 +23,7 @@ jQuery( document ).ready(function() {
 
     jQuery('.wrapper').css({opacity: 1})
 
-    jQuery('#trace').html('v3.31 - screen height: ' + height);
+    jQuery('#trace').html('v1.3.4');
     
 });
 
