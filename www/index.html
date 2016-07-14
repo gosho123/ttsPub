@@ -1,7 +1,5 @@
 <html>
 <head>
-    
-
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta http-equiv="Content-Security-Policy"/>
     <meta charset="utf-8" />
@@ -238,13 +236,15 @@
 
                                                     <div class="grid twelve box">
                                                         <p id="introMessage" class="light-text">{{uploadMessage}}</p>
-                                                    <div>
+                                                    </div>
 
-                                                    <form name="upload_form" id="upload_form" enctype="multipart/form-data">
+                                                    
                                                         
-                                                        <div ng-hide="addMedia">
+                                                    <div ng-hide="addMedia">
 
+                                                        <form name="upload_form" id="upload_form" enctype="multipart/form-data">
                                                             <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
+                                                         </form>
 
                                                             <div style="width:100%; text-align:center; display: inline-block;"><img class="grid twelve" id="preview" /></div>
 
@@ -269,9 +269,15 @@
                                                             </div>
 
                                                             <div id="iosMediaButtons">
-                                                                <button class="buttonStyle selectButton" id="selectFileTrigger" >Add media</button>
 
-                                                                <input type="file" ng-model="mediaFile" name="file" accept="video/*;capture=camera" id="image_file" onChange="fileSelected_iOS();" class="selectButtonHidden"/>
+
+                                                                 <button class="buttonStyle selectButton" id="uploadVideoButtonAndroid" onclick="captureVideoiOS()" style="width:49%; clear:none; float:left">Record Video</button>
+
+                                                                <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImageiOS()" style="width:49%; float:right; clear:none">Take Photo</button>
+
+                                                                <button class="buttonStyle selectButton" id="selectPhotoButton" onclick="capturePhotoiOS()" style="width:100%; float:right; clear:none">Select from library</button>
+
+                                                                <!--<input type="file" ng-model="mediaFile" name="file" accept="video/*;capture=camera" id="image_file" onChange="fileSelected_iOS();" class="selectButtonHidden"/> -->
                                                             </div>
 
                                                             <button class="btn-primary twelve btn-disabled" ng-click="submitMessage()" id="uploadFileTrigger"><p class="btn-icon btn-arrow">Submit</p></button>
@@ -322,7 +328,7 @@
                                                         </div>
                                                         <div id="upload_response"></div>
                                                         
-                                                    </form>
+                                                   
 
                                                 </div><!-- respond screen holder -->
                                             </div>

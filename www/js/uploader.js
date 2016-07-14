@@ -137,7 +137,6 @@ function androidVideoAlert(){
 
 function cancelAndroidVideoAlert(){
 
-
     document.getElementById("androidVideoAlert" ).style.opacity = "0";
     jQuery( "#androidVideoAlert" ).hide();
 
@@ -146,6 +145,12 @@ function cancelAndroidVideoAlert(){
     });
 }
 
+
+
+
+
+
+/////////////////////////////
 function capturePhoto(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureLibrarySuccess, captureError,{ quality: 80, 
@@ -155,21 +160,17 @@ function capturePhoto(){
     });
     logit("Android library")
 }
-
-
 // start video capture
 function captureVideo(){
     navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1, quality: 1});
     //captureSuccess()
     logit("Android vid")
 }
-
 function captureImage(){
     navigator.device.capture.captureImage(captureSuccess, captureError, {limit:1});
     //captureSuccess()
     logit("Android img")
 }
-
 // capture error callback
 var captureError = function(error) {
     logit("Android capture error");
@@ -177,11 +178,40 @@ var captureError = function(error) {
     jQuery('#androidVideoAlert').hide();
 };
 
+//////////    IOS    ////////////////////
+
+
+function capturePhotoiOS(){
+    // Retrieve image file location from specified source
+    navigator.camera.getPicture(captureLibrarySuccess, captureErroriOS,{ quality: 80, 
+        destinationType: navigator.camera.DestinationType.NATIVE_URI,
+        sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+        mediaType: navigator.camera.MediaType.ALLMEDIA
+    });
+    logit("Android library")
+}
+// start video capture
+function captureVideoiOS(){
+    navigator.device.capture.captureVideo(captureSuccess, captureErroriOS);
+    //captureSuccess()
+    logit("Android vid")
+}
+function captureImageiOS(){
+    navigator.device.capture.captureImage(captureSuccess, captureErroriOS);
+    //captureSuccess()
+    logit("Android img")
+}
+// capture error callback
+var captureErroriOS = function(error) {
+    logit("Android capture error");
+    jQuery('#respondScreen').show();
+    jQuery('#androidVideoAlert').hide();
+};
 
 
 /////////////////////////////////////////////////////////////////////////
 
-function fileSelected_iOS() {
+/*function fileSelected_iOS() {
 
     logit("file ios")
 
@@ -233,7 +263,7 @@ function fileSelected_iOS() {
         
     }
 
-}
+}*/
 
 function captureLibrarySuccess(imageURI) { // ANDROID
 
