@@ -232,7 +232,7 @@ function getIOSFileType(ext){
 
 }   
 
-function captureLibrarySuccessiOS(imageURI) { // library capture
+function captureLibrarySuccessiOS(imageURI) { // library capture IOS
 
     window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
         fileEntry.file(function(f) {
@@ -281,17 +281,17 @@ function captureLibrarySuccessiOS(imageURI) { // library capture
 
 ///////// ANDROID
 
-function captureLibrarySuccess(imageURI) { // library capture
+function captureLibrarySuccess(imageURI) { // library capture ANDROID
 
     window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
         fileEntry.file(function(f) {
 
-            logit("captureLibrarySuccess " + imageURI);
+            logit("captureLibrarySuccess Android" + imageURI);
 
             logit("fileSize: " + f.size); //THIS IS MIME TYPE
 
             logit("fileType: " + f.type); //THIS IS MIME TYPE
-            jQuery('#fileType').html(f.name);
+            jQuery('#fileType').html(f.type);
             jQuery('#fileURL').html(imageURI);
             jQuery('#fileName').html(f.name);
             jQuery('#fileSize').html(f.size);
