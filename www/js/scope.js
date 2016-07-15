@@ -564,6 +564,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         $scope.uploadMessage = "Submitting message";
 
+        logit($scope.submitParams)
+
         pjq.ajax({
             url: $scope.TheThinkingShedRoot + "/en/tasks",
             type: "POST",
@@ -1011,6 +1013,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             $scope.closeError();
             $scope.connectionError = false;
         }
+
+        $scope.submitTextError = false;
 
         if ($scope.screenArray[$scope.screenArray.length - 1] != nextScreen){
             $scope.screenArray.push(nextScreen);

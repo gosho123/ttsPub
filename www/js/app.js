@@ -23,7 +23,7 @@ jQuery( document ).ready(function() {
 
     jQuery('.wrapper').css({opacity: 1})
 
-    jQuery('#trace').html('v1.3.4');
+    jQuery('#trace').html('v1.3.6');
     
 });
 
@@ -122,4 +122,4 @@ function loadcssfile(filename){
 }
 
 
-////dynamically load and add this .css file
+

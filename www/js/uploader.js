@@ -156,10 +156,6 @@ function cancelAndroidVideoAlert(){
 }
 
 
-
-
-
-
 /////////////////////////////
 function capturePhoto(){
     // Retrieve image file location from specified source
@@ -194,7 +190,7 @@ var captureError = function(error) {
 function capturePhotoiOS(){
     // Retrieve image file location from specified source
     navigator.camera.getPicture(captureLibrarySuccess, captureErroriOS,{ quality: 80, 
-        destinationType: navigator.camera.DestinationType.NATIVE_URI,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
         sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
         mediaType: navigator.camera.MediaType.ALLMEDIA
     });
@@ -204,78 +200,22 @@ function capturePhotoiOS(){
 function captureVideoiOS(){
     navigator.device.capture.captureVideo(captureSuccess, captureErroriOS);
     //captureSuccess()
-    logit("Android vid")
+    logit("iOS vid")
 }
 function captureImageiOS(){
     navigator.device.capture.captureImage(captureSuccess, captureErroriOS);
     //captureSuccess()
-    logit("Android img")
+    logit("iOS img")
 }
 // capture error callback
 var captureErroriOS = function(error) {
-    logit("Android capture error");
+    logit("iOS capture error");
     jQuery('#respondScreen').show();
     jQuery('#androidVideoAlert').hide();
 };
 
 
-/////////////////////////////////////////////////////////////////////////
-
-/*function fileSelected_iOS() {
-
-    logit("file ios")
-
-    var oFile = document.getElementById('image_file').files[0];
-    var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
-    var vFilter = /^(video\/mp4|video\/mov|video\/wm4|video\/quicktime|video\/wmv)$/i;
-    if (! rFilter.test(oFile.type)) {
-        document.getElementById('error').style.display = 'block';
-        if (vFilter.test(oFile.type)) {
-            document.getElementById('error').style.display = 'none';
-        }
-    }
-    // get preview element
-    var oImage = document.getElementById('preview');
-    // prepare HTML5 FileReader
-    var oReader = new FileReader();
-        oReader.onload = function(e){
-        // e.target.result contains the DataURL which we will use as a source of the image
-
-        if (vFilter.test(oFile.type)) {
-            oImage.src = "images/videoIcon.jpg";
-        } else {
-            oImage.src = e.target.result;
-        }
-    };
-
-    // read selected file as DataURL
-    oReader.readAsDataURL(oFile);
-
-    jQuery('#fileURL').html(oFile.fullPath);
-    jQuery('#fileType').html(oFile.type);
-    jQuery('#fileName').html(oFile.name);
-
-     if (oFile.size > 800000000 ){
-
-        jQuery('#filesizeError').show();
-   
-    } else {
-
-        if (oFile.type == "image/jpeg"){
-
-            displayFileSelectedUI(oFile.type, oFile.size, 'image');
-
-        } else {
-
-            displayFileSelectedUI(oFile.type, oFile.size, 'video');
-            
-        }
-        
-    }
-
-}*/
-
-function captureLibrarySuccess(imageURI) { // ANDROID
+function captureLibrarySuccess(imageURI) { // library capture
 
     window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
         fileEntry.file(function(f) {
@@ -338,7 +278,7 @@ captureSuccess = function(mediaFiles) { // ANDROID
 
     
 
-    logit("url="+mediaFiles[0].src);
+    logit("url="+mediaFiles[0].fullPath);
     logit("type="+mediaFiles[0].type);
     logit("name="+mediaFiles[0].name);
     logit("size="+mediaFiles[0].size);
@@ -477,15 +417,12 @@ function startUploading(u, t, m, p) {
 
         logit("win: data = " + data);
 
-        logit("win: fileType = " + data.fileType);
-
-        //logit("upload complete - response " + JSON.parse(r.target.responseText))
         uploadComplete();
 
     }
 
     var fail = function (error) {
-        logit("upload error " + error)
+        logit("upload error " + JSON.stringify(error));
         uploadError();
     }
 
@@ -504,7 +441,7 @@ function startUploading(u, t, m, p) {
 
     ft.upload(
         fileURL, 
-        encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android&data_URI="+data_URI), win, fail, options, true);
+        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android&data_URI="+data_URI), win, fail, options, true);
     
     ft.onprogress = function(progressEvent) {
 
