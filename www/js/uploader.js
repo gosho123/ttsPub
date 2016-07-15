@@ -19,6 +19,8 @@ var data_URI =  "";
 
 //UI Setup
 
+
+
 function setUpUi(){
     changeUI('backToMessages', 'display', 'none');
     changeUI('progress_info', 'display', 'none');
@@ -189,7 +191,7 @@ var captureError = function(error) {
 
 function capturePhotoiOS(){
     // Retrieve image file location from specified source
-    navigator.camera.getPicture(captureLibrarySuccess, captureErroriOS,{ quality: 80, 
+    navigator.camera.getPicture(captureLibrarySuccessiOS, captureErroriOS,{ quality: 80, 
         destinationType: navigator.camera.DestinationType.FILE_URI,
         sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
         mediaType: navigator.camera.MediaType.ALLMEDIA
@@ -214,6 +216,70 @@ var captureErroriOS = function(error) {
     jQuery('#androidVideoAlert').hide();
 };
 
+function getIOSFileType(ext){
+
+    if ((ext == "jpg") || (ext == "jpeg") || (ext == "JPG") || (ext == "JPEG")){
+        return "image/jpeg"
+    }
+
+    if ((ext == "png") || (ext == "PNG")){
+        return "image/png";
+    }
+
+    if ((ext == "mov") || (ext == "MOV")){
+        return "video/quicktime"
+    }
+
+}   
+
+function captureLibrarySuccessiOS(imageURI) { // library capture
+
+    window.resolveLocalFileSystemURI(imageURI, function(fileEntry) {
+        fileEntry.file(function(f) {
+
+            logit("captureLibrarySuccessiOS " + imageURI);
+
+            var ext = getIOSFileType(f.name.substr(f.name.lastIndexOf('.')+1));
+
+            logit("fileSize: " + f.size); //THIS IS MIME TYPE
+
+            logit("fileType: " + ext); //THIS IS MIME TYPE
+            jQuery('#fileType').html(ext);
+            jQuery('#fileURL').html(imageURI);
+            jQuery('#fileName').html(f.name);
+            jQuery('#fileSize').html(f.size);
+            jQuery('#preview').attr("src", imageURI);
+            
+
+            if (f.size > 800000000 ){
+
+                jQuery('#filesizeError').show();
+           
+            } else {
+
+                if (ext == "image/jpeg"){
+
+                    jQuery('#preview').attr("src", imageURI);
+                    displayFileSelectedUI(ext, f.size, 'image');
+
+                } else {
+
+                    displayFileSelectedUI(f.type, f.size, 'video');
+                    
+                }
+
+                
+            }
+
+        }, function() {
+            logit('error');
+        });
+
+    }, onError);
+ 
+}
+
+///////// ANDROID
 
 function captureLibrarySuccess(imageURI) { // library capture
 
@@ -225,7 +291,7 @@ function captureLibrarySuccess(imageURI) { // library capture
             logit("fileSize: " + f.size); //THIS IS MIME TYPE
 
             logit("fileType: " + f.type); //THIS IS MIME TYPE
-            jQuery('#fileType').html(f.type);
+            jQuery('#fileType').html(f.name);
             jQuery('#fileURL').html(imageURI);
             jQuery('#fileName').html(f.name);
             jQuery('#fileSize').html(f.size);
@@ -428,8 +494,8 @@ function startUploading(u, t, m, p) {
 
     var options = new FileUploadOptions();
     options.fileKey = "file";
-    options.name = fileName;
-    options.type = fileType;
+    options.fileName = fileName;
+    options.mimeType = fileType;
     var params = {};
     options.params = params;
     options.headers = {
@@ -441,7 +507,7 @@ function startUploading(u, t, m, p) {
 
     ft.upload(
         fileURL, 
-        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device=Android&data_URI="+data_URI), win, fail, options, true);
+        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device="+device.platform +", m:"+ device.model + ", v:" + device.version + "&data_URI="+data_URI), win, fail, options, true);
     
     ft.onprogress = function(progressEvent) {
 
@@ -555,7 +621,7 @@ function displayUploadError(){
         angularScope.uploadErrorHandler();
     })
 }
-
+logit("device= "+device.platform +", "+ device.model + ", " + device.version);
 
 submitDebug = function(){
 

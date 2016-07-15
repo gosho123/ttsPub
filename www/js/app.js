@@ -23,7 +23,7 @@ jQuery( document ).ready(function() {
 
     jQuery('.wrapper').css({opacity: 1})
 
-    jQuery('#trace').html('v1.3.6');
+    jQuery('#trace').html('v1.3.7');
     
 });
 
@@ -40,6 +40,8 @@ function onDeviceReady() {
     if (thisDevice == "Android"){
         jQuery('#iosMediaButtons').hide();
     }
+
+
 
     jQuery('#platform').html(thisDevice);
 
