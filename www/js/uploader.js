@@ -479,10 +479,6 @@ function startUploading(u, t, m, p) {
 
         logit("win: Response = " + r.response.toString()+"\n");
 
-        var data = JSON.parse(r.response);
-
-        logit("win: data = " + data);
-
         uploadComplete();
 
     }
@@ -507,7 +503,7 @@ function startUploading(u, t, m, p) {
 
     ft.upload(
         fileURL, 
-        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&device="+device.platform +", m:"+ device.model + ", v:" + device.version + "&data_URI="+data_URI), win, fail, options, true);
+        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&device="+device.platform +", m:"+ device.model + ", v:" + device.version), win, fail, options, true);
     
     ft.onprogress = function(progressEvent) {
 
@@ -530,7 +526,7 @@ function startUploading(u, t, m, p) {
 }
 
 function uploadComplete(){
-
+    logit('uploadComplete');
     // post data to TTS server
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
