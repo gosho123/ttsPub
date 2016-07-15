@@ -469,6 +469,9 @@ function startUploading(u, t, m, p) {
     changeUI('uploadMessage', 'display', 'none');
     changeUI('filesizeError', 'display', 'none');
 
+    //document.getElementById('progress_percent_text').innerHTML = "";
+    //document.getElementById('progress').style.width = 0;
+
 
     fileURL = jQuery('#fileURL').html();
     fileType = jQuery('#fileType').html();
@@ -503,7 +506,7 @@ function startUploading(u, t, m, p) {
 
     ft.upload(
         fileURL, 
-        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&device="+device.platform +", m:"+ device.model + ", v:" + device.version), win, fail, options, true);
+        encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&device="+device.platform +", m:"+ device.model + ", v:" + device.version), win, fail, options, true);
     
     ft.onprogress = function(progressEvent) {
 
