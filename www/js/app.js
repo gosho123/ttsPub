@@ -23,7 +23,7 @@ jQuery( document ).ready(function() {
 
     jQuery('.wrapper').css({opacity: 1})
 
-    jQuery('#trace').html('v1.3.8');
+    jQuery('#trace').html('v1.3.9');
     
 });
 
@@ -43,7 +43,7 @@ function onDeviceReady() {
 
 
 
-    jQuery('#platform').html(thisDevice);
+    jQuery('#platform').html(device.platform +" - "+ device.model + " - " + device.version);
 
     //jQuery('#trace').html('v3.30');
 

@@ -477,6 +477,8 @@ function startUploading(u, t, m, p) {
     fileType = jQuery('#fileType').html();
     fileName = jQuery('#fileName').html();
     data_URI =  jQuery("#debug").html();
+    deviceData = jQuery('#platform').text();
+    logit('deviceData = ' + deviceData);
 
     var win = function (r) {
 
@@ -506,7 +508,7 @@ function startUploading(u, t, m, p) {
 
     ft.upload(
         fileURL, 
-        encodeURI("http://www.gs0.co/tts/upload.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&device="+device.platform +", m:"+ device.model + ", v:" + device.version), win, fail, options, true);
+        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&device="+deviceData), win, fail, options, true);
     
     ft.onprogress = function(progressEvent) {
 
@@ -539,60 +541,6 @@ function uploadComplete(){
 
     weHaveData = false;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function doInnerUpdates() { // we will use this function to display upload speed
-    var iCB = iBytesUploaded;
-    var iDiff = iCB - iPreviousBytesLoaded;
-
-    // if nothing new loaded - exit
-    if (iDiff == 0)
-        return;
-
-    iPreviousBytesLoaded = iCB;
-    iDiff = iDiff * 2;
-    var iBytesRem = iBytesTotal - iPreviousBytesLoaded;
-    var secondsRemaining = iBytesRem / iDiff;
-
-    // update speed info
-    var iSpeed = iDiff.toString() + 'B/s';
-    if (iDiff > 1024 * 1024) {
-        iSpeed = (Math.round(iDiff * 100/(1024*1024))/100).toString() + 'MB/s';
-    } else if (iDiff > 1024) {
-        iSpeed =  (Math.round(iDiff * 100/1024)/100).toString() + 'KB/s';
-    }
-
-    document.getElementById('speed').innerHTML = iSpeed;
-    document.getElementById('remaining').innerHTML = '| ' + secondsToTime(secondsRemaining);        
-}
-
-function uploadProgress(e) { // upload process in progress
-    if (e.lengthComputable) {
-        iBytesUploaded = e.loaded;
-        iBytesTotal = e.total;
-        var iPercentComplete = Math.round(e.loaded * 100 / e.total);
-        var iBytesTransfered = bytesToSize(iBytesUploaded);
-
-
-        document.getElementById('progress_percent_text').innerHTML = iPercentComplete.toString() + '%';
-        document.getElementById('progress').style.width = (iPercentComplete).toString() + '%';
-        //document.getElementById('progress_percent').style.left = (iPercentComplete).toString() + '%';
-
-        if (iPercentComplete == 100){
-            document.getElementById('progress_percent_text').innerHTML = "OK"
-
-        }
-        
-    } else {
-        displayUploadError();
-    }
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

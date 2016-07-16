@@ -377,6 +377,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.proceedApp('messages');
                     $scope.taskID = taskid;
                 }
+
+                jQuery('#debug').html("");
                 
             },
 
@@ -575,7 +577,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             data: $scope.submitParams.join("&"),
 
             success: function(data) {
-                var obj = data;
+
+                $scope.goshoUpdate();
 
                 changeUI('backToMessages', 'display', 'block');
 
@@ -614,9 +617,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 
                 $scope.submitTextError = false;
 
-                $scope.uploadMessage = "Complete"
-
-                $scope.goshoUpdate();
+                $scope.uploadMessage = "Complete";
 
                 if (!$scope.$$phase) { // check if digest already in progress
                     $scope.$apply(); // launch digest;
@@ -647,6 +648,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.goshoUpdate = function(){
 
+        logit("goshoUpdate: send = mediaID=" + $scope.mediaString + "&format=" + $scope.mediaSuffix);
+
         var pjq = jQuery.noConflict();
 
         $scope.params = []
@@ -656,7 +659,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
         pjq.ajax({
             url: $scope.convertURL + "?mediaID=" + $scope.mediaString + "&format=" + $scope.mediaSuffix,
-            type: "GET",
+            type: "POST",
             dataType: "json",
             crossDomain: true,
             xhrFields: { withCredentials: true },
@@ -665,11 +668,13 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             success: function(data) {
                 $scope.mediaString  = "";
                 $scope.mediaSuffix = "";
+                logit("goshoUpdate: success = " + data.response.toString()+"\n");
             },
 
             complete: function (data) {
                 $scope.mediaString  = "";
                 $scope.mediaSuffix = "";
+                logit("goshoUpdate: complete = " + data.response.toString()+"\n");
             },
 
             error: function(a,b,c) {
