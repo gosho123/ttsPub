@@ -363,7 +363,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             complete: function (data) {
 
                 $scope.messageData = JSON.parse(data.responseText);
-                
+                console.log($scope.messageData)
                 if ($scope.messageData.length > 1){
                     $scope.mid = $scope.messageData[1].mid;
                 } else {
@@ -1002,12 +1002,15 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     /////////////////////////////////////////////////////////////////
 
-    $scope.getUserType = function(user){
-        if (user == 'moderator'){
-            return "admin-msg";
-        } else {
+    $scope.getUserType = function(user, ismod){
+
+        if (ismod == null){
             return "user-msg";
+        } else {
+            return "admin-msg";
         }
+
+        
     }
 
     ///

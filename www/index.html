@@ -140,14 +140,13 @@
                                         <div ng-repeat="message in messageData" ng-if="$index > 0">
 
                                             <div class="messageDivider"></div>
-
-                                            <p ng-class="getUserType(message.username)" class="moderatorMessageFlag">Posted by moderator</p>
+                                            <p ng-class="getUserType(message.username, message.ismod)" class="moderatorMessageFlag">Posted by moderator</p>
 
                                             <p class="msg-time">{{message.post_date}}</p>
 
 
 
-                                            <div class="grid ten message-box" ng-class="getUserType(message.username)">
+                                            <div class="grid ten message-box" ng-class="getUserType(message.username, message.ismod)">
 
                                                 <div class="msg-profile">
                                                     <img ng-src="http://explore2.thethinkingshed.com{{message.profile}}" />
