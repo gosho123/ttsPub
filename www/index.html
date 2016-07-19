@@ -140,7 +140,7 @@
                                         <div ng-repeat="message in messageData" ng-if="$index > 0">
 
                                             <div class="messageDivider"></div>
-                                            <p ng-class="getUserType(message.username, message.ismod)" class="moderatorMessageFlag">Posted by moderator</p>
+                                            <p ng-class="getUserType(message.username, message.ismod)" class="moderatorMessageFlag">Posted by {{message.username}}</p>
 
                                             <p class="msg-time">{{message.post_date}}</p>
 
@@ -260,6 +260,7 @@
                                                             </div>
 
                                                             <div id="androidMediaButtons">
+                                                                <p class="light-text" style="margin-top: 10px;">Please take photos and videos in landscape mode</p>
                                                                 <button class="buttonStyle selectButton" id="uploadVideoButtonAndroid" onclick="androidVideoAlert()" style="width:49%; clear:none; float:left">Record Video</button>
 
                                                                 <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImage()" style="width:49%; float:right; clear:none">Take Photo</button>
@@ -269,7 +270,9 @@
 
                                                             <div id="iosMediaButtons">
 
-                                                                 <button class="buttonStyle selectButton" id="uploadVideoButtoniOS" onclick="captureVideoiOS()" style="width:49%; clear:none; float:left">Record Video</button>
+                                                                <p class="light-text" style="margin-top: 10px;">Please take photos and videos in landscape mode</p>
+
+                                                                <button class="buttonStyle selectButton" id="uploadVideoButtoniOS" onclick="captureVideoiOS()" style="width:49%; clear:none; float:left">Record Video</button>
 
                                                                 <button class="buttonStyle selectButton" id="uploadPhotoButtoniOS" onclick="captureImageiOS()" style="width:49%; float:right; clear:none">Take Photo</button>
 

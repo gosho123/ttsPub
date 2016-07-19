@@ -296,8 +296,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.taskLiskData.tasks[i].clicked = false;
                 }
 
-                console.log($scope.taskLiskData)
-
                 $scope.$apply();
 
                 if (nav != 'back'){ 
@@ -363,7 +361,6 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             complete: function (data) {
 
                 $scope.messageData = JSON.parse(data.responseText);
-                console.log($scope.messageData)
                 if ($scope.messageData.length > 1){
                     $scope.mid = $scope.messageData[1].mid;
                 } else {
@@ -438,9 +435,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 complete: function (data) {
 
                     $scope.pingData = JSON.parse(data.responseText);
-                    console.log("- - - - - - - - - - - - - - - - - -   PING   - - - - - - - - - - - - - - - - - -");
-                    console.log("pingData.monitor = " + $scope.pingData.monitor);
-
+                   
                     if ($scope.pingData.monitor.length >= 1){
 
                         for (var i = 0; i < $scope.taskLiskData.tasks.length; i++) { 
