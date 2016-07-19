@@ -367,6 +367,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.mid = "0";
                 }
 
+                $scope.weHaveMedia = false;
+
                 $scope.$apply();
 
                 if (navType != 'backwards'){
