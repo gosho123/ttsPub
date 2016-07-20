@@ -368,6 +368,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 }
 
                 $scope.weHaveMedia = false;
+                $scope.messageText = "";
 
                 $scope.$apply();
 

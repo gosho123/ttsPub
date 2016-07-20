@@ -23,7 +23,7 @@ jQuery( document ).ready(function() {
 
     jQuery('.wrapper').css({opacity: 1})
 
-    jQuery('#trace').html('v1.3.11');
+    jQuery('#trace').html('v1.3.12');
     
 });
 
