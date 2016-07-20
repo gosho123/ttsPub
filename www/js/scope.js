@@ -600,7 +600,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 changeUI('selectPhotoButtoniOS', 'display', 'none');
                 changeUI('uploadPhotoButtoniOS', 'display', 'none');
                 changeUI('uploadVideoButtoniOS', 'display', 'none');
-
+                changeUI('landscapePrompt', 'display', 'none');
 
                 changeUI('selectFileTrigger', 'display', 'none');
 
@@ -614,7 +614,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 jQuery('#preview').attr("src", "");
                 jQuery('#fileType').html("");
                 jQuery('#fileName').html("");
-
+                
                 $scope.uploadError = false;
                 $scope.weHaveMedia = false;
                 $scope.weHaveText = false;
@@ -623,8 +623,9 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.uploadMessage = "Complete";
 
-                $scope.$apply(); // launch digest;
-                
+                if (!$scope.$$phase) { // check if digest already in progress
+                    $scope.$apply(); // launch digest;
+                }
 
             },
 

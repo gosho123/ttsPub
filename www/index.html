@@ -259,8 +259,10 @@
                                                                 <p>Sorry this file is too large.<br> Please lower your camera resolution and record again</p>
                                                             </div>
 
+                                                            <p class="light-text" style="margin-top: 10px;" id="landscapePrompt">Please take photos and videos in landscape mode</p>
+
                                                             <div id="androidMediaButtons">
-                                                                <p class="light-text" style="margin-top: 10px;" ng-hide="weHaveMedia">Please take photos and videos in landscape mode</p>
+                                                                
                                                                 <button class="buttonStyle selectButton" id="uploadVideoButtonAndroid" onclick="androidVideoAlert()" style="width:49%; clear:none; float:left">Record Video</button>
 
                                                                 <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImage()" style="width:49%; float:right; clear:none">Take Photo</button>
@@ -270,7 +272,7 @@
 
                                                             <div id="iosMediaButtons">
 
-                                                                <p class="light-text" style="margin-top: 10px;" ng-hide="weHaveMedia">Please take photos and videos in landscape mode</p>
+                                                                
 
                                                                 <button class="buttonStyle selectButton" id="uploadVideoButtoniOS" onclick="captureVideoiOS()" style="width:49%; clear:none; float:left">Record Video</button>
 

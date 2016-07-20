@@ -37,6 +37,7 @@ function setUpUi(){
     changeUI('selectPhotoButtoniOS', 'display', 'block');
     changeUI('uploadPhotoButtoniOS', 'display', 'block');
     changeUI('uploadVideoButtoniOS', 'display', 'block');
+    changeUI('landscapePrompt', 'display', 'block');
 
     changeUI('removeMedia', 'display', 'none');
     document.getElementById('error').style.display = 'none';
@@ -51,7 +52,9 @@ function setUpUi(){
         changeUI('uploadVideoButton', 'display', 'block');
         changeUI('selectPhotoButtoniOS', 'display', 'block');
         changeUI('uploadPhotoButtoniOS', 'display', 'block');
-    changeUI('uploadVideoButtoniOS', 'display', 'block');
+        changeUI('uploadVideoButtoniOS', 'display', 'block');
+        changeUI('landscapePrompt', 'display', 'block');
+
 
     } else {
         changeUI('uploadPhotoButton', 'display', 'none');
@@ -62,6 +65,7 @@ function setUpUi(){
         changeUI('selectPhotoButtoniOS', 'display', 'none');
         changeUI('uploadPhotoButtoniOS', 'display', 'none');
         changeUI('uploadVideoButtoniOS', 'display', 'none');
+        changeUI('landscapePrompt', 'display', 'none');
 
         changeUI('preview', 'display', 'block');
         changeUI('uploadFileTrigger', 'class', 'btn-primary twelve btn-disabled');
@@ -390,6 +394,7 @@ function displayFileSelectedUI(file, size, type){
     changeUI('selectPhotoButtoniOS', 'display', 'none');
     changeUI('uploadPhotoButtoniOS', 'display', 'none');
     changeUI('uploadVideoButtoniOS', 'display', 'none');
+    changeUI('landscapePrompt', 'display', 'none');
 
     changeUI('removeMedia', 'display', 'block');
 
@@ -459,6 +464,7 @@ function startUploading(u, t, m, p) {
     changeUI('selectPhotoButtoniOS', 'display', 'none');
     changeUI('uploadPhotoButtoniOS', 'display', 'none');
     changeUI('uploadVideoButtoniOS', 'display', 'none');
+    changeUI('landscapePrompt', 'display', 'none');
 
     changeUI('uploadPhotoButton', 'display', 'none');
     changeUI('uploadVideoButtonAndroid', 'display', 'none');
