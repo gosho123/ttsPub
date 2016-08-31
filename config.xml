@@ -1,5 +1,5 @@
 
-  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.3.12">
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.3.14">
 
     <name>TTS Test App</name>
     <description>TTS Test App</description>
@@ -14,6 +14,7 @@
     <plugin name="org.apache.cordova.device" spec="0.3.0" source="pgb" />
     <plugin name="org.apache.cordova.camera" spec="0.3.6" source="pgb" />
 
+    <plugin name="cordova-plugin-whitelist" spec="1" />
     <gap:plugin name="org.apache.cordova.battery-status"/>
     <gap:plugin name="org.apache.cordova.media-capture"/>
     <gap:plugin name="org.apache.cordova.console"/>
