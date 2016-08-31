@@ -518,6 +518,7 @@ body::-webkit-scrollbar {
 .task-description ul{
     list-style-type: disc;
     margin-left: 20px;
+    margin-top:8px;
 }
 
 .task-description li{
