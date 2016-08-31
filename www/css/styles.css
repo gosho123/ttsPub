@@ -515,6 +515,11 @@ body::-webkit-scrollbar {
     margin-top: 35px;
 }
 
+.task-description ul{
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
 .modIntroImage{
     border: 2px solid #ccc;
     padding: 0;
