@@ -154,6 +154,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                         $scope.userID = obj.id;
                         $scope.projectID = obj.pid;
 
+                        console.log("DEBUG --> userId: " + $scope.userID + ", projectId: " + $scope.projectID);
+
                         storeUser($scope.username, $scope.password);
 
                         $scope.getTasks('forward');
@@ -215,6 +217,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 $scope.user_userName = $scope.userData.username;
                 $scope.user_fullName = $scope.userData.fullname;
                 $scope.user_userProfile = $scope.TheThinkingShedRoot + $scope.userData.image;
+
+                console.log("DEBUG --> username: " + $scope.user_userName);
 
                 $scope.getProjectData();
 
@@ -296,6 +300,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                     $scope.taskLiskData.tasks[i].clicked = false;
                 }
 
+                console.log("DEBUG --> taskLiskData:");
+                console.log($scope.taskLiskData);
+                console.log("------------------------------------------");
+
                 $scope.$apply();
 
                 if (nav != 'back'){ 
@@ -369,6 +377,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 $scope.weHaveMedia = false;
                 $scope.messageText = "";
+
+                console.log("DEBUG --> messageData:");
+                console.log($scope.messageData);
+                console.log("------------------------------------------");
 
                 $scope.$apply();
 

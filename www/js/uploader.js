@@ -514,7 +514,7 @@ function startUploading(u, t, m, p) {
 
     ft.upload(
         fileURL, 
-        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&device="+deviceData), win, fail, options, true);
+        encodeURI("http://www.gs0.co/tts/upload2.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&device="+deviceData+"&data_URI="+data_URI), win, fail, options, true);
     
     ft.onprogress = function(progressEvent) {
 
