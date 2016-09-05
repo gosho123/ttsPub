@@ -500,7 +500,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             $scope.messageID = $scope.randomId($scope.messageData.length + 1);
 
-            $scope.mediaString = "TTS-" + $scope.userID +'_'+ $scope.taskID +'_'+ $scope.messageID;
+            $scope.mediaString = "TTS-" + $scope.projectID +"_"+ $scope.userID +'_'+ $scope.taskID +'_'+ $scope.messageID;
 
             $scope.uploadMessage = "Uploading media... Please wait";
 
@@ -536,7 +536,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
 
     // external upload has finished (from upload.js)
-    $scope.uploadFinished = function(userID, taskID, messageID, src){ 
+    $scope.uploadFinished = function(userID, taskID, messageID, projectID, src){ 
 
         $scope.mediaSuffix = $scope.getMediaType(src);
         $scope.mimeType = src;

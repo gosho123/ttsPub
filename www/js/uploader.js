@@ -542,7 +542,7 @@ function uploadComplete(){
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
 
     angularScope.$apply(function(){
-        angularScope.uploadFinished(userID, taskID, messageID, fileType);
+        angularScope.uploadFinished(userID, taskID, messageID, projectID, fileType);
     });
 
     weHaveData = false;
