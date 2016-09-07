@@ -522,7 +522,7 @@ body::-webkit-scrollbar {
 }
 
 .task-description li{
-    margin-bottom: 8px;
+    margin-bottom: 14px;
 }
 
 .modIntroImage{
@@ -798,6 +798,7 @@ body::-webkit-scrollbar {
 .message-box img{
     width:100%;
     padding:10px;
+    image-orientation: from-image;
 }
 
 .message-box .mediaVideo{
