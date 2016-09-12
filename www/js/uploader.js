@@ -252,7 +252,6 @@ function captureLibrarySuccessiOS(imageURI) { // library capture IOS
             jQuery('#fileURL').html(imageURI);
             jQuery('#fileName').html(f.name);
             jQuery('#fileSize').html(f.size);
-            jQuery('#preview').attr("src", imageURI);
             
 
             if (f.size > 800000000 ){
@@ -299,7 +298,6 @@ function captureLibrarySuccess(imageURI) { // library capture ANDROID
             jQuery('#fileURL').html(imageURI);
             jQuery('#fileName').html(f.name);
             jQuery('#fileSize').html(f.size);
-            jQuery('#preview').attr("src", imageURI);
 
             if (f.size > 800000000 ){
 
@@ -333,7 +331,7 @@ function onError() {
     logit('can not resolve file system');
 }
 
-captureSuccess = function(mediaFiles) { // ANDROID
+captureSuccess = function(mediaFiles) {
 
     logit("captureSuccess " + mediaFiles);
 
@@ -361,8 +359,10 @@ captureSuccess = function(mediaFiles) { // ANDROID
     } else {
 
         if ((mediaFiles[0].type == "image/jpeg") || (mediaFiles[0].type == "image/png")){
+
             jQuery('#preview').attr("src", mediaFiles[0].fullPath);
             displayFileSelectedUI(mediaFiles[0].type, mediaFiles[0].size, 'image');
+
         } else {
             displayFileSelectedUI(mediaFiles[0].type, mediaFiles[0].size, 'video');
         }
@@ -436,6 +436,19 @@ function displayFileSelectedUI(file, size, type){
         jQuery('#uploadMessageText').text("");
     }
 
+    /*var img = document.getElementById('preview'); 
+    //or however you get a handle to the IMG
+    var imgwidth = img.clientWidth;
+    var imgheight = img.clientHeight;
+
+    logit("w: " + imgwidth + ", h: " + imgheight);
+
+    if (imgwidth > imgheight){
+        logit("landscape");
+    } else {
+        logit("portrait");
+    }*/
+
     weHaveData = true;
 
     var angularScope = angular.element(document.querySelector('#tts-app')).scope();
@@ -485,6 +498,8 @@ function startUploading(u, t, m, p) {
     data_URI =  jQuery("#debug").html();
     deviceData = jQuery('#platform').text();
     logit('deviceData = ' + deviceData);
+
+    logit("width: " + jQuery('#preview').width() + " - height: " + jQuery('#preview').height());
 
     var win = function (r) {
 
