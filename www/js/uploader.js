@@ -509,6 +509,8 @@ function startUploading(u, t, m, p) {
         }
     }
 
+    logit(orientation);
+
     logit("width: " + jQuery('#preview').width() + " - height: " + jQuery('#preview').height());
 
     var win = function (r) {
