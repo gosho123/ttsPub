@@ -499,6 +499,16 @@ function startUploading(u, t, m, p) {
     deviceData = jQuery('#platform').text();
     logit('deviceData = ' + deviceData);
 
+    var orientation = "";
+
+    if ((fileType == "image/jpeg") || (fileType == "image/png")){
+        if (jQuery('#preview').width() > jQuery('#preview').height()){
+            orientation = "landscape";
+        } else {
+            orientation = "portrait";
+        }
+    }
+
     logit("width: " + jQuery('#preview').width() + " - height: " + jQuery('#preview').height());
 
     var win = function (r) {
@@ -529,7 +539,7 @@ function startUploading(u, t, m, p) {
 
     ft.upload(
         fileURL, 
-        encodeURI("http://www.gs0.co/tts/upload3.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&device="+deviceData+"&data_URI="+data_URI), win, fail, options, true);
+        encodeURI("http://www.gs0.co/tts/upload3.php?userID="+userID+"&taskID="+taskID+"&messageID="+messageID+"&projectID="+projectID+"&fileType="+fileType+"&orientation="+orientation+"&device="+deviceData+"&data_URI="+data_URI), win, fail, options, true);
     
     ft.onprogress = function(progressEvent) {
 
