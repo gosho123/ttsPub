@@ -934,7 +934,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
             if (host == "TTS"){
 
-                mediaRoot = $scope.goShoRoot;
+                mediaRoot = $scope.TheThinkingShedRoot;
 
                 console.log("1 " + mediaRoot + "   -   " +  src);
 
