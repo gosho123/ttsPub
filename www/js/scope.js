@@ -873,6 +873,11 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
     }
     /////////////////////////////////////////////////////////////////
 
+    $scope.getTTSImage = function(url){
+
+        return  $scope.TheThinkingShedRoot + url.replace('?thumb=1', '?thumb=0');
+    }
+
     $scope.getMediaURL = function (isapp, url, type){// function to check which images or thumbs to use in messages
 
         if (isapp == 1){// from go sho app
@@ -899,7 +904,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
             } 
         }
 
-    }
+    };
 
     $scope.imageSource = "";
     $scope.vidSource = "";
@@ -908,33 +913,54 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
     $scope.launchVideo = function(src, type, isapp, host){
 
-        mediaRoot = $scope.TheThinkingShedRoot;
+    //$scope.TheThinkingShedRoot = "http://explore2.thethinkingshed.com";
+    //$scope.goShoRoot = "http://www.gs0.co/tts/media";
+
+
 
         if (isapp == 1){
 
-            if (host == "GS"){mediaRoot = $scope.goShoRoot};
-            if (host == "TTS"){mediaRoot = $scope.TheThinkingShedRoot};
-            
-            $scope.viewVideo = true;
+            if (host == "GS"){
 
-            vidSource = '<video id="videoPlayer" webkit-playsinline controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
+                mediaRoot = $scope.goShoRoot;
+
+                vidSource = '<video id="videoPlayer" webkit-playsinline controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
                             'poster="'+ mediaRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
-                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.ogg') +'" type="video/ogg">' + 
-                            //'<source src="'+ $scope.goShoRoot + '/' + $scope.switchMediaSuffix(src, '.webm') +'" type="video/webm">'+
-                            '<source src="'+ mediaRoot + '/' + $scope.switchMediaSuffix(src, '.mov') + '" type="video/quicktime">' +
-                            '<source src="'+ mediaRoot + '/' + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' +
-                            
+                            '<source src="'+ mediaRoot + "/" + $scope.switchMediaSuffix(src, '.mov') + '" type="video/quicktime">' +
+                            '<source src="'+ mediaRoot + "/" + $scope.switchMediaSuffix(src, '.mp4') +'" type="video/mp4">' +
                             '</video>';
 
-            jQuery('#angularVideo').html(vidSource);
+            };
+
+            if (host == "TTS"){
+
+                mediaRoot = $scope.goShoRoot;
+
+                console.log("1 " + mediaRoot + "   -   " +  src);
+
+                vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
+                            //'poster="'+ mediaRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
+                            '<source src="'+ mediaRoot + src + '" type="video/mp4">' +
+                            '</video>';
+
+            };
+
             
         } else {
 
-                $scope.videoViewSource = src;
-                $scope.viewLargeMedia = true;
-                $scope.viewBigVideo = true;
+                mediaRoot = $scope.TheThinkingShedRoot;
+
+                console.log("2 " + mediaRoot + src);
+
+                vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
+                            //'poster="'+ mediaRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
+                            '<source src="'+ mediaRoot + src + '" type="video/mp4">' +
+                            '</video>';
             
         }
+
+        jQuery('#angularVideo').html(vidSource);
+        $scope.viewVideo = true;
     }
 
     $scope.launchImage = function(src, type, isapp){
@@ -950,7 +976,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
         } else {
 
                 $scope.imageSource = $scope.TheThinkingShedRoot + src.replace('?thumb=1', '?thumb=0');
-                $scope.viewImage = false;
+                $scope.viewImage = true;
         }
         
     }
