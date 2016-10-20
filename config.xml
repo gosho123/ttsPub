@@ -1,12 +1,12 @@
 
-  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.5.8">
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.5.9">
 
     <name>TTS Test App</name>
     <description>TTS Test App</description>
     <author href="http://thethinkingshed.com" email="support@thethinkingshed.com">TTS Test App</author>
     <content src="index.html"/>
 
-    <preference name='phonegap-version' value='cli-6.3.0' />
+    <preference name='phonegap-version' value='cli-5.2.0' />
 
     <plugin name="cordova-plugin-inappbrowser" source="npm" />
     <plugin name="cordova-plugin-file" source="npm" />
