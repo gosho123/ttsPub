@@ -1,5 +1,5 @@
 
-  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.5.10">
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.thethinkingshed.app" version="1.5.11">
 
     <name>TTS Test App</name>
     <description>TTS Test App</description>
@@ -8,13 +8,13 @@
 
     <preference name='phonegap-version' value='cli-6.3.0' />
 
-    <!-- <plugin name="cordova-plugin-inappbrowser" source="npm" />
+    <plugin name="cordova-plugin-inappbrowser" source="npm" />
     <plugin name="cordova-plugin-file" source="npm" />
     <plugin name="cordova-plugin-file-transfer" source="npm" />
     <plugin name="cordova-plugin-device" source="npm" />
     <plugin name="cordova-plugin-camera" source="npm" />
     <plugin name="cordova-plugin-media-capture" source="npm" />
-    <plugin name="cordova-plugin-whitelist" spec="1" /> -->
+    <plugin name="cordova-plugin-whitelist" spec="1" />
 
 
 
