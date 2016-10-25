@@ -937,10 +937,10 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 mediaRoot = $scope.TheThinkingShedRoot;
 
                 vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
-                            //'<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
-                            '<source src=http://explore2.thethinkingshed.com/transfer/blob2.mp4 type="video/mp4">' +
+                            '<source src="'+ mediaRoot + $scope.getTTSMediaURL(src) +'" type="video/mp4">' +
                             '</video>';
-                jQuery("#TTSVideoSource").html(mediaRoot + src.split('?')[0]);
+
+                jQuery("#TTSVideoSource").html(mediaRoot + $scope.getTTSMediaURL(src));
 
             };
 
@@ -951,17 +951,41 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 console.log("2 " + mediaRoot + src);
 
-                vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
-                            //'<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
-                            '<source src=http://explore2.thethinkingshed.com/transfer/blob2.mp4 type="video/mp4">' +
+                 vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
+                            '<source src="'+ mediaRoot + $scope.getTTSMediaURL(src) +'" type="video/mp4">' +
                             '</video>';
-                jQuery("#TTSVideoSource").html(mediaRoot + src.split('?')[0]);
+
+                jQuery("#TTSVideoSource").html(mediaRoot + $scope.getTTSMediaURL(src));
             
         }
 
         jQuery('#angularVideo').html(vidSource);
         $scope.viewVideo = true;
     }
+
+    $scope.getTTSMediaURL = function(src){
+                
+        var vars = src.split("&");
+
+        for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == "public_hash"){
+                var hash = pair[1];
+            }
+        }
+
+        var url = src.split('?')[0];
+
+        var res = url.replace("/0/", "/"+ hash + "/");
+
+        return res;
+    } 
+
+
+
+
+
+        
 
     $scope.launchImage = function(src, type, isapp){
 
