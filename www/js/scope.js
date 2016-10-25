@@ -936,11 +936,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
 
                 mediaRoot = $scope.TheThinkingShedRoot;
 
-                console.log("1 " + mediaRoot + "   -   " +  src);
-
                 vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
-                            //'poster="'+ mediaRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
-                            '<source src="'+ mediaRoot + src + '" type="video/mp4">' +
+                            '<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
                             '</video>';
 
             };
@@ -953,8 +950,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 console.log("2 " + mediaRoot + src);
 
                 vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
-                            //'poster="'+ mediaRoot + '/thumbs/' +  $scope.switchMediaSuffix(src, '.jpg') +'">' + 
-                            '<source src="'+ mediaRoot + src + '" type="video/mp4">' +
+                            '<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
                             '</video>';
             
         }
