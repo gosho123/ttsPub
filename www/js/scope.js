@@ -939,6 +939,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
                             '<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
                             '</video>';
+                jQuery("#TTSVideoSource").html(mediaRoot + src.split('?')[0]);
 
             };
 
@@ -952,6 +953,7 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
                             '<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
                             '</video>';
+                jQuery("#TTSVideoSource").html(mediaRoot + src.split('?')[0]);
             
         }
 
