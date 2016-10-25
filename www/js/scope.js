@@ -937,7 +937,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 mediaRoot = $scope.TheThinkingShedRoot;
 
                 vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
-                            '<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
+                            //'<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
+                            '<source src=http://explore2.thethinkingshed.com/transfer/blob2.mp4 type="video/mp4">' +
                             '</video>';
                 jQuery("#TTSVideoSource").html(mediaRoot + src.split('?')[0]);
 
@@ -951,7 +952,8 @@ app.controller('Ctrl', function($scope, $http, $document, $sce) {
                 console.log("2 " + mediaRoot + src);
 
                 vidSource = '<video id="videoPlayer" controls width="' + tts.width + '" height="auto" preload="metadata" ' + 
-                            '<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
+                            //'<source src="'+ mediaRoot + src.split('?')[0] +'" type="video/mp4">' +
+                            '<source src=http://explore2.thethinkingshed.com/transfer/blob2.mp4 type="video/mp4">' +
                             '</video>';
                 jQuery("#TTSVideoSource").html(mediaRoot + src.split('?')[0]);
             
