@@ -1,425 +1,51 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
 <html>
-<head>
-    
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta http-equiv="Content-Security-Policy"/>
-    <meta charset="utf-8" />
-    <title>TTS App</title>
-
-    <link href="css/icons.css" rel="stylesheet" type="text/css" />
-    <link href="css/styles.css" rel="stylesheet" type="text/css" />
-    <link href="css/uploader.css" rel="stylesheet" type="text/css" />
-
-    <script src="cordova.js"></script>
-    <script src="js/jquery-2.1.4.min.js"></script>
-    <script src="js/jquery-ui-1.9.2.min.js"></script>
-
-    <script src="js/angular.min.js"></script>
-    <script src="js/angular-sanitize.js"></script>
-
- </head>
-<body onload="onDeviceReady()">
-        <div id="tts-app" class="wrapper" ng-app="App" ng-controller="Ctrl">
-
-            <div style="font-size:12px; display:block; position:fixed; top:10px; z-index:99999; padding-bottom:5px; padding-left:5px; width:100%, text-align:center" id="trace"></div>
-
-            <div class="row nav-top">
-                <div class="grid three pull" ng-click="goBack()" ng-show="showBack">Back</div>    
-                <div class="grid three push" ng-click="logOut()">Logout</div>
+    <head>
+        <meta charset="utf-8">
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="css/index.css">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
             </div>
-
-            <div class="errorMessage" ng-click="closeError()">
-                <h2>Sorry!</h2>
-                <div class="icon-warning errorIcon"></div>
-                <p>{{errorMessage}}</p>
-                <a><p>Tap here to close.</p></a>
-            </div>
-
-            <div class="row nav-bottom" id="bottom-nav">
-
-                <ul id="global-controls">
-                    <li class="grid icon-user" ng-class="getFooterSectionClass()" ng-click="openUserPanel()">
-                    </li>
-                    <li ng-click="newMessageClick()" ng-show="unreadMessages" class="pingClass grid four icon-bubbles2" ng-class="{'pingNotification': unreadMessages}">
-                        <div id="notification">!</div>
-                    </li>
-                    <li class="grid push icon-info" ng-class="getFooterSectionClass()" ng-click="openInfoPanel()"></li>
-                </ul>
-
-            </div>
-
-            <!--<div class="app-screen screen-fader-hide" id="fader"></div>-->
-            <div id="appContainer">
-
-                            <div class="screen-login" id="screen-login" style="float:left; padding-top: 55px; background-color: #eeeff1;">
-                                <div class="row">
-
-                                    <div class="grid twelve center">
-
-                                        <h3>Hello, please login</h3>
-
-                                        <form class="text-input">
-
-                                            <input autocomplete='on' ng-model="username" ng-class="{'inputError': loginError}" class="twelve form-username" type="text" value="sdfsdf" placeholder="Enter your name">
-                                            <label for="login-name"></label>
-
-                                            <input ng-model="password" ng-class="{'inputError': loginError}" class="twelve form-password" type="password" value="" placeholder="Password">
-                                            <label for="login-pass"></label>
-
-                                            <p class="form-error" ng-show="loginError">Please enter a valid username and password</p>
-
-                                            <button ng-click="appLogin()" class="btn-primary animate-hide" href="#" id="login-button" ng-hide="loggingIn"><p class="btn-icon btn-arrow">Log in</p></button>
-
-
-                                            <a class="form-link animate-hide" onclick="openSystemBrowser('http://explore.thethinkingshed.com/en/password_reset')" ng-hide="loggingIn">Lost your password?</a>
-                                            <br>
-                                            
-
-                                            <div ng-show="loggingIn" class="icon-spinner5 spin-loader animate-hide"></div>
-
-                                        </form>
-
-                                    </div> <!-- grid --> 
-
-                                </div> <!-- row -->
-                                
-                            </div>
-                            <!-- APP SCREEN END -->
-
-                            <div class="scroll-screen" id="screen-taskList" style="float:left; padding-top: 55px; background-color: #eeeff1;">
-                                <div class="row">
-
-                                    <h2 class="task-title">Task List</h2>
-
-                                        <ul class="grid twelve box task-list">
-
-                                            <li ng-repeat="tasks in taskLiskData.tasks | orderBy:'taskorder'" ng-click="loadMessages($index, tasks.taskid, 'forward', tasks.isenabled)" ng-class=taskActive(tasks.isenabled)>
-                                                <div class="ten cell center-cell">
-                                                    <div class="task-text" ng-bind-html="deliberatelyTrustDangerousSnippet(tasks.description)">
-                                                    </div>
-
-                                                </div>
-                                                <div class="task-icon-status two cell"  >
-
-                                                        <div ng-hide="tasks.clicked" ng-class="getTaskStatusClass(tasks.isenabled, tasks.hasmodresp, tasks.complete)"></div>
-
-                                                        <div ng-show="tasks.clicked" class="icon-spinner5 spin-loader"></div>
-                                                </div>
-                                            </li>
-
-                                        </ul><!-- grid --> 
-                                </div> <!-- row -->
-                                
-                            </div>
-
-                            <!-- APP SCREEN END -->
-
-                            <div class="scroll-screen" id="screen-messages" style="float:left; padding-top: 55px; background-color: #eeeff1;">
-
-                                    <div class="row conversation-stream">
-
-                                        <h2 class="task-title">{{messageData[0].tasktitle}}</h2>
-
-                                        <p class="task-description" ng-bind-html="messageData[0].taskdescription"></p>
-
-                                        <div ng-show="introMediaVideo(messageData[0].media[0].type)">
-
-                                            <button class="btn-tertiary" ng-click="launchVideo(messageData[0].media[0].media, type, 1, 'TTS')">View video</button>
-                                        </div>
-
-                                        <div ng-show="introMediaImage(messageData[0].media[0].type)" ng-repeat="image in messageData[0].media">
-                                            <img class="row modIntroImage" ng-src="{{getTTSImage(image.media)}}"/>
-                                        </div>
-
-                                        <div class="divider"></div>
-
-                                        <button ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
-
-
-                                        <div ng-repeat="message in messageData" ng-if="$index > 0">
-
-                                            <div class="messageDivider"></div>
-                                            <p ng-class="getUserType(message.username, message.ismod)" class="moderatorMessageFlag">Posted by {{message.username}}</p>
-
-                                            <p class="msg-time">{{message.post_date}}</p>
-
-
-
-                                            <div class="grid ten message-box" ng-class="getUserType(message.username, message.ismod)">
-
-                                                <div class="msg-profile">
-                                                    <img ng-src="http://explore2.thethinkingshed.com{{message.profile}}" />
-                                                </div>
-                                                
-                                                <p ng-bind-html="message.response"></p>
-
-                                                <div class="mediaHolder" ng-repeat="img in message.media" >
-                                                    
-                                                    <div class="videoHolder" ng-show="isVideo(img.type)">
-
-                                                        <img ng-if="img" ng-click="launchVideo(img.media, img.type, img.isapp, 'GS')" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
-
-                                                        <img class="videoIconSmall" src="images/video-icon.png">
-                                                    </div>
-
-                                                    <img ng-if="img" ng-hide="isVideo(img.type)" ng-click="launchImage(img.media, img.type, img.isapp)" ng-src="{{getMediaURL(img.isapp, img.media, img.type)}}"  altSrc="{{getAltImage()}}"/> 
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <button ng-if="messageLength()" ng-click="proceedApp('reply')" class="btn-primary twelve replyButton"><p>Reply</p></button>
-
-                                    </div>
-                                
-                            </div>
-                            <!-- APP SCREEN END  -->
-
-                            <div class="scroll-screen reRender" id="screen-reply" style="float:left; padding-top: 55px; background-color: #eeeff1;">
-
-                                <div class="row">
-                                    <div class="grid twelve">
-
-                                                <div  id="androidVideoAlert" class="row" style="display:none;">
-                                                        <div class="grid twelve box">
-
-                                                            <!-- <div class="icon-warning"></div> -->
-
-                                                            <h3>When you record your video response please lower the recording resolution setting on your device.  This will help speed up the upload process.</h3>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="grid one">
-                                                                    <p class="android-settings">1:</p>
-                                                                </div>
-                                                                <div class="grid eleven">
-                                                                    <p>Select "Settings" <img class="android-cog" src="images/cog.png" /> when in video mode</p>
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="grid one">
-                                                                    <p class="android-settings">2:</p>
-                                                                </div>
-                                                                <div class="grid eleven">
-                                                                    <p>Go to "Video Quality" or "Resolution"</p>
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="grid one">
-                                                                    <p class="android-settings">3:</p>
-                                                                </div>
-                                                                <div class="grid eleven">
-                                                                    <p>Select a lower resolution <br>(720x480 / 640x480 / 320x240)</p>
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="grid one">
-                                                                    <p class="android-settings">4:</p>
-                                                                </div>
-                                                                <div class="grid eleven">
-                                                                    <p>Record your response</p>
-                                                                </div>
-                                                            </div>
-                                                            <hr style="margin-bottom:10px;">
-
-                                                            <button class="buttonStyle selectButton" id="uploadVideoButton" onclick="captureVideo()">Proceed</button>
-
-                                                            <button class="buttonStyle btn-tertiary" onclick="cancelAndroidVideoAlert()">Cancel</button>
-
-                                                    </div>
-                                                </div>
-
-                                                <div id="respondScreen">
-
-                                                    <div class="grid twelve box">
-                                                        <p id="introMessage" class="light-text">{{uploadMessage}}</p>
-                                                    <div>
-
-                                                    
-                                                        
-                                                        <div ng-hide="addMedia">
-                                                        <form name="upload_form" id="upload_form" enctype="multipart/form-data">
-                                                            <textarea id="messageText" class="grid twelve" ng-change="checkMessage()" ng-model="messageText" placeholder="Add your text here..."></textarea>
-                                                        
-                                                            <div style="width:100%; text-align:center; display: inline-block;"><img id="preview" /></div>
-
-                                                            
-                                                            <div id="uploadMessage">
-                                                                <span class="icon-cloud-upload"></span>
-                                                                <p id="uploadMessageText"></p>
-                                                            </div>
-
-
-                                                            <div id="filesizeError" class="fileSizeWarning">
-                                                                <span class="icon-warning"></span>
-                                                                <p>Sorry this file is too large.<br> Please lower your camera resolution and record again</p>
-                                                            </div>
-
-                                                            <p id="landscapePrompt">Please take photos and videos in landscape mode</p>
-
-                                                            <div id="androidMediaButtons">
-                                                                
-                                                                <button class="buttonStyle selectButton" id="uploadVideoButtonAndroid" onclick="androidVideoAlert()" style="width:49%; clear:none; float:left">Record Video</button>
-
-                                                                <button class="buttonStyle selectButton" id="uploadPhotoButton" onclick="captureImage()" style="width:49%; float:right; clear:none">Take Photo</button>
-
-                                                                <button class="buttonStyle selectButton" id="selectPhotoButton" onclick="capturePhoto()" style="width:100%; float:right; clear:none">Select from library</button>
-                                                            </div>
-
-                                                            <div id="iosMediaButtons">
-
-                                                                
-
-                                                                <button class="buttonStyle selectButton" id="uploadVideoButtoniOS" onclick="captureVideoiOS()" style="width:49%; clear:none; float:left">Record Video</button>
-
-                                                                <button class="buttonStyle selectButton" id="uploadPhotoButtoniOS" onclick="captureImageiOS()" style="width:49%; float:right; clear:none">Take Photo</button>
-
-                                                                <button class="buttonStyle selectButton" id="selectPhotoButtoniOS" onclick="capturePhotoiOS()" style="width:100%; float:right; clear:none">Select from library</button>
-
-                                                                <!--<input type="file" ng-model="mediaFile" name="file" accept="video/*;capture=camera" id="image_file" onChange="fileSelected_iOS();" class="selectButtonHidden"/>-->
-                                                            </div>
-
-                                                            <button class="btn-primary twelve btn-disabled" ng-click="submitMessage()" id="uploadFileTrigger"><p class="btn-icon btn-arrow">Submit</p></button>
-
-                                                            <button ng-show="weHaveMedia" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Remove media</button>
-                                                        </form>
-                                                        </div>
-
-                                                        <div id="fileinfo">
-                                                            <div id="filename"></div>
-                                                            <div id="filesize"></div>
-                                                            <div id="filetype"></div>
-                                                            <div id="filedim"></div>
-                                                        </div>
-                                                        
-                                                        <div id="progress_info" ng-hide="uploadError">
-                                                            <div class="load-bar center">
-                                                                <div class="load-bar-progress" id="progress"></div>
-                                                                <div id="progress_percent"><p id="progress_percent_text"></p></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div ng-show="uploadError">
-                                                            <p id="error">You should select valid image or video files only!</p>
-                                                            <p id="error2">An error occurred while uploading the file</p>
-                                                            <p id="abort">The upload has been canceled by the user or the browser dropped the connection</p>
-                                                            <p id="warnsize">Your file is very big. We can't accept it. Please select more small file</p>
-                                                        </div>
-
-                                                        <button style="margin-top:10px" ng-show="uploadError" class="buttonStyle btn-primary-red" ng-click="retryUpload()">Try again</button>
-
-                                                        <button style="margin-top:10px" ng-show="submitTextError" class="buttonStyle btn-primary" ng-click="submitDataToTTS()">Try again</button>
-
-                                                        <div style="display:none" id="uploadComplete">
-                                                            <div class="center completeIcon">
-                                                                <p class="icon-checkmark"></p>
-                                                            </div>
-                                                        </div>
-
-                                                        <button style="display:none" class="buttonStyle selectButton" id="backToMessages" ng-click="backToMessages()">Back to tasks</button>
-
-                                                        <div class="clear_both"></div>
-                                                        <div style="display:none">
-                                                            <div id="speed">&nbsp;</div>
-                                                            <div id="remaining">&nbsp;</div>
-                                                            <div id="b_transfered">&nbsp;</div>
-                                                            <div class="clear_both"></div>
-                                                        </div>
-                                                        <div id="upload_response"></div>
-                                                        
-                                                    
-
-                                                </div><!-- respond screen holder -->
-                                            </div>
-                                            
-
-                                        </div> <!-- grid --> 
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- APP SCREEN END -->
-
-                </div>
-
-                <div ng-show="viewUserPanel" class="appPanel scroll-screen">               
-                   
-                    <div class="row">
-                        <div class="grid twelve">
-                            
-                            <h2>Your information</h2>
-
-                            <h3>{{user_fullName}}</h3>
-
-                            <p>Username</p>
-                            <h3>{{user_userName}}</h3>
-
-                            <img ng-src="{{user_userProfile}}" />
-                            <hr>
-                            <button class="buttonStyle btn-tertiary" ng-click="openUserPanel()">Close</button>
-
-                            <p style="font-size: 14px; color: #999; margin-top: 50px;">Version 1.4.0</p>
-
-                            <!-- <button id="debugButton" class="buttonStyle btn-primary" onclick="submitDebug()">Submit Debug Report</button> -->
-
-                            <div  style="font-size:12px; display:none; word-wrap: break-word;" id="debug">Debug</div>
-                            <hr>
-                            <div  style="font-size:12px; display:none" >fileURL: <span id="fileURL"></span></div>
-                            <div  style="font-size:12px; display:none" >fileType: <span id="fileType"></span></div>
-                            <div  style="font-size:12px; display:none" >fileName: <span id="fileName"></span></div>
-                            <div  style="font-size:12px; display:none" >fileSize: <span id="fileSize"></span></div>
-                            <div  style="font-size:12px; display:none" >platform: <span id="platform"></span></div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div ng-show="viewInfoPanel" class="appPanel scroll-screen">               
-                   
-                    <div class="row">
-                        <div class="grid twelve">
-                            <div class="infoPanelLogo"></div>
-                            <h2>{{project_name}}</h2>
-                            <hr>
-                            <p class="info-boldText">Introduction</p>
-                            <p class="descriptionText" ng-bind-html="project_intro"></p>
-                            <p class="info-boldText">What do you need to do</p>
-                            <p class="descriptionText" ng-bind-html="project_what"></p>
-                            <p class="info-boldText">Other instructions</p>
-                            <p class="descriptionText" ng-bind-html="project_other"></p>
-                            <button class="buttonStyle btn-tertiary" ng-click="openInfoPanel()">Continue</button>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div ng-show="viewVideo" class="videoViewer">               
-                   
-                    <div class="vidHolder">
-                         
-                        <div id="angularVideo"></div>
-
-                        <button ng-click="closeVideoViewer()" id="removeMedia" class="buttonStyle btn-tertiary" ng-click="removeMedia()">Close Video</button>
-                       
-                    </div>
-                        
-                </div>
-
-                <div class="imageViewer" ng-show="viewImage" ng-click="closeImageViewer()">
-                    <div class="close" ng-click="closeLargeMedia()">Close</div>
-                    <img ng-src="{{imageSource}}"/>
-                </div>
-
         </div>
-        <script src="js/scope.js"></script>
-        <script src="js/app.js"></script>
-        <script src="js/uploader.js"></script>
-
+        <script src="cordova.js"></script>
+        <script src="js/index.js"></script>
     </body>
 </html>
