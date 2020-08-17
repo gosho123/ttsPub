@@ -26,7 +26,7 @@ function log(x){
   document.getElementById("trace").value = tracer;
 }
 
-log("start  v5");
+log("start  v6");
 
 
 document.addEventListener('deviceready', onDeviceReady, false);
