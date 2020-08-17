@@ -26,7 +26,7 @@ function log(x){
   document.getElementById("trace").value = tracer;
 }
 
-log("start  v3");
+log("start  v4");
 
 
 document.addEventListener('deviceready', onDeviceReady, false);
@@ -35,6 +35,6 @@ function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
     log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    alert("ready");
+    log("ready");
     log(JSON.stringify(cordova.require("cordova/plugin_list").metadata));
 }
