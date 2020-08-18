@@ -26,7 +26,7 @@ function log(x){
   document.getElementById("trace").value = tracer;
 }
 
-log("start  v16");
+log("start  v17");
 
 document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -61,7 +61,7 @@ function doRequest(){
         //   alert(obj);
         //  },
         // error: function() { alert('Failed!'); },
-          url:  "https://vm0.co/tts/posttest.php",
+          url:  "https://vidimee.com/tts/posttest.php",
           crossDomain: true,
           type: "GET",
 
