@@ -26,7 +26,7 @@ function log(x){
   document.getElementById("trace").value = tracer;
 }
 
-log("start  v10");
+log("start  v11");
 
 
 
@@ -35,6 +35,8 @@ log("start  v10");
 
 
 var pjq = jQuery.noConflict();
+
+    log('ajax : ');
 
     params = [];
     params.push("Id=1");
@@ -69,7 +71,10 @@ var pjq = jQuery.noConflict();
         },
 
         error: function(a,b,c) {
-
+          log('fail');
+          log(JSON.stringify(a));
+          log(JSON.stringify(b));
+          log(JSON.stringify(c));
         },
 
         timeout: 8000
