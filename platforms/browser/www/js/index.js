@@ -26,7 +26,55 @@ function log(x){
   document.getElementById("trace").value = tracer;
 }
 
-log("start  v9");
+log("start  v10");
+
+
+
+
+
+
+
+var pjq = jQuery.noConflict();
+
+    params = [];
+    params.push("Id=1");
+
+    pjq.ajax({
+
+
+      // url: 'https://vm0.co/tts/posttest.php',
+      // data: params,
+      // type: 'GET',
+      // crossDomain: true,
+      // dataType: 'text',
+      // success: function() {
+      //   obj = JSON.parse(data.responseText);
+      //   alert(obj);
+      //  },
+      // error: function() { alert('Failed!'); },
+        url:  "https://vm0.co/tts/posttest.php",
+        crossDomain: true,
+        type: "GET",
+
+        dataType: "text",
+        crossDomain: true,
+
+        data: params.join("&"),
+
+        complete: function(data) {
+
+            obj = JSON.parse(data.responseText);
+            log(JSON.stringify(obj));
+
+        },
+
+        error: function(a,b,c) {
+
+        },
+
+        timeout: 8000
+    });
+
 
 
 document.addEventListener('deviceready', onDeviceReady, false);
@@ -37,4 +85,6 @@ function onDeviceReady() {
     log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     log("ready");
     log(JSON.stringify(cordova.require("cordova/plugin_list").metadata));
+
+
 }
